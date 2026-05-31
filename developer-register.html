@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فعال‌سازی حساب توسعه‌دهنده</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .register-header h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .register-header p {
+            color: #7f8c8d;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: #2ecc71;
+            outline: none;
+        }
+        
+        .register-btn {
+            background: #2ecc71;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .register-btn:hover {
+            background: #27ae60;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .success-message {
+            color: #27ae60;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .back-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+
+        .password-toggle:hover {
+            color: #2ecc71;
+        }
+
+        .developer-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .developer-info h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .form-hint {
+            color: #7f8c8d;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h2>💻 فعال‌سازی حساب توسعه‌دهنده</h2>
+            <p>تنها توسعه‌دهنده اصلی سیستم می‌تواند حساب ایجاد کند</p>
+        </div>
+        
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="fullName">نام و نام خانوادگی:</label>
+                <input type="text" id="fullName" required placeholder="نام کامل خود را وارد کنید">
+            </div>
+            
+            <div class="form-group">
+                <label for="username">نام کاربری:</label>
+                <input type="text" id="username" required placeholder="نام کاربری مورد نظر">
+                <div class="form-hint">این نام برای ورود به سیستم استفاده می‌شود</div>
+            </div>
+
+            <div class="form-group">
+                <label for="masterCode">کد فعال‌سازی:</label>
+                <input type="password" id="masterCode" required placeholder="کد فعال‌سازی را وارد کنید">
+                <button type="button" class="password-toggle" onclick="togglePassword('masterCode')">👁️</button>
+                <div class="form-hint">کد ویژه برای فعال‌سازی حساب توسعه‌دهنده</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">رمز عبور:</label>
+                <input type="password" id="password" required placeholder="رمز عبور قوی انتخاب کنید">
+                <button type="button" class="password-toggle" onclick="togglePassword('password')">👁️</button>
+                <div class="form-hint">حداقل ۸ کاراکتر شامل حروف و اعداد</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">تکرار رمز عبور:</label>
+                <input type="password" id="confirmPassword" required placeholder="رمز عبور را مجددا وارد کنید">
+                <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">👁️</button>
+                <div class="error-message" id="passwordMatch"></div>
+            </div>
+            
+            <button type="submit" class="register-btn">فعال‌سازی حساب توسعه‌دهنده</button>
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+
+        <div class="developer-info">
+            <h4>💡 راهنما</h4>
+            <p>برای فعال‌سازی حساب، باید کد فعال‌سازی ویژه را داشته باشید.</p>
+            <p>این حساب دارای بالاترین سطح دسترسی در سیستم می‌باشد.</p>
+        </div>
+        
+        <div class="login-link">
+            <p>حساب توسعه‌دهنده دارید؟ <a href="developer-login.html">وارد شوید</a></p>
+        </div>
+
+        <button class="back-btn" onclick="goBack()">🔙 بازگشت به صفحه اصلی</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // تابع برای نمایش/مخفی کردن رمز
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggleBtn = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleBtn.textContent = '🔒';
+            } else {
+                input.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+
+        // بررسی تطابق رمز عبور
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const matchElement = document.getElementById('passwordMatch');
+
+            if (confirmPassword.length === 0) {
+                matchElement.textContent = '';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                matchElement.textContent = '❌ رمزهای عبور مطابقت ندارند';
+            } else {
+                matchElement.textContent = '✅ رمزهای عبور مطابقت دارند';
+                matchElement.style.color = '#27ae60';
+            }
+        });
+
+        // ثبت‌نام توسعه‌دهنده - فقط یک نفر می‌تواند ثبت‌نام کند
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const developerData = {
+                fullName: document.getElementById('fullName').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                masterCode: document.getElementById('masterCode').value,
+                registerDate: new Date().toLocaleString('fa-IR'),
+                isActive: true
+            };
+
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // اعتبارسنجی
+            if (developerData.password !== confirmPassword) {
+                errorMessage.textContent = '❌ رمزهای عبور مطابقت ندارند';
+                return;
+            }
+
+            if (developerData.password.length < 8) {
+                errorMessage.textContent = '❌ رمز عبور باید حداقل ۸ کاراکتر باشد';
+                return;
+            }
+
+            if (!developerData.masterCode) {
+                errorMessage.textContent = '❌ کد فعال‌سازی الزامی است';
+                return;
+            }
+
+            // بررسی اینکه آیا قبلاً توسعه‌دهنده ثبت‌نام کرده
+            const existingDeveloper = JSON.parse(localStorage.getItem('developer'));
+            if (existingDeveloper && existingDeveloper.isActive) {
+                errorMessage.textContent = '❌ فقط یک توسعه‌دهنده می‌تواند در سیستم ثبت‌نام کند';
+                return;
+            }
+
+            // ذخیره توسعه‌دهنده در localStorage
+            localStorage.setItem('developer', JSON.stringify(developerData));
+
+            // نمایش پیام موفقیت
+            errorMessage.textContent = '';
+            successMessage.textContent = '✅ حساب توسعه‌دهنده با موفقیت فعال شد! در حال انتقال...';
+
+            // هدایت به صفحه لاگین بعد از ۲ ثانیه
+            setTimeout(() => {
+                window.location.href = 'developer-login.html';
+            }, 2000);
+        });
+
+        // اگر توسعه‌دهنده قبلاً ثبت‌نام کرده، به لاگین هدایت شود
+        document.addEventListener('DOMContentLoaded', function() {
+            const existingDeveloper = JSON.parse(localStorage.getItem('developer'));
+            if (existingDeveloper && existingDeveloper.isActive) {
+                document.getElementById('successMessage').textContent = 
+                    '✅ حساب توسعه‌دهنده قبلاً فعال شده است. به صفحه لاگین هدایت می‌شوید...';
+                setTimeout(() => {
+                    window.location.href = 'developer-login.html';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
