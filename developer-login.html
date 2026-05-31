@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود توسعه‌دهنده</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2E86C1;
+            --primary-dark: #1B4F72;
+            --secondary: #28B463;
+            --accent: #F39C12;
+            --dark: #2C3E50;
+            --light: #F8F9F9;
+            --gray: #85929E;
+            --success: #28B463;
+            --error: #E74C3C;
+            --warning: #F39C12;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .login-header h2 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .login-header p {
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(46, 134, 193, 0.3);
+        }
+
+        .login-icon i {
+            font-size: 36px;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 45px 15px 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--light);
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 134, 193, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            color: var(--gray);
+            font-size: 18px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            font-size: 18px;
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(46, 134, 193, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 134, 193, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .login-btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        .developer-warning {
+            background: linear-gradient(135deg, #FEF9E7, #FCF3CF);
+            border: 2px solid var(--warning);
+            color: #7D6608;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .developer-warning i {
+            color: var(--warning);
+            margin-left: 8px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .register-link a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: var(--primary-dark);
+        }
+
+        .register-link a:hover::after {
+            width: 100%;
+        }
+
+        .error-message {
+            color: var(--error);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(231, 76, 60, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .success-message {
+            color: var(--success);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(40, 180, 99, 0.1);
+        }
+
+        .back-btn {
+            background: var(--gray);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .back-btn:hover {
+            background: #717D7E;
+            transform: translateY(-2px);
+        }
+
+        .developer-features {
+            background: linear-gradient(135deg, #E8F8F5, #D1F2EB);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-right: 4px solid var(--secondary);
+        }
+
+        .developer-features h4 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .developer-features h4 i {
+            color: var(--secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--dark);
+        }
+
+        .feature-item i {
+            color: var(--secondary);
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .login-container {
+                padding: 30px 20px;
+                margin: 10px 0;
+            }
+            
+            .login-header h2 {
+                font-size: 24px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation" id="bgAnimation"></div>
+    
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <h2>ورود توسعه‌دهنده</h2>
+            <p>دسترسی سطح مدیر سیستم</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">نام کاربری:</label>
+                <div class="input-container">
+                    <input type="text" id="username" required placeholder="نام کاربری خود را وارد کنید">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">رمز عبور:</label>
+                <div class="input-container">
+                    <input type="password" id="password" required placeholder="رمز عبور خود را وارد کنید">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> ورود به پنل توسعه‌دهنده
+            </button>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+
+        <div class="developer-features">
+            <h4><i class="fas fa-cogs"></i> امکانات پنل توسعه‌دهنده:</h4>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>مدیریت کامل سیستم</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>دسترسی به لاگ‌ها</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>مدیریت کاربران</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>پشتیبان‌گیری داده‌ها</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="developer-warning">
+            <i class="fas fa-shield-alt"></i>
+            فقط توسعه‌دهنده اصلی سیستم مجاز به ورود است
+        </div>
+
+        <div class="register-link">
+            <p>حساب توسعه‌دهنده ندارید؟ <a href="developer-register.html">فعال‌سازی حساب</a></p>
+        </div>
+
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی
+        </button>
+    </div>
+
+    <script>
+        // ایجاد انیمیشن حباب‌های پس‌زمینه
+        function createBubbles() {
+            const bgAnimation = document.getElementById('bgAnimation');
+            const colors = ['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.05)', 'rgba(255,255,255,0.15)'];
+            
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bg-bubble');
+                
+                const size = Math.random() * 100 + 50;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.background = color;
+                bubble.style.top = `${Math.random() * 100}%`;
+                bubble.style.right = `${Math.random() * 100}%`;
+                bubble.style.animationDelay = `${Math.random() * 15}s`;
+                
+                bgAnimation.appendChild(bubble);
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // تابع برای نمایش/مخفی کردن رمز
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggleIcon = input.parentNode.querySelector('.password-toggle i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // اطلاعات توسعه‌دهنده پیش‌فرض (برای تست)
+        const defaultDeveloper = {
+            username: "admin",
+            password: "admin123",
+            isActive: true
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // دریافت اطلاعات توسعه‌دهنده از localStorage
+            let developer = JSON.parse(localStorage.getItem('developer'));
+            
+            // اگر توسعه‌دهنده وجود ندارد، از پیش‌فرض استفاده کن
+            if (!developer) {
+                developer = defaultDeveloper;
+                localStorage.setItem('developer', JSON.stringify(developer));
+            }
+
+            if (!developer.isActive) {
+                errorMessage.textContent = '❌ حساب توسعه‌دهنده غیرفعال است.';
+                return;
+            }
+            
+            if (username === developer.username && password === developer.password) {
+                // ذخیره اطلاعات توسعه‌دهنده جاری
+                localStorage.setItem('currentDeveloper', JSON.stringify(developer));
+                errorMessage.textContent = '';
+                
+                // نمایش پیام موفقیت
+                errorMessage.style.color = '#28B463';
+                errorMessage.textContent = '✅ سلام داداش! به خونت خوش اومدی ...';
+                
+                // هدایت به پنل توسعه‌دهنده
+                setTimeout(() => {
+                    window.location.href = 'developer-panel.html';
+                }, 1000);
+            } else {
+                errorMessage.textContent = '❌ نام کاربری یا رمز عبور اشتباه است';
+            }
+        });
+
+        // بررسی اگر توسعه‌دهنده قبلا لاگین کرده
+        document.addEventListener('DOMContentLoaded', function() {
+            createBubbles();
+            
+            const currentDeveloper = localStorage.getItem('currentDeveloper');
+            if (currentDeveloper) {
+                // اگر قبلا لاگین کرده، به پنل هدایت کن
+                window.location.href = 'developer-panel.html';
+            }
+
+            // بررسی وجود توسعه‌دهنده
+            const developer = JSON.parse(localStorage.getItem('developer'));
+            if (!developer) {
+                // اگر توسعه‌دهنده وجود ندارد، پیام نمایش بده
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.style.color = '#F39C12';
+                errorMessage.textContent = '⚠️ حساب توسعه‌دهنده فعال نیست. از نام کاربری و رمز پیش‌فرض استفاده کنید.';
+            }
+        });
+
+        // اطلاعات لاگین پیش‌فرض برای نمایش
+        window.addEventListener('load', function() {
+            const developer = JSON.parse(localStorage.getItem('developer')) || defaultDeveloper;
+            console.log('اطلاعات توسعه‌دهنده:', developer);
+            console.log('نام کاربری پیش‌فرض:', developer.username);
+            console.log('رمز عبور پیش‌فرض:', developer.password);
+        });
+    </script>
+</body>
+</html>
