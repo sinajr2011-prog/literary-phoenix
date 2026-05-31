@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>پنل مینی‌گیم‌ها (۲۰ بازی سمپادی، سه‌پایه) | ققنوس ادب</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#6c63ff; --secondary:#4f46e5; --accent:#22c55e;
+  --grad-main:linear-gradient(135deg,#667eea,#764ba2);
+  --text-main:#111827; --text-muted:#6b7280;
+  --radius-lg:22px; --radius-md:16px; --radius-sm:12px;
+  --shadow-soft:0 12px 30px rgba(0,0,0,.10);
+  --bg-card:#ffffff; --bg-page:#f8fafc;
+}
+*{box-sizing:border-box;font-family:Vazirmatn,sans-serif}
+body{margin:0;background:var(--grad-main);color:var(--text-main)}
+a{color:inherit;text-decoration:none}
+
+/* Header */
+.header{
+  background:#fff;margin:20px;padding:16px 18px;border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-soft);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.header h2{margin:0;font-size:17px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#ecfeff;color:#155e75;font-size:11px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{
+  padding:8px 12px;border-radius:999px;border:1px solid rgba(17,24,39,.08);
+  background:#fff;cursor:pointer;font-size:13px;color:var(--text-main);
+}
+.pill.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-color:transparent}
+.btnTop{
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;border:none;padding:10px 14px;border-radius:999px;cursor:pointer;font-size:13px;
+}
+.btnTop.ghost{background:#fff;color:#111827;border:1px solid rgba(0,0,0,.12)}
+.small{font-size:12px;color:var(--text-muted)}
+
+/* Layout */
+.container{
+  margin:20px;background:var(--bg-page);border-radius:var(--radius-lg);
+  padding:18px;box-shadow:var(--shadow-soft);
+}
+.section-title{font-size:15px;margin:10px 0 12px;display:flex;align-items:center;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+
+/* Card */
+.card{
+  background:var(--bg-card);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-soft);
+  position:relative;transition:.22s;overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;top:0;right:0;left:0;height:5px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+}
+.card:hover{transform:translateY(-6px)}
+.card h3{margin:0 0 6px;font-size:15px}
+.card p{margin:0;color:var(--text-muted);font-size:13px;line-height:1.7}
+.tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.tag{
+  font-size:11px;padding:5px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;
+}
+.play-btn{
+  margin-top:12px;width:100%;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;border:none;padding:12px 14px;border-radius:999px;font-size:13px;cursor:pointer;
+}
+.play-btn:hover{opacity:.92}
+
+/* Subject colors */
+.persian::before{background:#ef4444}
+.math::before{background:#3b82f6}
+.science::before{background:#10b981}
+.general::before{background:#f59e0b}
+
+/* Game View */
+#gameView{display:none}
+.game-wrap{
+  background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-soft);
+  padding:16px;
+}
+.game-top{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap
+}
+.game-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.game-title h3{margin:0;font-size:16px}
+.statbar{display:flex;gap:10px;flex-wrap:wrap}
+.stat{
+  padding:8px 10px;border-radius:12px;background:#f3f4f6;font-size:12px;color:#111827
+}
+.hr{height:1px;background:rgba(0,0,0,.08);margin:12px 0}
+.qbox{
+  padding:14px;border-radius:var(--radius-md);background:#f8fafc;border:1px solid rgba(0,0,0,.06);
+}
+.qtext{font-size:15px;line-height:1.95}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:12px}
+.optbtn{
+  padding:12px;border-radius:14px;border:1px solid rgba(0,0,0,.10);
+  background:#fff;cursor:pointer;font-size:13px;text-align:center;
+}
+.optbtn:hover{border-color:rgba(79,70,229,.6)}
+.optbtn.correct{border-color:rgba(34,197,94,.8);background:rgba(34,197,94,.10)}
+.optbtn.wrong{border-color:rgba(239,68,68,.8);background:rgba(239,68,68,.10)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn{
+  padding:12px 14px;border-radius:999px;border:none;cursor:pointer;font-size:13px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;
+}
+.btn.ghost{background:#fff;color:#111827;border:1px solid rgba(0,0,0,.12)}
+.notice{margin-top:10px;font-size:13px;line-height:1.8}
+.kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono"; background:#111827; color:#fff; padding:2px 6px; border-radius:8px; font-size:11px}
+.list{display:grid;gap:10px;margin-top:12px}
+.item{
+  padding:12px;border-radius:14px;border:1px solid rgba(0,0,0,.10);background:#fff;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;
+}
+.pairwrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.paircol{padding:12px;border-radius:14px;background:#f8fafc;border:1px solid rgba(0,0,0,.06)}
+.paircol h4{margin:0 0 10px;font-size:13px;color:#111827}
+.pairbtn{
+  width:100%;text-align:right;padding:10px;border-radius:12px;border:1px solid rgba(0,0,0,.10);
+  background:#fff;cursor:pointer;margin:6px 0;font-size:13px;
+}
+.pairbtn.selected{border-color:rgba(79,70,229,.6);background:rgba(79,70,229,.08)}
+.pairbtn.matched{border-color:rgba(34,197,94,.7);background:rgba(34,197,94,.10);cursor:default}
+.footerhint{margin-top:12px;color:var(--text-muted);font-size:12px;line-height:1.9}
+
+/* Grade Modal */
+.modal{
+  position:fixed; inset:0; background:rgba(0,0,0,.45);
+  display:none; align-items:center; justify-content:center; z-index:9999;
+}
+.modal-box{
+  width:min(520px,92vw);
+  background:#fff; padding:22px; border-radius:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.25); text-align:center;
+}
+.modal-box h2{margin:0 0 6px;font-size:18px}
+.modal-box p{margin:0;color:var(--text-muted);font-size:13px;line-height:1.8}
+.grade-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.grade-buttons button{
+  padding:12px 18px;border-radius:999px;border:none;cursor:pointer;font-size:14px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;min-width:120px;
+}
+.grade-buttons button.ghost{
+  background:#fff;color:#111827;border:1px solid rgba(0,0,0,.12)
+}
+</style>
+</head>
+
+<body>
+
+<!-- Grade Modal -->
+<div id="gradeModal" class="modal">
+  <div class="modal-box">
+    <h2>🎓 پایه تحصیلی را انتخاب کن</h2>
+    <p>
+      سوال‌ها <b>سمپادی‌تر</b> هستند و برای هر پایه جدا تنظیم شده‌اند.
+      <br/>بدون انتخاب پایه، بازی‌ها شروع نمی‌شوند.
+    </p>
+    <div class="grade-buttons">
+      <button onclick="setGrade(7)">هفتم</button>
+      <button onclick="setGrade(8)">هشتم</button>
+      <button onclick="setGrade(9)">نهم</button>
+    </div>
+    <div class="footerhint" style="margin-top:12px">
+      هر زمان خواستی پایه را عوض کنی از بالای صفحه روی «تغییر پایه» بزن.
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <h2>
+    🎮 پنل مینی‌گیم‌ها | ققنوس ادب
+    <span class="badge">۲۰ بازی • سمپادی • ضدتکرار</span>
+    <span class="badge" id="gradeBadge">پایه: —</span>
+  </h2>
+
+  <div class="pills" id="filters">
+    <button class="pill active" data-filter="all">همه</button>
+    <button class="pill" data-filter="persian">📕 فارسی</button>
+    <button class="pill" data-filter="math">📘 ریاضی</button>
+    <button class="pill" data-filter="science">🔬 علوم</button>
+    <button class="pill" data-filter="general">⭐ عمومی</button>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btnTop ghost" onclick="openGradeModal()">تغییر پایه</button>
+    <button class="btnTop" onclick="goHome()">خانه</button>
+  </div>
+</div>
+
+<!-- Home -->
+<div class="container" id="homeView">
+  <div class="section-title">🧩 بازی‌ها (روی «شروع بازی» بزن)</div>
+  <div class="grid" id="cards"></div>
+  <div class="footerhint">
+    ✅ همه‌چیز داخل همین فایل است. هیچ API و اینترنتی لازم نیست.<br/>
+    ✅ بانک سؤال «ضدتکرار» است: تا وقتی مجموعه‌ی فعلی تمام نشود، سؤال تکراری نمی‌آید. همچنین بسیاری از بازی‌ها «مولد سؤال» دارند که عملاً تعداد سؤال را خیلی زیاد می‌کند.
+  </div>
+</div>
+
+<!-- Game -->
+<div class="container" id="gameView">
+  <div class="game-wrap">
+    <div class="game-top">
+      <div class="game-title">
+        <button class="btn ghost" onclick="goHome()">← بازگشت</button>
+        <div>
+          <h3 id="gTitle">—</h3>
+          <div class="small" id="gDesc">—</div>
+        </div>
+      </div>
+      <div class="statbar">
+        <div class="stat">🎓 پایه: <span id="sGrade">—</span></div>
+        <div class="stat">⏱️ زمان: <span id="sTime">—</span></div>
+        <div class="stat">⭐ امتیاز: <span id="sScore">0</span></div>
+        <div class="stat">📌 سوال: <span id="sQ">0/0</span></div>
+        <div class="stat">🏆 رکورد: <span id="sBest">0</span></div>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="qbox">
+      <div class="qtext" id="question">برای شروع، دکمه‌ی «شروع» را بزن.</div>
+      <div id="content"></div>
+
+      <div class="row">
+        <button class="btn" id="startBtn" onclick="startCurrent()">شروع</button>
+        <button class="btn ghost" onclick="restartGame()">شروع دوباره</button>
+        <button class="btn ghost" onclick="resetBest()">ریست رکورد این بازی</button>
+        <button class="btn ghost" onclick="resetAllUsed()">ریست تاریخچه ضدتکرار</button>
+      </div>
+
+      <div class="notice" id="notice"></div>
+      <div class="footerhint" id="hint"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   0) پایه (اجباری)
+   ========================================================= */
+let currentGrade = null;
+
+function openGradeModal(){
+  document.getElementById("gradeModal").style.display = "flex";
+}
+function closeGradeModal(){
+  document.getElementById("gradeModal").style.display = "none";
+}
+function setGrade(g){
+  currentGrade = g;
+  localStorage.setItem("PHOENIX_GRADE", String(g));
+  document.getElementById("gradeBadge").innerText = "پایه: " + g;
+  closeGradeModal();
+  // اگر توی بازی بودیم، برگرد خانه تا سوال‌ها با پایه جدید قاطی نشه
+  goHome();
+}
+function initGrade(){
+  const g = localStorage.getItem("PHOENIX_GRADE");
+  if(!g){
+    openGradeModal();
+    document.getElementById("gradeBadge").innerText = "پایه: —";
+  } else {
+    currentGrade = Number(g);
+    document.getElementById("gradeBadge").innerText = "پایه: " + currentGrade;
+  }
+}
+initGrade();
+
+/* =========================================================
+   1) لیست بازی‌ها (۲۰ بازی)
+   ========================================================= */
+const GAMES = [
+  // فارسی (5)
+  {id:"persian_sentence", cat:"persian", emoji:"📕", title:"جمله‌ساز", desc:"کلمات به‌هم‌ریخته را درست بچین (دقیق و نکته‌ای).", type:"order"},
+  {id:"persian_synonym",  cat:"persian", emoji:"📕", title:"مترادف‌یاب", desc:"مترادف دقیق را انتخاب کن (نکته‌ای).", type:"mcq"},
+  {id:"persian_antonym",  cat:"persian", emoji:"📕", title:"متضاد‌یاب", desc:"متضاد درست را انتخاب کن (نکته‌ای).", type:"mcq"},
+  {id:"persian_spelling", cat:"persian", emoji:"📕", title:"شکار غلط املایی", desc:"کلمه‌ی غلط یا ناهنجار را پیدا کن.", type:"pickWord"},
+  {id:"persian_fillblank",cat:"persian", emoji:"📕", title:"جای خالی", desc:"کلمه درست را در جمله قرار بده.", type:"mcq"},
+
+  // ریاضی (8)
+  {id:"math_speed",      cat:"math", emoji:"📘", title:"نبرد سرعت", desc:"۳۰ ثانیه؛ سوال‌های سریع اما نکته‌ای.", type:"timed_mcq", seconds:30},
+  {id:"math_monster",    cat:"math", emoji:"📘", title:"هیولای ریاضی", desc:"هر پاسخ درست = یک ضربه! (مفهومی)", type:"mcq"},
+  {id:"math_primehunt",  cat:"math", emoji:"📘", title:"شکار عدد اول/بخش‌پذیری", desc:"به‌جای ساده‌بودن، نکته‌های بخش‌پذیری.", type:"mcq"},
+  {id:"math_fraction",   cat:"math", emoji:"📘", title:"شکار کسر/عدد گویا", desc:"مقایسه و ترفندهای کسری.", type:"mcq"},
+  {id:"math_truefalse",  cat:"math", emoji:"📘", title:"درست یا غلط ریاضی", desc:"گزاره‌های تحلیلی با توضیح.", type:"tf"},
+  {id:"math_equation",   cat:"math", emoji:"📘", title:"حل معادله", desc:"معادله‌های نکته‌ای (چهارگزینه‌ای).", type:"mcq"},
+  {id:"math_sequence",   cat:"math", emoji:"📘", title:"دنباله و الگو", desc:"الگوهای چندمرحله‌ای و هوشمند.", type:"mcq"},
+  {id:"math_percent",    cat:"math", emoji:"📘", title:"درصد هوشمند", desc:"درصدهای ترکیبی و کاربردی.", type:"mcq"},
+
+  // علوم (5)
+  {id:"science_energy",    cat:"science", emoji:"🔬", title:"آزمایشگاه انرژی", desc:"سناریو محور و انتخاب بهترین.", type:"mcq"},
+  {id:"science_truefalse", cat:"science", emoji:"🔬", title:"درست یا غلط علوم", desc:"تحلیل جمله‌ها با دلیل.", type:"tf"},
+  {id:"science_foodchain", cat:"science", emoji:"🔬", title:"زنجیره غذایی", desc:"ترتیب درست را بچین (نکته‌ای).", type:"order"},
+  {id:"science_states",    cat:"science", emoji:"🔬", title:"تغییرات ماده", desc:"فیزیکی/شیمیایی (مرزی و نکته‌ای).", type:"mcq"},
+  {id:"science_body",      cat:"science", emoji:"🔬", title:"بدن انسان", desc:"اندام و کارکرد را جور کن.", type:"match"},
+
+  // عمومی (2)
+  {id:"general_memory",  cat:"general", emoji:"⭐", title:"حافظه جفت‌ها", desc:"تمرکز و حافظه (۳×۴).", type:"memory"},
+  {id:"general_quicktap",cat:"general", emoji:"⭐", title:"کلیک سریع", desc:"در ۱۰ ثانیه بیشترین کلیک.", type:"clicker", seconds:10},
+];
+
+/* =========================================================
+   2) بانک سوال: (برای هر بازی، برای هر پایه) + مولدهای سؤال
+   - نکته: برای جلوگیری از تکرار، بعضی بازی‌ها علاوه بر بانک ثابت، مولد سؤال هم دارند.
+   ========================================================= */
+
+/* ---------- ابزارهای کمکی ---------- */
+const rand = (a,b)=> Math.floor(Math.random()*(b-a+1))+a;
+const pick = (arr)=> arr[Math.floor(Math.random()*arr.length)];
+function shuffle(arr){
+  // Fisher-Yates
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function uniqById(items){
+  const seen=new Set();
+  const out=[];
+  for(const x of items){
+    if(!x || !x.__id) continue;
+    if(seen.has(x.__id)) continue;
+    seen.add(x.__id);
+    out.push(x);
+  }
+  return out;
+}
+function numToPersian(n){
+  const map={'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹','-':'−'};
+  return String(n).replace(/[0-9-]/g, ch=>map[ch]||ch);
+}
+
+/* ---------- DB ثابت (نمونه‌ی بزرگ + قابل توسعه) ---------- */
+const DB = {
+  /* ================= فارسی ================= */
+  persian_synonym: {
+    7: [
+      {q:"مترادف «سریع» کدام است؟", options:["کند","تند","سنگین","پراکنده"], answer:1, exp:"سریع = تند"},
+      {q:"مترادف «آغاز» کدام است؟", options:["پایان","شروع","سکوت","گسترش"], answer:1},
+      {q:"مترادف «اندوه» کدام است؟", options:["غم","شادی","شور","تعجب"], answer:0},
+      {q:"مترادف «توانا» کدام است؟", options:["ناتوان","قدرتمند","بی‌حال","بی‌اثر"], answer:1},
+      {q:"مترادف «دقیق» کدام است؟", options:["سرسری","موشکاف","نامعلوم","بی‌ربط"], answer:1},
+      {q:"مترادف «پرکار» کدام است؟", options:["کوشا","خاموش","کند","آشفته"], answer:0},
+      {q:"مترادف «پنهان» کدام است؟", options:["آشکار","نهان","نزدیک","واضح"], answer:1},
+      {q:"مترادف «پاک» کدام است؟", options:["آلوده","تمیز","سنگین","کدر"], answer:1},
+      {q:"مترادف «هراس» کدام است؟", options:["ترس","شوق","آرامش","غرور"], answer:0},
+      {q:"مترادف «میانجی» کدام است؟", options:["واسطه","مانع","مسیر","پایه"], answer:0},
+    ],
+    8: [
+      {q:"مترادف دقیق «مؤثر» کدام است؟", options:["بی‌اثر","کارا","بی‌ربط","ساکت"], answer:1},
+      {q:"مترادف «توجیه» کدام است؟", options:["دلیل‌آوری","انکار","تحقیر","پرهیز"], answer:0},
+      {q:"مترادف «قاطع» کدام است؟", options:["مردد","محکم","سست","دور"], answer:1},
+      {q:"مترادف «فزون» کدام است؟", options:["کم","بیش","پست","خام"], answer:1},
+      {q:"مترادف «مشاهده» کدام است؟", options:["دیدن","پریدن","پوشاندن","گریختن"], answer:0},
+      {q:"مترادف «تردید» کدام است؟", options:["شک","یقین","توان","رنج"], answer:0},
+      {q:"مترادف «تأکید» کدام است؟", options:["پافشاری","تردید","کاهش","پنهان"], answer:0},
+      {q:"مترادف «ارزشمند» کدام است؟", options:["کم‌ارزش","گران‌بها","بی‌هویت","ناقص"], answer:1},
+      {q:"مترادف «به‌تدریج» کدام است؟", options:["کم‌کم","ناگهانی","بلافاصله","یک‌باره"], answer:0},
+      {q:"مترادف «نتیجه» کدام است؟", options:["پیامد","پیشگفتار","شیوه","سایه"], answer:0},
+    ],
+    9: [
+      {q:"مترادف «تأمل» کدام است؟", options:["شتاب","اندیشیدن","فراموشی","فریاد"], answer:1},
+      {q:"مترادف «موقّت» کدام است؟", options:["همیشگی","گذرا","پایدار","راسخ"], answer:1},
+      {q:"مترادف «توصیف» کدام است؟", options:["شرح","پنهان","نقص","تغییر"], answer:0},
+      {q:"مترادف «مستند» کدام است؟", options:["بی‌پایه","مدرک‌دار","ساختگی","سرسری"], answer:1},
+      {q:"مترادف «بی‌بدیل» کدام است؟", options:["مانند","یکتا","کم","اندک"], answer:1},
+      {q:"مترادف «قابل‌اتکا» کدام است؟", options:["نامطمئن","مطمئن","بی‌ثمر","پراکنده"], answer:1},
+      {q:"مترادف «تسلیم» کدام است؟", options:["مقاومت","واگذاری","پیشروی","برانگیختن"], answer:1},
+      {q:"مترادف «نکوهش» کدام است؟", options:["سرزنش","تشویق","حمایت","ترغیب"], answer:0},
+      {q:"مترادف «استمرار» کدام است؟", options:["قطع","تداوم","گسست","شکست"], answer:1},
+      {q:"مترادف «تخصیص» کدام است؟", options:["تقسیم","اختصاص","انکار","تغییر"], answer:1},
+    ]
+  },
+
+  persian_antonym: {
+    7: [
+      {q:"متضاد «کم» کدام است؟", options:["زیاد","خوب","بالا","نزدیک"], answer:0},
+      {q:"متضاد «روشن» کدام است؟", options:["خاموش","درخشان","شیرین","آسان"], answer:0},
+      {q:"متضاد «آرام» کدام است؟", options:["ساکت","پرتلاطم","پنهان","روشن"], answer:1},
+      {q:"متضاد «قوی» کدام است؟", options:["ناتوان","سریع","سنگین","عمیق"], answer:0},
+      {q:"متضاد «دوست» کدام است؟", options:["یار","دشمن","همراه","آشنا"], answer:1},
+      {q:"متضاد «بالا» کدام است؟", options:["پست","کوتاه","پایین","دور"], answer:2},
+      {q:"متضاد «کاهش» کدام است؟", options:["افزایش","پنهان","نشان","تغییر"], answer:0},
+      {q:"متضاد «آشکار» کدام است؟", options:["پیدا","نهان","نزدیک","روشن"], answer:1},
+    ],
+    8: [
+      {q:"متضاد «مطمئن» کدام است؟", options:["نامطمئن","قاطع","مهم","دقیق"], answer:0},
+      {q:"متضاد «متفاوت» کدام است؟", options:["یکسان","زیاد","پراکنده","پیچیده"], answer:0},
+      {q:"متضاد «موافق» کدام است؟", options:["همراه","مخالف","پیشرو","خوشحال"], answer:1},
+      {q:"متضاد «گسترده» کدام است؟", options:["وسیع","محدود","عمیق","همیشگی"], answer:1},
+      {q:"متضاد «پیوسته» کدام است؟", options:["یکپارچه","منقطع","منظم","کامل"], answer:1},
+      {q:"متضاد «سود» کدام است؟", options:["زیان","نفع","پاداش","بهره"], answer:0},
+      {q:"متضاد «تأیید» کدام است؟", options:["انکار","تصمیم","پیشنهاد","پذیرش"], answer:0},
+      {q:"متضاد «شکست» کدام است؟", options:["پیشرفت","پیروزی","سکوت","عادت"], answer:1},
+    ],
+    9: [
+      {q:"متضاد «استمرار» کدام است؟", options:["تداوم","انقطاع","پیشرفت","پایداری"], answer:1},
+      {q:"متضاد «تحسین» کدام است؟", options:["تمجید","نکوهش","توصیف","تعریف"], answer:1},
+      {q:"متضاد «سخت‌گیر» کدام است؟", options:["آسان‌گیر","رک","دقیق","تیز"], answer:0},
+      {q:"متضاد «مفصل» کدام است؟", options:["کوتاه","دقیق","کامل","منظم"], answer:0},
+      {q:"متضاد «پایدار» کدام است؟", options:["ماندگار","ناپایدار","موثر","نزدیک"], answer:1},
+      {q:"متضاد «صعود» کدام است؟", options:["پرواز","سقوط","تلاش","حرکت"], answer:1},
+      {q:"متضاد «تقویت» کدام است؟", options:["تضعیف","تکمیل","پوشش","تأیید"], answer:0},
+      {q:"متضاد «شفاف» کدام است؟", options:["روشن","کدر","تمیز","نرم"], answer:1},
+    ]
+  },
+
+  persian_fillblank: {
+    7: [
+      {q:"جمله را کامل کن: «علم، چراغِ ____ است.»", options:["راه","شب","خواب","سایه"], answer:0},
+      {q:"جمله را کامل کن: «کوشش، کلیدِ ____ است.»", options:["موفقیت","خستگی","ترس","فراموشی"], answer:0},
+      {q:"جمله را کامل کن: «راستی، پایه‌ی ____ است.»", options:["اعتماد","تکبر","حسادت","فرار"], answer:0},
+      {q:"جمله را کامل کن: «کتاب، دوستِ ____ است.»", options:["تنهایی","خشم","ترس","کم‌کاری"], answer:0},
+      {q:"جمله را کامل کن: «پرسیدن، آغازِ ____ است.»", options:["دانستن","ترسیدن","باختن","پنهان‌کردن"], answer:0},
+      {q:"جمله را کامل کن: «اندیشه، پیش از ____ می‌آید.»", options:["گفتار","غفلت","ترس","حسادت"], answer:0},
+    ],
+    8: [
+      {q:"جمله را کامل کن: «نتیجه، محصولِ ____ است.»", options:["تلاش","تنبلی","سرسری","بهانه"], answer:0},
+      {q:"جمله را کامل کن: «داوری درست بدون ____ ممکن نیست.»", options:["دلیل","هیجان","عجله","تعارف"], answer:0},
+      {q:"جمله را کامل کن: «پیشرفت، نیازمندِ ____ است.»", options:["برنامه","حاشیه","غرور","سکوت"], answer:0},
+      {q:"جمله را کامل کن: «درک متن، فقط با ____ به‌دست نمی‌آید.»", options:["حفظ","تحلیل","دقت","توجه"], answer:0},
+      {q:"جمله را کامل کن: «هر واژه، در ____ معنای دقیق‌تری پیدا می‌کند.»", options:["بافت","تکرار","بلندی","سرعت"], answer:0},
+      {q:"جمله را کامل کن: «اشتباه، اگر تحلیل شود، تبدیل به ____ می‌شود.»", options:["درس","ترس","غرور","بهانه"], answer:0},
+    ],
+    9: [
+      {q:"جمله را کامل کن: «نقد سازنده، به‌دنبالِ ____ است.»", options:["اصلاح","تخریب","نمایش","تعصب"], answer:0},
+      {q:"جمله را کامل کن: «ادعا بدون سند، ____ است.»", options:["بی‌اعتبار","قاطع","عمیق","مستقل"], answer:0},
+      {q:"جمله را کامل کن: «زبان، ابزارِ ____ اندیشه است.»", options:["انتقال","انکار","پنهان","کاهش"], answer:0},
+      {q:"جمله را کامل کن: «معنا در متن، گاهی ____ می‌شود.»", options:["چندلایه","یکسان","سطحی","خاموش"], answer:0},
+      {q:"جمله را کامل کن: «سؤال خوب، نیمه‌ی ____ است.»", options:["دانش","ناتوانی","فراموشی","عادت"], answer:0},
+      {q:"جمله را کامل کن: «تعصب، دشمنِ ____ است.»", options:["فهم","حفظ","تکرار","مکث"], answer:0},
+    ]
+  },
+
+  persian_sentence: {
+    7: [
+      {q:"کلمات را درست بچین: (امروز / به / مدرسه / رفتم)", items:["امروز","به","مدرسه","رفتم"], answer:["امروز","به","مدرسه","رفتم"]},
+      {q:"کلمات را درست بچین: (کتاب / را / با / دقت / خواندم)", items:["کتاب","را","با","دقت","خواندم"], answer:["کتاب","را","با","دقت","خواندم"]},
+      {q:"کلمات را درست بچین: (پرسیدن / آغاز / دانستن / است)", items:["پرسیدن","آغاز","دانستن","است"], answer:["پرسیدن","آغاز","دانستن","است"]},
+      {q:"کلمات را درست بچین: (او / همیشه / راستگو / بود)", items:["او","همیشه","راستگو","بود"], answer:["او","همیشه","راستگو","بود"]},
+      {q:"کلمات را درست بچین: (در / کلاس / آرام / نشستم)", items:["در","کلاس","آرام","نشستم"], answer:["در","کلاس","آرام","نشستم"]},
+    ],
+    8: [
+      {q:"کلمات را درست بچین: (با / تحلیل / نتیجه / بهتر / می‌شود)", items:["با","تحلیل","نتیجه","بهتر","می‌شود"], answer:["با","تحلیل","نتیجه","بهتر","می‌شود"]},
+      {q:"کلمات را درست بچین: (هر / ادعا / دلیل / می‌خواهد)", items:["هر","ادعا","دلیل","می‌خواهد"], answer:["هر","ادعا","دلیل","می‌خواهد"]},
+      {q:"کلمات را درست بچین: (در / متن / واژه / معنا / می‌گیرد)", items:["در","متن","واژه","معنا","می‌گیرد"], answer:["واژه","در","متن","معنا","می‌گیرد"]},
+      {q:"کلمات را درست بچین: (بدون / برنامه / پیشرفت / سخت / است)", items:["بدون","برنامه","پیشرفت","سخت","است"], answer:["بدون","برنامه","پیشرفت","سخت","است"]},
+      {q:"کلمات را درست بچین: (اشتباه / اگر / بررسی / شود / درس / است)", items:["اشتباه","اگر","بررسی","شود","درس","است"], answer:["اشتباه","اگر","بررسی","شود","درس","است"]},
+    ],
+    9: [
+      {q:"کلمات را درست بچین: (نقد / سازنده / به / اصلاح / کمک / می‌کند)", items:["نقد","سازنده","به","اصلاح","کمک","می‌کند"], answer:["نقد","سازنده","به","اصلاح","کمک","می‌کند"]},
+      {q:"کلمات را درست بچین: (ادعا / بدون / سند / بی‌اعتبار / است)", items:["ادعا","بدون","سند","بی‌اعتبار","است"], answer:["ادعا","بدون","سند","بی‌اعتبار","است"]},
+      {q:"کلمات را درست بچین: (تعصب / فهم / را / کند / می‌کند)", items:["تعصب","فهم","را","کند","می‌کند"], answer:["تعصب","فهم","را","کند","می‌کند"]},
+      {q:"کلمات را درست بچین: (سؤال / خوب / راه / یادگیری / است)", items:["سؤال","خوب","راه","یادگیری","است"], answer:["سؤال","خوب","راه","یادگیری","است"]},
+      {q:"کلمات را درست بچین: (معنا / در / متن / چندلایه / می‌شود)", items:["معنا","در","متن","چندلایه","می‌شود"], answer:["معنا","در","متن","چندلایه","می‌شود"]},
+    ]
+  },
+
+  persian_spelling: {
+    7: [
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"امروز به مَدرسه رفتم و درس خواندم.", words:["امروز","به","مَدرسه","رفتم","و","درس","خواندم"], wrong:"مَدرسه", exp:"نوشتن «مَدرسه» با این شکل نادرست/نامتعارف است؛ درست: مدرسه"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"او خیلی باهوش است و دِرسش را می‌خواند.", words:["او","خیلی","باهوش","است","و","دِرسش","را","می‌خواند"], wrong:"دِرسش"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"این موضوع برای من خِیلی مهم است.", words:["این","موضوع","برای","من","خِیلی","مهم","است"], wrong:"خِیلی"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"او مسٔول کلاس شد.", words:["او","مسٔول","کلاس","شد"], wrong:"مسٔول", exp:"درست: «مسئول»"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"در بارهٔ این مسئله فکر کن.", words:["در","بارهٔ","این","مسئله","فکر","کن"], wrong:"در", exp:"درستِ رایج: «دربارهٔ» (یک‌کلمه)"},
+    ],
+    8: [
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"او با شجاعت از حقّ خود دفاع کرد.", words:["او","با","شجاعت","از","حقّ","خود","دفاع","کرد"], wrong:"حقّ", exp:"در نگارش مدرسه‌ای معمولاً «حق» نوشته می‌شود (تشدید معمولاً نمی‌آید)."},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"نتیجهٔ این آزمایش قَطعاً جالب است.", words:["نتیجهٔ","این","آزمایش","قَطعاً","جالب","است"], wrong:"قَطعاً", exp:"درست: «قطعاً»"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"ما می‌خواهیم پروژه را اَنجام دهیم.", words:["ما","می‌خواهیم","پروژه","را","اَنجام","دهیم"], wrong:"اَنجام", exp:"درست: «انجام»"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"او به من گفت که حتماً می‌آید .", words:["او","به","من","گفت","که","حتماً","می‌آید","."], wrong:".", exp:"فاصله قبل از نقطه غلط است."},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"این روش، موثر تر است.", words:["این","روش،","موثر","تر","است"], wrong:"تر", exp:"درست: «موثرتر» (یک‌کلمه)"},
+    ],
+    9: [
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"این ادعا بی‌پایه و اساس است.", words:["این","ادعا","بی‌پایه","و","اساس","است"], wrong:"بی‌پایه", exp:"در بسیاری نگارش‌ها «بی‌پایه‌واساس» به‌صورت پیوسته/با نیم‌فاصله می‌آید؛ اینجا حالت ناقص دارد."},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"برسیِ دقیقِ متن لازم است.", words:["برسیِ","دقیقِ","متن","لازم","است"], wrong:"برسیِ", exp:"درست: «بررسی»"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"او با مسئولیت پذیری کار کرد.", words:["او","با","مسئولیت","پذیری","کار","کرد"], wrong:"پذیری", exp:"درست: «مسئولیت‌پذیری» (یک‌کلمه با نیم‌فاصله)"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"لطفا، آرام تر صحبت کن.", words:["لطفا،","آرام","تر","صحبت","کن"], wrong:"تر", exp:"درست: «آرام‌تر»"},
+      {q:"کلمه‌ی غلط/نامتعارف را انتخاب کن:", sentence:"نتیجه گیریِ درست مهم است.", words:["نتیجه","گیریِ","درست","مهم","است"], wrong:"گیریِ", exp:"درست: «نتیجه‌گیری» (ترکیب با نیم‌فاصله)"},
+    ]
+  },
+
+  /* ================= علوم ================= */
+  science_energy: {
+    7: [
+      {q:"روستایی دور از شبکه برق و آفتاب زیاد دارد. بهترین گزینه؟", options:["خورشیدی","زغال‌سنگ","بنزین","هسته‌ای"], answer:0, exp:"خورشیدی برای مناطق آفتابی و مستقل مناسب است."},
+      {q:"شهری بادخیز و دشت باز. بهترین گزینه؟", options:["باد","نفت","چوب","بنزین"], answer:0},
+      {q:"منطقه کوهستانی با رود پرآب و امکان سد. بهترین؟", options:["آبی","خورشیدی","زغال‌سنگ","گاز"], answer:0},
+      {q:"برای کاهش آلودگی هوا در شهر بزرگ، کدام بهتر است؟", options:["خورشیدی/باد","زغال‌سنگ","نفت","بنزین"], answer:0},
+      {q:"برای برق پایدار شبانه‌روز (با سد بزرگ موجود)؟", options:["آبی","خورشیدی","باد","چوب"], answer:0},
+    ],
+    8: [
+      {q:"یک کارخانه برق زیاد می‌خواهد و هم‌زمان باید آلودگی کم شود. کدام ترکیب منطقی‌تر است؟", options:["ترکیب خورشیدی+شبکه","زغال‌سنگ","بنزین","چوب"], answer:0, exp:"ترکیب منابع پاک با شبکه پایدارتر است."},
+      {q:"در منطقه‌ای که شب‌ها هم مصرف زیاد است، خورشیدی تنها چه ضعف اصلی دارد؟", options:["نیاز به ذخیره‌سازی","تولید CO₂ زیاد","نیاز به سوخت فسیلی","گران بودن آب"], answer:0},
+      {q:"در شهر بادخیز اما با ساختمان‌های بسیار بلند، چالش اصلی توربین‌ها چیست؟", options:["آشفتگی جریان باد","کمبود نور","نبود رودخانه","نداشتن سوخت"], answer:0},
+      {q:"برای مدرسه‌ای که می‌خواهد هزینه برق را کم کند، بهترین راه کوتاه‌مدت؟", options:["بهینه‌سازی مصرف + پنل کوچک","زغال‌سنگ","بنزین","هسته‌ای"], answer:0},
+      {q:"کدام گزینه به «پایداری» نزدیک‌تر است؟", options:["مصرف کمتر + منبع تجدیدپذیر","مصرف بیشتر + سوخت فسیلی","مصرف ثابت + بنزین","مصرف زیاد + چوب"], answer:0},
+    ],
+    9: [
+      {q:"کدام معیار در انتخاب انرژیِ «بهترین» در یک شهر مهم‌تر است؟", options:["ترکیب هزینه+پایداری+آلودگی","فقط هزینه","فقط تولید زیاد","فقط آسانی حمل"], answer:0},
+      {q:"اگر هدف کاهش آلودگی و افزایش امنیت انرژی باشد، کدام راهبرد درست‌تر است؟", options:["تنوع‌بخشی به منابع","وابستگی به یک منبع","افزایش بنزین","حذف بهینه‌سازی"], answer:0},
+      {q:"در نیروگاه‌های آبی، کدام اثر زیست‌محیطی ممکن است مهم باشد؟", options:["تغییر زیستگاه رودخانه","تولید دود زیاد","کمبود نور","افزایش سوخت فسیلی"], answer:0},
+      {q:"برای برق پاک اما پایدار در شب، کدام ترکیب منطقی‌تر است؟", options:["خورشیدی + باتری/شبکه","بنزین","نفت","زغال‌سنگ"], answer:0},
+      {q:"کدام گزینه «تجدیدپذیر» است؟", options:["باد","گاز طبیعی","نفت","زغال‌سنگ"], answer:0},
+    ]
+  },
+
+  science_truefalse: {
+    7: [
+      {q:"انرژی خورشیدی تجدیدپذیر است.", answer:true, exp:"خورشید منبع طبیعی و تجدیدپذیر است."},
+      {q:"سوختن کاغذ تغییر فیزیکی است.", answer:false, exp:"سوختن، تغییر شیمیایی است."},
+      {q:"در زنجیره غذایی، تولیدکننده‌ها معمولاً گیاهان‌اند.", answer:true},
+      {q:"اکسیژن برای همه جانداران همیشه لازم است.", answer:false, exp:"برخی جانداران بی‌هوازی‌اند."},
+      {q:"ذوب شدن یخ یک تغییر فیزیکی است.", answer:true},
+    ],
+    8: [
+      {q:"همه تغییرات شیمیایی قابل برگشت هستند.", answer:false, exp:"بیشتر تغییرات شیمیایی به‌سادگی برگشت‌پذیر نیستند."},
+      {q:"کاهش مصرف انرژی همیشه به کاهش آلودگی کمک می‌کند.", answer:true, exp:"کمتر مصرف کردن یعنی کمتر تولید و آلودگی."},
+      {q:"در تنفس سلولی هوازی، انرژی بیشتری نسبت به بی‌هوازی تولید می‌شود.", answer:true},
+      {q:"در یک بوم‌سازگان، حذف شکارچی همیشه باعث افزایش تنوع می‌شود.", answer:false, exp:"ممکن است طغیان جمعیت و به‌هم‌ریختگی ایجاد کند."},
+      {q:"توربین بادی در همه مکان‌ها بهترین انتخاب است.", answer:false, exp:"شرایط باد و موقعیت مهم است."},
+    ],
+    9: [
+      {q:"افزایش CO₂ می‌تواند اثر گلخانه‌ای را تقویت کند.", answer:true},
+      {q:"سدسازی همیشه بدون اثر منفی زیست‌محیطی است.", answer:false},
+      {q:"انتقال انرژی در زنجیره غذایی با اتلاف همراه است.", answer:true, exp:"در هر سطح مقداری انرژی به گرما تبدیل می‌شود."},
+      {q:"پایدارترین راه تولید انرژی همیشه ارزان‌ترین راه است.", answer:false},
+      {q:"در تغییرات فیزیکی، ماده جدید تشکیل نمی‌شود.", answer:true},
+    ]
+  },
+
+  science_foodchain: {
+    7: [
+      {q:"زنجیره را بچین (از تولیدکننده تا شکارچی):", items:["شاهین","گنجشک","گندم","ملخ"], answer:["گندم","ملخ","گنجشک","شاهین"]},
+      {q:"زنجیره را بچین:", items:["پلنگ","آهو","گیاه"], answer:["گیاه","آهو","پلنگ"]},
+      {q:"زنجیره را بچین:", items:["انسان","ماهی","جلبک"], answer:["جلبک","ماهی","انسان"]},
+    ],
+    8: [
+      {q:"زنجیره را بچین:", items:["شیر","گورخر","علف"], answer:["علف","گورخر","شیر"]},
+      {q:"زنجیره را بچین:", items:["روباه","موش","گندم"], answer:["گندم","موش","روباه"]},
+      {q:"زنجیره را بچین:", items:["ماهی بزرگ","ماهی کوچک","جلبک"], answer:["جلبک","ماهی کوچک","ماهی بزرگ"]},
+    ],
+    9: [
+      {q:"زنجیره را بچین:", items:["عقاب","مار","قورباغه","ملخ","گیاه"], answer:["گیاه","ملخ","قورباغه","مار","عقاب"]},
+      {q:"زنجیره را بچین:", items:["کوسه","ماهی","زئوپلانکتون","فیتوپلانکتون"], answer:["فیتوپلانکتون","زئوپلانکتون","ماهی","کوسه"]},
+      {q:"زنجیره را بچین:", items:["انسان","گاو","علف"], answer:["علف","گاو","انسان"]},
+    ]
+  },
+
+  science_states: {
+    7: [
+      {q:"یخ شدن آب یک تغییر ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:0},
+      {q:"سوختن چوب یک تغییر ____ است.", options:["فیزیکی","شیمیایی","زیستی","نامشخص"], answer:1},
+      {q:"تبخیر آب یک تغییر ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:0},
+      {q:"زنگ‌زدن آهن یک تغییر ____ است.", options:["فیزیکی","شیمیایی","حرارتی","نامشخص"], answer:1},
+      {q:"خرد شدن شیشه یک تغییر ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:0},
+    ],
+    8: [
+      {q:"حل شدن نمک در آب (بدون واکنش) معمولاً ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:0, exp:"ماده جدید تشکیل نمی‌شود؛ قابل جداسازی است."},
+      {q:"پختن تخم‌مرغ (تغییر پروتئین) ____ است.", options:["فیزیکی","شیمیایی","نامشخص","هسته‌ای"], answer:1},
+      {q:"تبدیل آب به بخار و سپس میعان دوباره ____ است.", options:["فیزیکی","شیمیایی","نامشخص","هسته‌ای"], answer:0},
+      {q:"تجزیه قند در حرارت زیاد (کاراملی شدن) ____ است.", options:["فیزیکی","شیمیایی","نامشخص","هسته‌ای"], answer:1},
+      {q:"خشک شدن رنگ روی کاغذ (بسته به نوع رنگ) غالباً ____ در نظر گرفته می‌شود.", options:["فیزیکی","شیمیایی","نامشخص","هسته‌ای"], answer:0},
+    ],
+    9: [
+      {q:"اگر ویژگی‌های ماده تغییر کند ولی ترکیب ثابت بماند، تغییر ____ است.", options:["فیزیکی","شیمیایی","زیستی","هسته‌ای"], answer:0},
+      {q:"تشکیل رسوب در یک محلول معمولاً نشانه تغییر ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:1},
+      {q:"سوختن کامل مواد آلی ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:1},
+      {q:"شکستن پیوندها و تشکیل پیوند جدید مربوط به تغییر ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:1},
+      {q:"تغییر حالت جامد↔مایع↔گاز تغییر ____ است.", options:["فیزیکی","شیمیایی","هسته‌ای","نامشخص"], answer:0},
+    ]
+  },
+
+  science_body: {
+    7: [{pairs:[["قلب","پمپ کردن خون"],["ریه","تبادل گازها"],["معده","هضم اولیه"],["مغز","کنترل بدن"]]}],
+    8: [{pairs:[["کلیه","تصفیه خون"],["پوست","حفاظت و حس"],["روده","جذب مواد غذایی"],["عضله","حرکت"]]}],
+    9: [{pairs:[["گلبول قرمز","حمل اکسیژن"],["نورون","انتقال پیام عصبی"],["آنزیم","تسریع واکنش‌ها"],["ایمنی","مقابله با عوامل بیماری‌زا"]]}],
+  },
+
+  /* ================= ریاضی ================= */
+  math_truefalse: {
+    7: [
+      {q:"اگر دو عدد بر ۳ بخش‌پذیر باشند، جمعشان هم بر ۳ بخش‌پذیر است.", answer:true, exp:"قاعده بخش‌پذیری روی جمع برقرار است."},
+      {q:"هر عدد اول فرد است.", answer:false, exp:"عدد ۲ اول است ولی زوج است."},
+      {q:"اگر a<b باشد، آنگاه a+5 < b+5.", answer:true},
+      {q:"کسر 3/6 در ساده‌ترین حالت 1/2 است.", answer:true},
+      {q:"اگر عددی بر ۲ بخش‌پذیر باشد، حتماً بر ۴ هم بخش‌پذیر است.", answer:false, exp:"مثلاً 6 بر ۲ هست ولی بر ۴ نیست."},
+    ],
+    8: [
+      {q:"اگر دو کسر مخرج برابر داشته باشند، کسر با صورت بزرگ‌تر بزرگ‌تر است.", answer:true},
+      {q:"اگر a≠0 باشد، a/a = 1.", answer:true},
+      {q:"اگر x>0 باشد، آنگاه x² > x همیشه درست است.", answer:false, exp:"مثلاً x=1/2 → x²=1/4 < 1/2"},
+      {q:"درصدها همیشه جمع‌پذیرند (۲۰٪ + ۳۰٪ = ۵۰٪ بدون شرط).", answer:false, exp:"بستگی به پایه (مبنای) درصد دارد."},
+      {q:"در دنباله‌های هندسی، نسبت جمله‌های متوالی ثابت است.", answer:true},
+    ],
+    9: [
+      {q:"اگر (x−1)(x−3)=0 باشد، x می‌تواند ۱ یا ۳ باشد.", answer:true},
+      {q:"اگر a>b باشد، آنگاه a²>b² همیشه درست است.", answer:false, exp:"اگر b منفی باشد ممکن است."},
+      {q:"اگر x≠0 باشد، 1/x + 1/x = 2/x.", answer:true},
+      {q:"اگر دو خط موازی باشند، زاویه‌های داخلی هم‌جهت مکمل‌اند.", answer:true},
+      {q:"اگر x+y=10 باشد، لزوماً x²+y²=100 است.", answer:false},
+    ]
+  },
+
+  /* بانک‌های ثابت کمکی برای ریاضی‌های غیرمولد */
+  math_monster: {
+    7: [
+      {q:"کمترین مضرب مشترک 6 و 8 کدام است؟", options:["12","24","18","48"], answer:1, exp:"LCM(6,8)=24"},
+      {q:"کدام کسر بزرگ‌تر است؟", options:["3/7","4/9","1/2","5/12"], answer:2},
+      {q:"اگر a=3 و b=5 باشد، a+b×2 برابر است با:", options:["13","16","10","8"], answer:0},
+      {q:"اگر 2x=18، x چند است؟", options:["7","8","9","10"], answer:2},
+      {q:"عدد 91 بر کدام عدد بخش‌پذیر است؟", options:["2","3","7","9"], answer:2},
+    ],
+    8: [
+      {q:"کدام بزرگ‌تر است؟", options:["(3/4)","(5/8)","(2/3)","(7/12)"], answer:0},
+      {q:"20٪ افزایشِ 150 برابر است با:", options:["160","170","180","190"], answer:2},
+      {q:"اگر x/3=5، مقدار 2x−1 چیست؟", options:["27","29","31","33"], answer:1},
+      {q:"کدام عدد بر 9 بخش‌پذیر است؟", options:["234","235","236","238"], answer:0},
+      {q:"اگر a=−2 باشد، a²+a برابر است با:", options:["2","0","−2","4"], answer:0},
+    ],
+    9: [
+      {q:"اگر (x−1)(x−3)=0، مقدار x²−4x+3 برابر است با:", options:["0","1","−1","2"], answer:0, exp:"چون x ریشه‌های همین عبارت است."},
+      {q:"اگر x=2 باشد، مقدار (x+1)²−(x−1)² برابر است با:", options:["6","8","10","12"], answer:1},
+      {q:"اگر a+b=10 و a−b=2، b چند است؟", options:["4","5","6","8"], answer:0},
+      {q:"کدام عبارت همیشه برابر 0 نیست؟", options:["(x−1)(x+1)−(x²−1)","(x+2)²−(x²+4x+4)","(x−3)²−(x²−6x+9)","(x+1)²−(x²+1)"], answer:3},
+      {q:"اگر x≠0، مقدار (x²−1)/x برابر است با:", options:["x−1/x","x+1/x","x−1","x+1"], answer:0},
+    ]
+  }
+};
+
+/* ---------- مولدهای سؤال (برای زیاد شدن بانک و جلوگیری از تکرار) ---------- */
+const GENERATORS = {
+  // ریاضی سرعت: مولد بسیار زیاد
+  math_speed: (grade)=>{
+    // grade 7: عملیات صحیح + کسر ساده
+    // grade 8: درصد/توان/ترکیبی
+    // grade 9: جبری سبک و تند
+    const t = pick(["A","B","C","D"]);
+    if(grade===7){
+      const kind = pick(["mul","mix","frac","div"]);
+      if(kind==="mul"){
+        const a=rand(6,19), b=rand(3,12);
+        const ans=a*b;
+        const options=shuffle([ans, ans+rand(1,6), ans-rand(1,6), ans+rand(7,12)]);
+        return mcqQ(`حاصل ${a} × ${b} ؟`, options, ans, `ضرب مستقیم`);
+      }
+      if(kind==="div"){
+        const b=rand(3,12), ans=rand(4,16), a=b*ans;
+        const options=shuffle([ans, ans+1, ans-1, ans+2]);
+        return mcqQ(`حاصل ${a} ÷ ${b} ؟`, options, ans);
+      }
+      if(kind==="mix"){
+        const a=rand(5,30), b=rand(3,20), c=rand(2,10);
+        const expr = `${a} + ${b} − ${c}`;
+        const ans = a+b-c;
+        const options=shuffle([ans, ans+1, ans-1, ans+2]);
+        return mcqQ(`حاصل ${expr} ؟`, options, ans);
+      }
+      // frac: "یک‌پنجمِ 60"
+      const denom = pick([2,3,4,5,6,8,10]);
+      const base = denom * rand(6,20);
+      const ans = base/denom;
+      const options=shuffle([ans, ans+rand(1,4), ans-rand(1,4), ans+rand(5,8)]);
+      return mcqQ(`${numToPersian(1)}/${numToPersian(denom)}ِ ${base} برابر است با؟`, options, ans);
+    }
+
+    if(grade===8){
+      const kind = pick(["percent","power","mix","frac2"]);
+      if(kind==="percent"){
+        const p=pick([10,12,15,20,25,30,40]);
+        const base=pick([80,100,120,150,200,240,300]);
+        const ans = base*p/100;
+        const options=shuffle([ans, ans+base/20, ans-base/20, ans+base/10].map(x=>Math.round(x)));
+        return mcqQ(`${p}٪ از ${base} ؟`, options, ans);
+      }
+      if(kind==="power"){
+        const a=pick([2,3,4,5,6,7,8,9]);
+        const exp=2;
+        const ans=a*a;
+        const options=shuffle([ans, ans+a, ans-a, ans+2*a]);
+        return mcqQ(`${a}² برابر است با؟`, options, ans);
+      }
+      if(kind==="mix"){
+        const a=rand(2,9), b=rand(2,9), c=rand(2,9);
+        const ans = a*(b+c);
+        const options=shuffle([ans, a*b+c, a*b+a*c, ans+rand(1,6)]);
+        return mcqQ(`حاصل ${a}×(${b}+${c}) ؟`, options, ans, `توزیع‌پذیری`);
+      }
+      // frac2: compare quickly (choose larger)
+      const a=rand(1,7), b=rand(a+1,9);
+      const c=rand(1,7), d=rand(c+1,9);
+      const v1=a/b, v2=c/d;
+      const bigger = v1>v2 ? `${a}/${b}` : `${c}/${d}`;
+      const options=shuffle([`${a}/${b}`,`${c}/${d}`,`${a+1}/${b}`,`${c+1}/${d}`]);
+      return mcqQ(`کدام کسر بزرگ‌تر است؟`, options, bigger, `مقایسه کسرها`);
+    }
+
+    // grade 9
+    const kind = pick(["algebra","factor","percent2","identity"]);
+    if(kind==="algebra"){
+      const x=rand(-3,6);
+      const a=rand(2,5), b=rand(-6,6), c=rand(-6,6);
+      const ans = a*x + b - c;
+      const options=shuffle([ans, ans+1, ans-1, ans+2]);
+      return mcqQ(`اگر x=${x} باشد، مقدار ${a}x ${b>=0?"+":"−"} ${Math.abs(b)} ${c>=0?"−":"+"} ${Math.abs(c)} ؟`,
+                  options, ans);
+    }
+    if(kind==="factor"){
+      const r1=pick([-3,-2,-1,1,2,3,4]);
+      const r2=pick([-3,-2,-1,1,2,3,4].filter(x=>x!==r1));
+      const a=1;
+      // (x-r1)(x-r2)=0 -> ask x?
+      const correct = pick([r1,r2]);
+      const options=shuffle([r1,r2,r1+1,r2-1]);
+      return mcqQ(`اگر (x${r1>=0? "−"+r1:"+"+Math.abs(r1)})(x${r2>=0? "−"+r2:"+"+Math.abs(r2)})=0 باشد، یکی از جواب‌ها؟`,
+                  options, correct, `ریشه‌ها`);
+    }
+    if(kind==="percent2"){
+      const base=pick([120,150,200,240,300]);
+      const p=pick([10,15,20,25,30]);
+      const inc = pick([true,false]);
+      const ans = inc ? base*(100+p)/100 : base*(100-p)/100;
+      const options=shuffle([ans, base, base*(100+ (inc? p+5:p-5))/100, base*(100+(inc? p-5:p+5))/100].map(x=>Math.round(x)));
+      return mcqQ(`${inc? "افزایش":"کاهش"} ${p}٪ روی ${base}، نتیجه؟`, options, Math.round(ans));
+    }
+    // identity quick
+    const a=rand(1,6);
+    const ans = 4*a;
+    const options=shuffle([ans, 2*a, 4*a+2, 4*a-2]);
+    return mcqQ(`اگر x=${a}، مقدار (x+1)² − (x−1)² ؟`, options, ans, `تفاضل مربعات`);
+  },
+
+  math_equation: (grade)=>{
+    if(grade===7){
+      // ax=b
+      const a=pick([2,3,4,5,6,7,8,9]);
+      const x=rand(2,12);
+      const b=a*x;
+      const ans=x;
+      const options=shuffle([ans, ans+1, ans-1, ans+2]);
+      return mcqQ(`اگر ${a}x = ${b} باشد، x = ؟`, options, ans);
+    }
+    if(grade===8){
+      // ax + c = d
+      const a=pick([2,3,4,5,6]);
+      const x=rand(-4,10);
+      const c=rand(-10,10);
+      const d=a*x + c;
+      const ans=x;
+      const options=shuffle([ans, ans+1, ans-1, ans+2]);
+      return mcqQ(`اگر ${a}x ${c>=0?"+":"−"} ${Math.abs(c)} = ${d} باشد، x = ؟`, options, ans);
+    }
+    // grade 9: parentheses and simple fractions
+    const a=pick([2,3,4]);
+    const x=rand(-3,7);
+    const b=rand(-6,6);
+    const c=rand(-10,10);
+    // a(x+b)=c
+    const rhs=a*(x+b);
+    const ans=x;
+    const options=shuffle([ans, ans+1, ans-1, ans+2]);
+    return mcqQ(`اگر ${a}(x ${b>=0?"+":"−"} ${Math.abs(b)}) = ${rhs} باشد، x = ؟`, options, ans);
+  },
+
+  math_sequence: (grade)=>{
+    if(grade===7){
+      const kind=pick(["arith","geom","alt"]);
+      if(kind==="arith"){
+        const d=rand(2,9);
+        const a1=rand(1,9);
+        const seq=[a1,a1+d,a1+2*d,a1+3*d];
+        const ans=a1+4*d;
+        const options=shuffle([ans, ans+d, ans-d, ans+2*d]);
+        return mcqQ(`دنباله: ${seq.join(", ")}, ؟`, options, ans, `حسابی`);
+      }
+      if(kind==="geom"){
+        const r=pick([2,3]);
+        const a1=pick([1,2,3,4,5]);
+        const seq=[a1,a1*r,a1*r*r,a1*r*r*r];
+        const ans=a1*r*r*r*r;
+        const options=shuffle([ans, ans*r, ans/r, ans+r]);
+        return mcqQ(`دنباله: ${seq.join(", ")}, ؟`, options, ans, `هندسی`);
+      }
+      // alternate
+      const a=rand(3,9), b=rand(10,18);
+      const seq=[a,b,a+1,b+2];
+      const ans=a+2;
+      const options=shuffle([ans, ans+1, a+3, b+4]);
+      return mcqQ(`دنباله: ${seq.join(", ")}, ؟`, options, ans, `الگوی تناوبی`);
+    }
+
+    if(grade===8){
+      const kind=pick(["square","diff","mixed"]);
+      if(kind==="square"){
+        const n=rand(3,8);
+        const seq=[1,4,9,16,25].slice(0,rand(4,5));
+        const ans=(seq.length+1)**2;
+        const options=shuffle([ans, ans+2*seq.length+1, ans-1, ans+5]);
+        return mcqQ(`دنباله مربعات: ${seq.join(", ")}, ؟`, options, ans);
+      }
+      if(kind==="diff"){
+        // second difference constant
+        const a=rand(1,6), d=rand(2,6);
+        const seq=[a, a+d, a+3*d, a+6*d]; // differences d,2d,3d
+        const ans=a+10*d; // next add 4d
+        const options=shuffle([ans, ans+d, ans- d, ans+2*d]);
+        return mcqQ(`دنباله: ${seq.join(", ")}, ؟`, options, ans, `تفاضل‌ها رشد می‌کند`);
+      }
+      // mixed
+      const a=rand(2,6);
+      const seq=[a, a+2, (a+2)*2, (a+2)*2+2];
+      const ans=(a+2)*4;
+      const options=shuffle([ans, ans+2, ans-2, (a+2)*3]);
+      return mcqQ(`دنباله: ${seq.join(", ")}, ؟`, options, ans, `دو مرحله‌ای`);
+    }
+
+    // grade 9
+    const kind=pick(["formula","alt2","quad"]);
+    if(kind==="formula"){
+      const n=rand(4,8);
+      const f = (k)=> k*k - k; // n^2-n
+      const seq=[f(1),f(2),f(3),f(4)];
+      const ans=f(5);
+      const options=shuffle([ans, f(6), ans+2, ans-2]);
+      return mcqQ(`دنباله با جمله nام: n²−n. دنباله: ${seq.join(", ")}, ؟`, options, ans);
+    }
+    if(kind==="alt2"){
+      // alternating with two rules
+      const a=rand(1,6), b=rand(10,20);
+      const seq=[a,b,a+2,b-3,a+4];
+      const ans=b-6;
+      const options=shuffle([ans, b-3, b-9, b-12]);
+      return mcqQ(`دنباله: ${seq.join(", ")}, ؟`, options, ans, `تناوب دو قانون`);
+    }
+    // quad
+    const s=[1,4,9,16,25];
+    const take=pick([4,5]);
+    const seq=s.slice(0,take);
+    const ans=s[take];
+    const options=shuffle([ans, ans+2*take+1, ans-1, ans+7]);
+    return mcqQ(`دنباله: ${seq.join(", ")}, ؟`, options, ans, `الگوی مربعات`);
+  },
+
+  math_percent: (grade)=>{
+    if(grade===7){
+      const p=pick([10,20,25,50]);
+      const base=pick([40,60,80,100,120,200]);
+      const ans=base*p/100;
+      const options=shuffle([ans, ans+base/10, ans-base/10, ans+base/20].map(x=>Math.round(x)));
+      return mcqQ(`${p}٪ از ${base} ؟`, options, Math.round(ans));
+    }
+    if(grade===8){
+      // increase/decrease
+      const p=pick([10,15,20,25,30]);
+      const base=pick([80,120,150,200,240,300]);
+      const inc=pick([true,false]);
+      const ans=base*(100+(inc?p:-p))/100;
+      const options=shuffle([ans, base, base*(100+(inc?(p+5):(p-5)))/100, base*(100+(inc?(p-5):(p+5)))/100].map(x=>Math.round(x)));
+      return mcqQ(`${inc?"افزایش":"کاهش"} ${p}٪ روی ${base}، نتیجه؟`, options, Math.round(ans));
+    }
+    // grade 9: successive percent
+    const base=pick([200,240,300,360,400]);
+    const p1=pick([10,15,20,25]);
+    const p2=pick([10,15,20]);
+    const inc1=pick([true,false]);
+    const inc2=pick([true,false]);
+    const after1=base*(100+(inc1?p1:-p1))/100;
+    const after2=after1*(100+(inc2?p2:-p2))/100;
+    const ans=Math.round(after2);
+    const options=shuffle([ans, Math.round(after1), Math.round(base*(100+p1+p2)/100), Math.round(base*(100+(inc1?p1:-p1)+(inc2?p2:-p2))/100)]);
+    return mcqQ(`عدد ${base} ابتدا ${inc1?"افزایش":"کاهش"} ${p1}٪ و سپس ${inc2?"افزایش":"کاهش"} ${p2}٪ دارد. نتیجه؟`, options, ans);
+  },
+
+  math_primehunt: (grade)=>{
+    // تبدیل به «اول/بخش‌پذیری/تجزیه» تا برای نهم هم ساده نباشد
+    if(grade===7){
+      const correctPrime=pick([29,31,37,41,43,47,53,59]);
+      const comp=pick([21,27,33,35,39,49,51,55,57]);
+      const other=pick([25,45,63,77,91]);
+      const options=shuffle([correctPrime, comp, other, comp+2]);
+      return mcqQ("کدام عدد اول است؟", options, correctPrime, "یادت باشد: ۲ تنها عدد اولِ زوج است.");
+    }
+    if(grade===8){
+      // divisibility trick
+      const n=pick([198,234,252,288,306,315,342,360,378,396]);
+      const q = `عدد ${n} بر کدام عدد حتماً بخش‌پذیر است؟`;
+      const options=[3,9,6,12].map(String);
+      // compute
+      let ans=3;
+      if(n%9===0) ans=9;
+      else if(n%12===0) ans=12;
+      else if(n%6===0) ans=6;
+      const shuffled=shuffle(options);
+      return mcqQ(q, shuffled, String(ans), "بخش‌پذیری را هوشمند بررسی کن.");
+    }
+    // grade 9: gcd/lcm with primes
+    const a=pick([30,42,60,70,84,90,96,105]);
+    const b=pick([36,48,63,72,80,98,120,140]);
+    const g=gcd(a,b);
+    const l=(a*b)/g;
+    const ask=pick(["gcd","lcm"]);
+    if(ask==="gcd"){
+      const options=shuffle([g, g*2, g/2, g+6].map(x=>Math.round(x)));
+      return mcqQ(`ب.م.مِ ${a} و ${b} کدام است؟`, options, g, "تجزیه به عوامل اول کمک می‌کند.");
+    } else {
+      const options=shuffle([l, l/2, l*2, l+10].map(x=>Math.round(x)));
+      return mcqQ(`ک.م.مِ ${a} و ${b} کدام است؟`, options, l);
+    }
+  },
+
+  math_fraction: (grade)=>{
+    if(grade===7){
+      // compare fractions with close values
+      const a=rand(1,7), b=rand(a+1,12);
+      const c=rand(1,7), d=rand(c+1,12);
+      const v1=a/b, v2=c/d;
+      const bigger = v1>v2 ? `${a}/${b}` : `${c}/${d}`;
+      const options=shuffle([`${a}/${b}`,`${c}/${d}`,`${a+1}/${b}`,`${c+1}/${d}`]);
+      return mcqQ("کدام کسر بزرگ‌تر است؟", options, bigger);
+    }
+    if(grade===8){
+      // simplify / equivalent fraction
+      const k=pick([2,3,4,5]);
+      const a=rand(1,9), b=rand(a+1,12);
+      const num=a*k, den=b*k;
+      const options=shuffle([`${a}/${b}`,`${num}/${den}`,`${a}/${den}`,`${num}/${b}`]);
+      return mcqQ(`کدام کسر با ${num}/${den} برابر است؟`, options, `${a}/${b}`, "ساده‌سازی کن.");
+    }
+    // grade 9: rational comparison using cross-multiplication trick
+    const a=rand(1,9), b=rand(2,10), c=rand(1,9), d=rand(2,10);
+    const left=a/b, right=c/d;
+    const sign= left>right ? "بزرگ‌تر" : "کوچک‌تر";
+    const correct = left>right ? `${a}/${b}` : `${c}/${d}`;
+    const options=shuffle([`${a}/${b}`,`${c}/${d}`,`${a+1}/${b}`,`${c+1}/${d}`]);
+    return mcqQ(`کدام کسر ${sign} است؟`, options, correct, "ضرب‌چلیپایی (Cross) کمک می‌کند.");
+  },
+};
+
+/* ---------- کمک برای ساخت MCQ با گزینه‌های عددی/متنی ---------- */
+function mcqQ(question, options, correctValue, exp){
+  // correctValue ممکن است عدد یا رشته باشد
+  const corr = String(correctValue);
+  const opts = options.map(String);
+  const answerIndex = opts.findIndex(x=>x===corr);
+  // اگر به‌خاطر تصادف پیدا نشد، اصلاح
+  const fixedOpts = answerIndex>=0 ? opts : (()=>{
+    const f=[...opts];
+    f[0]=corr;
+    return shuffle(f);
+  })();
+  const idx = fixedOpts.findIndex(x=>x===corr);
+  return {q:question, options:fixedOpts, answer:idx, exp:exp||"" , __id: "mcq:"+hashStr(question+"|"+fixedOpts.join(",")+"|"+corr) };
+}
+
+/* ---------- gcd ---------- */
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ [a,b]=[b,a%b]; } return a; }
+
+/* =========================================================
+   3) ضدتکرار: نگهداری تاریخچه استفاده‌شده (برای هر بازی+پایه)
+   ========================================================= */
+function usedKey(gameId, grade){ return `PHOENIX_USED_${gameId}_${grade}`; }
+function loadUsed(gameId, grade){
+  try{
+    const raw = localStorage.getItem(usedKey(gameId,grade));
+    const arr = raw ? JSON.parse(raw) : [];
+    return new Set(arr);
+  }catch{ return new Set(); }
+}
+function saveUsed(gameId, grade, set){
+  // محدودیت برای حجم: 250 مورد آخر
+  const arr = Array.from(set).slice(-250);
+  localStorage.setItem(usedKey(gameId,grade), JSON.stringify(arr));
+}
+function resetAllUsed(){
+  // تمام کلیدهای used را پاک می‌کنیم
+  const keys=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && k.startsWith("PHOENIX_USED_")) keys.push(k);
+  }
+  keys.forEach(k=>localStorage.removeItem(k));
+  notice("✅ تاریخچه ضدتکرار پاک شد (از این به بعد سوال‌ها از اول چرخه می‌شوند).");
+}
+
+/* =========================================================
+   4) UI: کارت‌ها + فیلتر + نمایش فقط بازی‌های مناسب پایه
+   ========================================================= */
+const cardsEl = document.getElementById("cards");
+const filtersEl = document.getElementById("filters");
+let currentFilter = "all";
+let currentGame = null;
+
+function gameAvailableForGrade(gameId, grade){
+  // اگر بانک ثابت دارد یا مولد دارد
+  const hasStatic = DB[gameId] && DB[gameId][grade] && DB[gameId][grade].length;
+  const hasGen = typeof GENERATORS[gameId] === "function";
+  // بازی‌های عمومی برای همه
+  if(gameId.startsWith("general_")) return true;
+  return !!(hasStatic || hasGen);
+}
+
+function renderCards(){
+  cardsEl.innerHTML = "";
+  const list = GAMES
+    .filter(g => currentFilter==="all" ? true : g.cat===currentFilter)
+    .filter(g => currentGrade ? gameAvailableForGrade(g.id, currentGrade) : true);
+
+  list.forEach(g=>{
+    const best = getBest(g.id, currentGrade || 0);
+    const div = document.createElement("div");
+    div.className = `card ${g.cat}`;
+    const enabled = currentGrade && gameAvailableForGrade(g.id, currentGrade);
+    div.innerHTML = `
+      <h3>${g.emoji} ${g.title}</h3>
+      <p>${g.desc}</p>
+      <div class="tagrow">
+        <span class="tag">دسته: ${catName(g.cat)}</span>
+        <span class="tag">پایه: ${currentGrade ? currentGrade : "انتخاب نشده"}</span>
+        <span class="tag">رکورد: ${best}</span>
+        <span class="tag">${enabled ? "فعال" : "قفل"}</span>
+      </div>
+      <button class="play-btn" ${enabled ? "" : "disabled"} style="${enabled?"":"opacity:.6;cursor:not-allowed"}">
+        ${enabled ? "شروع بازی" : "اول پایه را انتخاب کن"}
+      </button>
+    `;
+    div.querySelector("button").onclick = ()=> {
+      if(!currentGrade){ openGradeModal(); return; }
+      openGame(g.id);
+    };
+    cardsEl.appendChild(div);
+  });
+
+  if(!list.length){
+    cardsEl.innerHTML = `<div class="small">برای این فیلتر/پایه فعلاً بازی‌ای موجود نیست.</div>`;
+  }
+}
+function catName(cat){
+  return ({persian:"فارسی",math:"ریاضی",science:"علوم",general:"عمومی"})[cat] || cat;
+}
+filtersEl.addEventListener("click",(e)=>{
+  const btn = e.target.closest(".pill");
+  if(!btn) return;
+  [...filtersEl.querySelectorAll(".pill")].forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  currentFilter = btn.dataset.filter;
+  renderCards();
+});
+renderCards();
+
+/* =========================================================
+   5) Router: خانه/بازی
+   ========================================================= */
+const homeView = document.getElementById("homeView");
+const gameView = document.getElementById("gameView");
+
+function goHome(){
+  stopTimer();
+  homeView.style.display = "block";
+  gameView.style.display = "none";
+  currentGame = null;
+  renderCards();
+}
+
+function openGame(id){
+  if(!currentGrade){ openGradeModal(); return; }
+  stopTimer();
+  currentGame = GAMES.find(x=>x.id===id);
+
+  // اگر این بازی برای پایه سوال ندارد
+  if(!gameAvailableForGrade(id, currentGrade)){
+    alert("این بازی برای پایه انتخابی شما فعلاً سوال ندارد.");
+    return;
+  }
+
+  homeView.style.display = "none";
+  gameView.style.display = "block";
+
+  document.getElementById("gTitle").innerText = `${currentGame.emoji} ${currentGame.title}`;
+  document.getElementById("gDesc").innerText = currentGame.desc;
+  document.getElementById("sGrade").innerText = currentGrade;
+
+  document.getElementById("sBest").innerText = getBest(currentGame.id, currentGrade);
+
+  resetRuntime(true);
+  buildGameIntro();
+}
+
+/* =========================================================
+   6) Runtime + رکورد (به تفکیک پایه)
+   ========================================================= */
+let idx=0, score=0, total=0;
+let timer=null, remaining=0, timeMode=false;
+let pool = []; // pool سوالات این بازی
+let usedSet = null;
+
+function bestKey(id, grade){ return `PHOENIX_BEST_${id}_${grade}`; }
+function getBest(id, grade){ return Number(localStorage.getItem(bestKey(id,grade))||0); }
+function setBest(id, grade, val){ localStorage.setItem(bestKey(id,grade), String(val)); }
+
+function resetBest(){
+  if(!currentGame || !currentGrade) return;
+  localStorage.removeItem(bestKey(currentGame.id, currentGrade));
+  document.getElementById("sBest").innerText = 0;
+  notice("✅ رکورد این بازی برای این پایه ریست شد.");
+  renderCards();
+}
+
+function resetRuntime(hard=false){
+  idx=0; score=0; total=0;
+  pool=[]; usedSet=null;
+  document.getElementById("sScore").innerText = "0";
+  document.getElementById("sQ").innerText = "0/0";
+  document.getElementById("sTime").innerText = "—";
+  document.getElementById("notice").innerText = "";
+  document.getElementById("hint").innerText = "";
+  document.getElementById("startBtn").innerText = "شروع";
+  if(hard) document.getElementById("question").innerText = "برای شروع، دکمه‌ی «شروع» را بزن.";
+  document.getElementById("content").innerHTML = "";
+}
+
+function restartGame(){
+  if(!currentGame) return;
+  stopTimer();
+  resetRuntime(true);
+  buildGameIntro();
+}
+
+function notice(msg){ document.getElementById("notice").innerText = msg; }
+
+function updateStats(){
+  document.getElementById("sScore").innerText = score;
+  document.getElementById("sQ").innerText = `${Math.min(idx,total)}/${total}`;
+  document.getElementById("sBest").innerText = currentGame && currentGrade ? getBest(currentGame.id, currentGrade) : 0;
+}
+
+function finishGame(extra=""){
+  stopTimer();
+  const best = getBest(currentGame.id, currentGrade);
+  if(score>best){ setBest(currentGame.id, currentGrade, score); }
+  updateStats();
+  document.getElementById("content").innerHTML = `
+    <div class="hr"></div>
+    <div class="notice">🎉 پایان بازی! امتیاز تو: <b>${score}</b> ${score>best? " | 🏆 رکورد جدید!":""}</div>
+    ${extra? `<div class="small">${extra}</div>`:""}
+  `;
+  document.getElementById("startBtn").innerText = "شروع";
+  renderCards();
+}
+
+function startTimer(seconds){
+  timeMode = true;
+  remaining = seconds;
+  document.getElementById("sTime").innerText = remaining+"s";
+  timer = setInterval(()=>{
+    remaining--;
+    document.getElementById("sTime").innerText = remaining+"s";
+    if(remaining<=0){
+      stopTimer();
+      finishGame("زمان تمام شد.");
+    }
+  }, 1000);
+}
+function stopTimer(){
+  if(timer){ clearInterval(timer); timer=null; }
+  timeMode=false;
+}
+
+/* =========================================================
+   7) ساخت Pool سوالات (ثابت + مولد) و ضدتکرار
+   ========================================================= */
+function buildPool(gameId, grade){
+  // used history
+  usedSet = loadUsed(gameId, grade);
+
+  // static questions
+  const staticList = (DB[gameId] && DB[gameId][grade]) ? DB[gameId][grade] : [];
+  const staticWithId = staticList.map((q,i)=> ({...q, __id: q.__id || `${gameId}:${grade}:S:${i}:${hashStr(JSON.stringify(q))}`}));
+
+  // add generated questions for "big bank"
+  const genFn = GENERATORS[gameId];
+  const generated = [];
+  if(typeof genFn==="function"){
+    // تولید چند سوال جدید (هر بار 40 تا) تا احساس تکرار خیلی کم شود
+    let guard=0;
+    while(generated.length<40 && guard<250){
+      guard++;
+      const q = genFn(grade);
+      if(!q || !q.__id) continue;
+      if(usedSet.has(q.__id)) continue; // ضدتکرار
+      generated.push(q);
+    }
+  }
+
+  // ترکیب و شافل
+  const combined = shuffle(uniqById([...staticWithId, ...generated]));
+
+  // اگر همه اینها در used بودند، used را سبک می‌کنیم (برای جلوگیری از قفل شدن)
+  // (در عمل با مولدها کمتر پیش می‌آید)
+  return combined;
+}
+
+function getNextQuestionFromPool(){
+  // اگر pool خالی شد، دوباره بساز
+  if(pool.length===0){
+    pool = buildPool(currentGame.id, currentGrade);
+    // اگر باز هم خالی بود:
+    if(pool.length===0) return null;
+  }
+
+  // از انتها pop، ولی اگر used بود رد کن
+  let tries=0;
+  while(pool.length && tries<200){
+    tries++;
+    const q = pool.pop();
+    if(!q || !q.__id) continue;
+    if(usedSet && usedSet.has(q.__id)) continue;
+    // mark used
+    if(usedSet){
+      usedSet.add(q.__id);
+      saveUsed(currentGame.id, currentGrade, usedSet);
+    }
+    return q;
+  }
+
+  return null;
+}
+
+/* =========================================================
+   8) Game Engine (نوع‌های بازی)
+   ========================================================= */
+function buildGameIntro(){
+  const type = currentGame.type;
+  const hint = {
+    mcq:"روش: گزینه درست را انتخاب کن.",
+    tf:"روش: «درست/غلط» را انتخاب کن.",
+    order:"روش: روی آیتم‌ها بزن تا به ترتیب درست چیده شوند.",
+    pickWord:"روش: روی کلمه‌ی غلط/نامتعارف کلیک کن.",
+    match:"روش: یک مورد از ستون چپ و یکی از راست را انتخاب کن تا جفت شوند.",
+    memory:"روش: کارت‌ها را برگردان و جفت‌ها را پیدا کن.",
+    clicker:"روش: فقط کلیک کن تا امتیاز بالا بره!",
+    timed_mcq:"روش: در زمان محدود پاسخ بده."
+  }[type] || "روش: بازی را شروع کن.";
+
+  document.getElementById("hint").innerText = hint + " (سوال‌ها بر اساس پایه تنظیم شده‌اند.)";
+}
+
+function startCurrent(){
+  if(!currentGrade){ openGradeModal(); return; }
+  if(!currentGame) return;
+
+  stopTimer();
+  resetRuntime(false);
+
+  // special games
+  if(currentGame.type==="memory"){
+    total = 6; // جفت‌ها
+    updateStats();
+    runMemory();
+    document.getElementById("startBtn").innerText = "در حال بازی";
+    return;
+  }
+  if(currentGame.type==="clicker"){
+    total = 1;
+    idx = 1;
+    updateStats();
+    startTimer(currentGame.seconds || 10);
+    runClicker();
+    document.getElementById("startBtn").innerText = "در حال بازی";
+    return;
+  }
+  if(currentGame.type==="match"){
+    // از DB ثابت استفاده می‌کنیم
+    const block = (DB[currentGame.id] && DB[currentGame.id][currentGrade] && DB[currentGame.id][currentGrade][0]) ? DB[currentGame.id][currentGrade][0] : null;
+    if(!block){ notice("❌ برای این پایه سوالی وجود ندارد."); return; }
+    runMatch(block);
+    document.getElementById("startBtn").innerText = "در حال بازی";
+    return;
+  }
+
+  // pool
+  pool = buildPool(currentGame.id, currentGrade);
+  if(!pool.length){
+    notice("❌ برای این بازی در این پایه سوالی پیدا نشد.");
+    return;
+  }
+
+  // تعداد سوالات هر دست بازی (برای اینکه بازی‌ها سریع و جذاب باشند)
+  // در صورت مولد بودن، بی‌نهایت ممکن است؛ ما برای هر دور 12 سوال می‌دهیم.
+  total = currentGame.type==="timed_mcq" ? 9999 : Math.min(12, pool.length + 9999); // تایم‌دار محدود به زمان؛ غیرتایم‌دار 12 سوال
+  idx = 0; score = 0;
+  updateStats();
+
+  // timer if needed
+  if(currentGame.type==="timed_mcq"){
+    startTimer(currentGame.seconds || 30);
+  }
+
+  renderQuestion();
+  document.getElementById("startBtn").innerText = "در حال بازی";
+}
+
+function next(){
+  idx++;
+  updateStats();
+
+  // پایان در بازی‌های غیرتایم‌دار بعد از 12 سوال
+  if(currentGame.type!=="timed_mcq" && idx>=12){
+    finishGame("۱۲ سؤال تمام شد. برای یک دور تازه «شروع دوباره» را بزن.");
+    return;
+  }
+
+  if(currentGame.type==="timed_mcq" && (!timeMode || remaining<=0)){
+    // تایمر تمام شده
+    finishGame("زمان تمام شد.");
+    return;
+  }
+
+  renderQuestion();
+}
+
+/* ---------- رندر سؤال ---------- */
+let currentQ = null;
+
+function renderQuestion(){
+  const type = currentGame.type;
+  const q = getNextQuestionFromPool();
+  if(!q){
+    finishGame("بانک سؤال فعلی تمام شد؛ تاریخچه را ریست کن یا دوباره شروع کن تا سؤال‌های تازه ساخته شود.");
+    return;
+  }
+  currentQ = q;
+
+  if(type==="mcq" || type==="timed_mcq") runMCQ(q);
+  else if(type==="tf") runTF(q);
+  else if(type==="order") runOrder(q);
+  else if(type==="pickWord") runPickWord(q);
+  else runMCQ(q);
+
+  updateStats();
+}
+
+/* ---------- MCQ ---------- */
+function runMCQ(qObj){
+  document.getElementById("question").innerText = qObj.q;
+  const content = document.getElementById("content");
+  content.innerHTML = `<div class="options" id="opts"></div><div class="small" id="exp"></div>`;
+  const opts = content.querySelector("#opts");
+  const exp = content.querySelector("#exp");
+
+  qObj.options.forEach((text,i)=>{
+    const b=document.createElement("button");
+    b.className="optbtn";
+    b.innerText=text;
+    b.onclick=()=>{
+      // قفل پاسخ
+      [...opts.querySelectorAll("button")].forEach(x=>x.disabled=true);
+
+      const ok = (i===qObj.answer);
+      if(ok){
+        score++;
+        notice("✅ درست!");
+        b.classList.add("correct");
+      } else {
+        notice("❌ غلط!");
+        b.classList.add("wrong");
+        opts.querySelectorAll("button")[qObj.answer]?.classList.add("correct");
+      }
+
+      if(qObj.exp){
+        exp.innerText = "نکته: " + qObj.exp;
+      } else {
+        exp.innerText = "";
+      }
+
+      updateStats();
+      setTimeout(()=>{ if(!timeMode || remaining>0) next(); }, 650);
+    };
+    opts.appendChild(b);
+  });
+}
+
+/* ---------- True/False ---------- */
+function runTF(qObj){
+  document.getElementById("question").innerText = qObj.q;
+  const content = document.getElementById("content");
+  content.innerHTML = `
+    <div class="options">
+      <button class="optbtn" id="tBtn">درست ✅</button>
+      <button class="optbtn" id="fBtn">غلط ❌</button>
+    </div>
+    <div class="small" style="margin-top:10px" id="exp"></div>
+  `;
+  const tBtn = content.querySelector("#tBtn");
+  const fBtn = content.querySelector("#fBtn");
+  const exp  = content.querySelector("#exp");
+
+  const choose=(val,btn)=>{
+    tBtn.disabled=true; fBtn.disabled=true;
+    const ok = (val===qObj.answer);
+    if(ok){ score++; notice("✅ درست!"); btn.classList.add("correct"); }
+    else{ notice("❌ غلط!"); btn.classList.add("wrong"); (qObj.answer?tBtn:fBtn).classList.add("correct"); }
+    if(qObj.exp) exp.innerText = "توضیح: " + qObj.exp;
+    updateStats();
+    setTimeout(()=>{ next(); }, 750);
+  };
+  tBtn.onclick=()=>choose(true,tBtn);
+  fBtn.onclick=()=>choose(false,fBtn);
+}
+
+/* ---------- Order (tap-to-build) ---------- */
+function runOrder(qObj){
+  document.getElementById("question").innerText = qObj.q;
+  const content = document.getElementById("content");
+
+  const poolItems = shuffle([...qObj.items]);
+  let built = [];
+
+  content.innerHTML = `
+    <div class="small">روی آیتم‌ها بزن تا ترتیب ساخته شود. برای حذف آخرین، «برگشت».</div>
+    <div class="row" style="margin-top:10px">
+      <div class="stat" style="flex:1;min-width:240px">ساخته‌شده: <span id="built">—</span></div>
+      <button class="btn ghost" id="undo">برگشت</button>
+      <button class="btn" id="check">بررسی</button>
+    </div>
+    <div class="list" id="list"></div>
+  `;
+  const list = content.querySelector("#list");
+  const builtEl = content.querySelector("#built");
+
+  function renderBuilt(){ builtEl.innerText = built.length ? built.join(" ") : "—"; }
+  renderBuilt();
+
+  poolItems.forEach((w)=>{
+    const it=document.createElement("div");
+    it.className="item";
+    it.innerHTML=`<span>${w}</span><span class="small">اضافه</span>`;
+    it.onclick=()=>{
+      built.push(w);
+      it.style.opacity=".35";
+      it.style.pointerEvents="none";
+      renderBuilt();
+    };
+    list.appendChild(it);
+  });
+
+  content.querySelector("#undo").onclick=()=>{
+    if(!built.length) return;
+    const last = built.pop();
+    [...list.children].forEach(ch=>{
+      if(ch.firstChild?.textContent===last && ch.style.pointerEvents==="none"){
+        ch.style.opacity="1";
+        ch.style.pointerEvents="auto";
+        return;
+      }
+    });
+    renderBuilt();
+  };
+
+  content.querySelector("#check").onclick=()=>{
+    const ok = arrayEq(built, qObj.answer);
+    if(ok){ score++; notice("✅ عالی! ترتیب درست بود."); updateStats(); setTimeout(()=>next(),650); }
+    else{
+      notice("❌ ترتیب درست نیست. دوباره تلاش کن.");
+    }
+  };
+}
+function arrayEq(a,b){
+  if(a.length!==b.length) return false;
+  for(let i=0;i<a.length;i++) if(a[i]!==b[i]) return false;
+  return true;
+}
+
+/* ---------- Pick wrong word ---------- */
+function runPickWord(qObj){
+  document.getElementById("question").innerText = qObj.q;
+  const content = document.getElementById("content");
+
+  content.innerHTML = `
+    <div class="small">جمله: <span class="kbd">${qObj.sentence}</span></div>
+    <div class="options" id="wopts" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));"></div>
+    <div class="small" style="margin-top:10px" id="exp"></div>
+  `;
+  const wopts = content.querySelector("#wopts");
+  const exp = content.querySelector("#exp");
+
+  qObj.words.forEach(w=>{
+    const b=document.createElement("button");
+    b.className="optbtn";
+    b.innerText=w;
+    b.onclick=()=>{
+      [...wopts.querySelectorAll("button")].forEach(x=>x.disabled=true);
+      const ok = (w===qObj.wrong);
+      if(ok){ score++; notice("✅ درست!"); b.classList.add("correct"); }
+      else{
+        notice("❌ نه!");
+        b.classList.add("wrong");
+        [...wopts.querySelectorAll("button")].find(x=>x.innerText===qObj.wrong)?.classList.add("correct");
+      }
+      if(qObj.exp) exp.innerText = "نکته: " + qObj.exp;
+      updateStats();
+      setTimeout(()=>next(),850);
+    };
+    wopts.appendChild(b);
+  });
+}
+
+/* ---------- Match pairs ---------- */
+function runMatch(block){
+  const pairs = block.pairs;
+  total = pairs.length;
+  idx = 0;
+  updateStats();
+
+  document.getElementById("question").innerText = "جفت‌ها را کامل کن: (یک مورد از چپ + یک مورد از راست)";
+  const content = document.getElementById("content");
+
+  const left = shuffle(pairs.map(p=>p[0]));
+  const right = shuffle(pairs.map(p=>p[1]));
+
+  let selL=null, selR=null;
+  let matchedCount = 0;
+
+  content.innerHTML = `
+    <div class="pairwrap">
+      <div class="paircol">
+        <h4>مورد</h4>
+        <div id="L"></div>
+      </div>
+      <div class="paircol">
+        <h4>کارکرد/توضیح</h4>
+        <div id="R"></div>
+      </div>
+    </div>
+    <div class="small" style="margin-top:10px">هر جفت درست = ۱ امتیاز.</div>
+  `;
+
+  const L = content.querySelector("#L");
+  const R = content.querySelector("#R");
+
+  function isCorrect(a,b){
+    return pairs.some(p=>p[0]===a && p[1]===b);
+  }
+  function updateMatchProgress(){
+    document.getElementById("sQ").innerText = `${matchedCount}/${total}`;
+    document.getElementById("sScore").innerText = score;
+  }
+
+  left.forEach(txt=>{
+    const b=document.createElement("button");
+    b.className="pairbtn";
+    b.innerText=txt;
+    b.onclick=()=>{
+      if(b.classList.contains("matched")) return;
+      [...L.querySelectorAll(".pairbtn")].forEach(x=>x.classList.remove("selected"));
+      b.classList.add("selected"); selL=txt;
+      attempt();
+    };
+    L.appendChild(b);
+  });
+  right.forEach(txt=>{
+    const b=document.createElement("button");
+    b.className="pairbtn";
+    b.innerText=txt;
+    b.onclick=()=>{
+      if(b.classList.contains("matched")) return;
+      [...R.querySelectorAll(".pairbtn")].forEach(x=>x.classList.remove("selected"));
+      b.classList.add("selected"); selR=txt;
+      attempt();
+    };
+    R.appendChild(b);
+  });
+
+  function attempt(){
+    if(!selL || !selR) return;
+    const ok = isCorrect(selL, selR);
+    if(ok){
+      score++;
+      matchedCount++;
+      notice("✅ جفت درست!");
+      const lb = [...L.querySelectorAll(".pairbtn")].find(x=>x.innerText===selL);
+      const rb = [...R.querySelectorAll(".pairbtn")].find(x=>x.innerText===selR);
+      lb.classList.remove("selected"); rb.classList.remove("selected");
+      lb.classList.add("matched"); rb.classList.add("matched");
+      lb.disabled=true; rb.disabled=true;
+      selL=null; selR=null;
+      updateMatchProgress();
+      if(matchedCount===total){
+        finishGame("همه جفت‌ها کامل شد 👌");
+      }
+    }else{
+      notice("❌ این جفت درست نیست.");
+      setTimeout(()=>{
+        [...L.querySelectorAll(".pairbtn")].forEach(x=>x.classList.remove("selected"));
+        [...R.querySelectorAll(".pairbtn")].forEach(x=>x.classList.remove("selected"));
+        selL=null; selR=null;
+      }, 350);
+    }
+  }
+
+  document.getElementById("hint").innerText = "هدف: همه جفت‌ها را کامل کن.";
+  document.getElementById("startBtn").innerText = "در حال بازی";
+  document.getElementById("sTime").innerText = "—";
+  updateMatchProgress();
+}
+
+/* ---------- Memory ---------- */
+function runMemory(){
+  document.getElementById("question").innerText = "حافظه جفت‌ها: کارت‌ها را پیدا کن!";
+  document.getElementById("hint").innerText = "روی دو کارت بزن؛ اگر مثل هم بودند، می‌مانند.";
+
+  const content = document.getElementById("content");
+
+  // کارت‌ها را بسته به پایه کمی متفاوت می‌کنیم
+  const sets = {
+    7:["⚡","⚡","📘","📘","🔬","🔬","⭐","⭐","🧠","🧠","🎯","🎯"],
+    8:["🧩","🧩","📗","📗","🧪","🧪","🎮","🎮","🧠","🧠","🏁","🏁"],
+    9:["🧠","🧠","📐","📐","🧬","🧬","🚀","🚀","🎯","🎯","🏆","🏆"]
+  };
+  const cards = shuffle(sets[currentGrade] || sets[8]);
+
+  let open = [];
+  let matched = new Set();
+
+  content.innerHTML = `
+    <div class="options" id="mem" style="grid-template-columns:repeat(4,minmax(60px,1fr));"></div>
+    <div class="small" style="margin-top:10px">امتیاز = تعداد جفت‌های پیدا شده.</div>
+  `;
+  const mem = content.querySelector("#mem");
+
+  function flip(i){
+    if(matched.has(i) || open.includes(i) || open.length===2) return;
+    mem.children[i].innerText = cards[i];
+    open.push(i);
+
+    if(open.length===2){
+      const [a,b] = open;
+      const ok = cards[a]===cards[b];
+      setTimeout(()=>{
+        if(ok){
+          matched.add(a); matched.add(b);
+          score++;
+          notice("✅ جفت پیدا شد!");
+          document.getElementById("sScore").innerText = score;
+          document.getElementById("sQ").innerText = `${score}/${total}`;
+          if(score===total) finishGame("همه جفت‌ها کامل شد 👌");
+        }else{
+          mem.children[a].innerText="❓";
+          mem.children[b].innerText="❓";
+          notice("❌ جفت نبود.");
+        }
+        open=[];
+      }, 450);
+    }
+  }
+
+  for(let i=0;i<cards.length;i++){
+    const b=document.createElement("button");
+    b.className="optbtn";
+    b.style.minHeight="58px";
+    b.innerText="❓";
+    b.onclick=()=>flip(i);
+    mem.appendChild(b);
+  }
+
+  document.getElementById("startBtn").innerText = "در حال بازی";
+  document.getElementById("sTime").innerText = "—";
+  document.getElementById("sQ").innerText = `0/${total}`;
+}
+
+/* ---------- Clicker ---------- */
+function runClicker(){
+  document.getElementById("question").innerText = "در ۱۰ ثانیه تا می‌تونی کلیک کن!";
+  document.getElementById("hint").innerText = "هر کلیک = ۱ امتیاز. وقتی تایمر تمام شد، بازی تمام می‌شود.";
+  const content = document.getElementById("content");
+
+  content.innerHTML = `
+    <div class="row">
+      <button class="btn" id="tap" style="flex:1;min-height:60px;font-size:16px">👆 کلیک کن!</button>
+      <button class="btn ghost" id="minus">-1</button>
+    </div>
+    <div class="small" style="margin-top:10px">دکمه -1 برای کم کردن کلیکِ اشتباهی است.</div>
+  `;
+  content.querySelector("#tap").onclick=()=>{
+    score++;
+    notice("🔥 ادامه بده!");
+    updateStats();
+  };
+  content.querySelector("#minus").onclick=()=>{
+    score = Math.max(0, score-1);
+    updateStats();
+  };
+}
+
+/* =========================================================
+   9) هش برای idهای ضدتکرار
+   ========================================================= */
+function hashStr(str){
+  // hash سبک (djb2)
+  let h=5381;
+  for(let i=0;i<str.length;i++){
+    h=((h<<5)+h) ^ str.charCodeAt(i);
+  }
+  return (h>>>0).toString(16);
+}
+
+/* =========================================================
+   10) Hash Router (اختیاری)
+   ========================================================= */
+function goFromHash(){
+  const h = (location.hash||"").replace("#","");
+  if(!h) return;
+  const g = GAMES.find(x=>x.id===h);
+  if(g){
+    if(!currentGrade){ openGradeModal(); return; }
+    openGame(h);
+  }
+}
+window.addEventListener("hashchange", goFromHash);
+goFromHash();
+</script>
+
+<script>
+/* =========================================================
+   11) بازی‌های ثابتِ بدون مولد:
+   - چون برای همه پایه‌ها «سمپادی‌تر» بخواهیم، این‌ها هم با pool ساخته می‌شوند
+   - اما این بازی‌ها از DB ثابت + مقدار کمی مولدهای عمومی ریاضی (در buildPool) هم استفاده می‌کنند
+   ========================================================= */
+
+function ensureGameBanks(){
+  // بانک‌های پایه‌ای برای بازی‌هایی که مولد ندارند: math_speed/math_equation/... مولد دارند.
+  // برای بازی‌های بدون مولد هم اگر بانکشان کم بود، از خود مولدهای نزدیک کمک می‌گیریم:
+  // - برای math_monster، خودش بانک ثابت دارد.
+  // - برای فارسی‌ها بانک ثابت دارد.
+  // - برای sciences بانک ثابت دارد.
+  // - برای math_primehunt/math_fraction مولد دارند.
+  // - برای math_monster بانک ثابت دارد.
+  // OK.
+}
+ensureGameBanks();
+
+/* هر بار که پایه تغییر کرد، کارت‌ها را رندر کنیم */
+const _setGrade = setGrade;
+setGrade = function(g){
+  _setGrade(g);
+  document.getElementById("sGrade").innerText = g;
+  renderCards();
+};
+</script>
+
+</body>
+</html>
