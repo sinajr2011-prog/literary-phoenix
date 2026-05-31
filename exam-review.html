@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرور آزمون | ققنوس ادب</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .review-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* هدر مرور */
+        .review-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .review-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .review-title h1 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .review-meta {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .review-score {
+            background: linear-gradient(45deg, var(--secondary), #27ae60);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .score-text {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .score-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        /* نوار پیشرفت */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #ecf0f1;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .question-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #bdc3c7;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            background: white;
+        }
+
+        .nav-btn.current {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-btn.correct {
+            border-color: var(--secondary);
+            background: var(--secondary);
+            color: white;
+        }
+
+        .nav-btn.incorrect {
+            border-color: var(--danger);
+            background: var(--danger);
+            color: white;
+        }
+
+        .nav-btn.unanswered {
+            border-color: var(--gray);
+            background: var(--gray);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* محتوای سوال */
+        .question-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .question-number {
+            font-size: 1.3rem;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .question-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .status-correct {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .status-incorrect {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .status-unanswered {
+            background: rgba(149, 165, 166, 0.1);
+            color: var(--gray);
+            border: 1px solid var(--gray);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--dark);
+            margin-bottom: 25px;
+            text-align: justify;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-right: 4px solid var(--primary);
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 20px;
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+
+        .option-item.user-answer {
+            border-color: var(--primary);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .option-item.correct-answer {
+            border-color: var(--secondary);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .option-item.incorrect-answer {
+            border-color: var(--danger);
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .option-marker {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .option-item.user-answer .option-marker {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .option-item.correct-answer .option-marker {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        .answer-indicator {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        .user-answer .answer-indicator {
+            color: var(--primary);
+        }
+
+        .correct-answer .answer-indicator {
+            color: var(--secondary);
+        }
+
+        /* بخش توضیحات */
+        .explanation-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border-right: 4px solid var(--warning);
+        }
+
+        .explanation-title {
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explanation-text {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* پاورقی */
+        .review-footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .answer-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .stat-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-correct { background: var(--secondary); }
+        .dot-incorrect { background: var(--danger); }
+        .dot-unanswered { background: var(--gray); }
+        .dot-user { background: var(--primary); }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, var(--secondary), #27ae60);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, var(--warning), #e67e22);
+            color: white;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .review-container {
+                padding: 15px;
+            }
+
+            .review-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .question-nav {
+                justify-content: center;
+            }
+
+            .nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .review-footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .action-buttons {
+                justify-content: center;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .answer-stats {
+                justify-content: center;
+            }
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes highlight {
+            0% { background-color: rgba(46, 204, 113, 0.3); }
+            100% { background-color: rgba(46, 204, 113, 0.1); }
+        }
+
+        .highlight {
+            animation: highlight 2s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="review-container">
+        <!-- هدر مرور -->
+        <div class="review-header fade-in">
+            <div class="review-info">
+                <div class="review-title">
+                    <h1 id="reviewTitle">📖 در حال بارگذاری آزمون...</h1>
+                    <div class="review-meta" id="reviewMeta">
+                        <span>🎯 درس: ...</span> | 
+                        <span>📅 تاریخ آزمون: ...</span>
+                    </div>
+                </div>
+                <div class="review-score">
+                    <div class="score-text">نمره کسب شده</div>
+                    <div class="score-display" id="scoreDisplay">۰/۰</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- نوار پیشرفت -->
+        <div class="progress-container fade-in">
+            <div class="progress-header">
+                <div class="progress-info">
+                    <strong>پیشرفت مرور:</strong>
+                    <span id="progressText">سوال ۰ از ۰</span>
+                </div>
+                <div class="progress-percent" id="progressPercent">۰٪</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+            
+            <div class="question-nav" id="questionNav">
+                <!-- دکمه‌های شماره سوالات اینجا ساخته می‌شوند -->
+            </div>
+        </div>
+
+        <!-- محتوای سوال -->
+        <div class="question-container fade-in">
+            <div class="question-header">
+                <div class="question-number">سوال شماره <span id="currentQuestionNumber">۰</span></div>
+                <div class="question-status" id="questionStatus">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="statusText">در حال بارگذاری...</span>
+                </div>
+            </div>
+            
+            <div class="question-text" id="questionText">
+                در حال بارگذاری سوال...
+            </div>
+            
+            <div class="options-container" id="optionsContainer">
+                <!-- گزینه‌ها اینجا ساخته می‌شوند -->
+            </div>
+
+            <!-- بخش توضیحات -->
+            <div class="explanation-container" id="explanationContainer">
+                <div class="explanation-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>توضیحات و نکات آموزشی</span>
+                </div>
+                <div class="explanation-text" id="explanationText">
+                    در حال بارگذاری توضیحات...
+                </div>
+            </div>
+        </div>
+
+        <!-- پاورقی -->
+        <div class="review-footer fade-in">
+            <div class="answer-stats">
+                <div class="stat-item">
+                    <div class="stat-dot dot-correct"></div>
+                    <span>پاسخ صحیح</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-dot dot-incorrect"></div>
+                    <span>پاسخ نادرست</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-dot dot-unanswered"></div>
+                    <span>پاسخ نداده</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-dot dot-user"></div>
+                    <span>پاسخ شما</span>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-warning" onclick="previousQuestion()">
+                    <i class="fas fa-arrow-right"></i> سوال قبلی
+                </button>
+                <button class="btn btn-primary" onclick="nextQuestion()">
+                    سوال بعدی <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-secondary" onclick="goToResults()">
+                    <i class="fas fa-chart-bar"></i> بازگشت به نتایج
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // دریافت شناسه آزمون از URL
+        function getExamIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('examId');
+        }
+
+        // بارگذاری داده‌های آزمون
+        function loadExamData(examId) {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            return exams.find(e => e.id === examId);
+        }
+
+        // بارگذاری نتیجه آزمون
+        function loadExamResult(examId) {
+            const examResults = JSON.parse(localStorage.getItem('examResults')) || [];
+            const studentInfo = getCurrentStudentInfo();
+            
+            return examResults.find(r => 
+                r.examId === examId && r.studentId === studentInfo.nationalCode
+            );
+        }
+
+        // متغیرهای global
+        let examData = null;
+        let examResult = null;
+        let currentQuestionIndex = 0;
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            const examId = getExamIdFromURL();
+            if (!examId) {
+                alert('شناسه آزمون مشخص نیست!');
+                window.location.href = 'student-dashboard.html';
+                return;
+            }
+
+            examData = loadExamData(examId);
+            examResult = loadExamResult(examId);
+            
+            if (!examData) {
+                alert('آزمون مورد نظر یافت نشد!');
+                window.location.href = 'student-dashboard.html';
+                return;
+            }
+
+            if (!examResult) {
+                alert('نتیجه‌ای برای این آزمون یافت نشد!');
+                window.location.href = 'exam-result.html?examId=' + examId;
+                return;
+            }
+
+            initializeReview();
+        });
+
+        // مقداردهی اولیه مرور
+        function initializeReview() {
+            // به‌روزرسانی اطلاعات آزمون
+            document.getElementById('reviewTitle').textContent = `📖 مرور آزمون: ${examData.title}`;
+            document.getElementById('reviewMeta').innerHTML = `
+                <span>🎯 درس: ${examData.subject}</span> | 
+                <span>📅 تاریخ آزمون: ${formatDate(examResult.submitDate)}</span>
+            `;
+            
+            document.getElementById('scoreDisplay').textContent = 
+                `${examResult.score} از ${examResult.totalScore}`;
+            
+            createQuestionNavigation();
+            loadQuestion(currentQuestionIndex);
+            updateProgress();
+        }
+
+        // ایجاد ناوبری سوالات
+        function createQuestionNavigation() {
+            const navContainer = document.getElementById('questionNav');
+            navContainer.innerHTML = '';
+            
+            for (let i = 0; i < examData.questions.length; i++) {
+                const navBtn = document.createElement('button');
+                navBtn.className = 'nav-btn';
+                navBtn.textContent = i + 1;
+                navBtn.onclick = () => goToQuestion(i);
+                
+                // تعیین وضعیت دکمه
+                const userAnswer = examResult.answers[i];
+                const isCorrect = userAnswer === examData.questions[i].correctAnswer;
+                
+                if (i === currentQuestionIndex) {
+                    navBtn.classList.add('current');
+                } else if (userAnswer === null) {
+                    navBtn.classList.add('unanswered');
+                } else if (isCorrect) {
+                    navBtn.classList.add('correct');
+                } else {
+                    navBtn.classList.add('incorrect');
+                }
+                
+                navContainer.appendChild(navBtn);
+            }
+        }
+
+        // بارگذاری سوال
+        function loadQuestion(questionIndex) {
+            const question = examData.questions[questionIndex];
+            const userAnswer = examResult.answers[questionIndex];
+            const isCorrect = userAnswer === question.correctAnswer;
+            const isAnswered = userAnswer !== null;
+            
+            // به‌روزرسانی شماره سوال
+            document.getElementById('currentQuestionNumber').textContent = questionIndex + 1;
+            
+            // به‌روزرسانی وضعیت سوال
+            updateQuestionStatus(isAnswered, isCorrect);
+            
+            // به‌روزرسانی متن سوال
+            document.getElementById('questionText').textContent = question.text;
+            
+            // ایجاد گزینه‌ها
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            const optionLetters = ['الف', 'ب', 'ج', 'د'];
+            
+            question.options.forEach((option, index) => {
+                const optionItem = document.createElement('div');
+                optionItem.className = 'option-item';
+                
+                // تعیین کلاس‌های وضعیت
+                if (index === userAnswer) {
+                    optionItem.classList.add('user-answer');
+                }
+                if (index === question.correctAnswer) {
+                    optionItem.classList.add('correct-answer');
+                }
+                if (index === userAnswer && userAnswer !== question.correctAnswer) {
+                    optionItem.classList.add('incorrect-answer');
+                }
+                
+                optionItem.innerHTML = `
+                    <div class="option-marker">${optionLetters[index]}</div>
+                    <div class="option-text">${option}</div>
+                    ${index === userAnswer ? '<div class="answer-indicator"><i class="fas fa-user"></i></div>' : ''}
+                    ${index === question.correctAnswer ? '<div class="answer-indicator"><i class="fas fa-check-circle"></i></div>' : ''}
+                `;
+                
+                optionsContainer.appendChild(optionItem);
+            });
+            
+            // به‌روزرسانی توضیحات
+            updateExplanation(question, userAnswer, isCorrect);
+            
+            // به‌روزرسانی ناوبری
+            updateNavigation();
+        }
+
+        // به‌روزرسانی وضعیت سوال
+        function updateQuestionStatus(isAnswered, isCorrect) {
+            const statusElement = document.getElementById('questionStatus');
+            const statusText = document.getElementById('statusText');
+            
+            if (!isAnswered) {
+                statusElement.className = 'question-status status-unanswered';
+                statusText.textContent = 'پاسخ نداده‌اید';
+            } else if (isCorrect) {
+                statusElement.className = 'question-status status-correct';
+                statusText.textContent = 'پاسخ صحیح';
+                statusElement.classList.add('highlight');
+            } else {
+                statusElement.className = 'question-status status-incorrect';
+                statusText.textContent = 'پاسخ نادرست';
+            }
+        }
+
+        // به‌روزرسانی توضیحات
+        function updateExplanation(question, userAnswer, isCorrect) {
+            const explanationText = document.getElementById('explanationText');
+            const explanationContainer = document.getElementById('explanationContainer');
+            
+            // اگر سوال توضیح خاصی دارد، نمایش بده
+            if (question.explanation) {
+                explanationText.innerHTML = question.explanation;
+                explanationContainer.style.display = 'block';
+            } else {
+                // ایجاد توضیح خودکار بر اساس پاسخ
+                let explanation = '';
+                
+                if (!userAnswer && userAnswer !== 0) {
+                    explanation = 'شما به این سوال پاسخ نداده‌اید. ';
+                } else if (isCorrect) {
+                    explanation = 'تبریک! پاسخ شما صحیح است. ';
+                } else {
+                    explanation = `پاسخ شما نادرست بود. `;
+                }
+                
+                explanation += `پاسخ صحیح گزینه <strong>${getOptionLetter(question.correctAnswer)}</strong> می‌باشد.`;
+                
+                // اضافه کردن نکات آموزشی
+                if (!isCorrect && userAnswer !== null) {
+                    explanation += `<br><br><strong>نکته آموزشی:</strong> دقت کنید که گزینه ${getOptionLetter(userAnswer)} چرا نادرست است.`;
+                }
+                
+                explanationText.innerHTML = explanation;
+                explanationContainer.style.display = 'block';
+            }
+        }
+
+        // تبدیل شماره گزینه به حرف
+        function getOptionLetter(index) {
+            const optionLetters = ['الف', 'ب', 'ج', 'د'];
+            return optionLetters[index];
+        }
+
+        // سوال بعدی
+        function nextQuestion() {
+            if (currentQuestionIndex < examData.questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+                updateProgress();
+            }
+        }
+
+        // سوال قبلی
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+                updateProgress();
+            }
+        }
+
+        // رفتن به سوال خاص
+        function goToQuestion(questionIndex) {
+            currentQuestionIndex = questionIndex;
+            loadQuestion(currentQuestionIndex);
+            updateProgress();
+        }
+
+        // به‌روزرسانی پیشرفت
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / examData.questions.length) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressPercent').textContent = `${Math.round(progress)}٪`;
+            document.getElementById('progressText').textContent = 
+                `سوال ${currentQuestionIndex + 1} از ${examData.questions.length}`;
+        }
+
+        // به‌روزرسانی ناوبری
+        function updateNavigation() {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach((btn, index) => {
+                btn.classList.remove('current', 'correct', 'incorrect', 'unanswered');
+                
+                const userAnswer = examResult.answers[index];
+                const isCorrect = userAnswer === examData.questions[index].correctAnswer;
+                
+                if (index === currentQuestionIndex) {
+                    btn.classList.add('current');
+                } else if (userAnswer === null) {
+                    btn.classList.add('unanswered');
+                } else if (isCorrect) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('incorrect');
+                }
+            });
+        }
+
+        // بازگشت به صفحه نتایج
+        function goToResults() {
+            window.location.href = `exam-result.html?examId=${examData.id}`;
+        }
+
+        // فرمت تاریخ
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fa-IR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // دریافت اطلاعات دانش‌آموز
+        function getCurrentStudentInfo() {
+            const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+            if (!currentStudent) {
+                alert('لطفاً ابتدا وارد سیستم شوید!');
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return currentStudent;
+        }
+    </script>
+</body>
+</html>
