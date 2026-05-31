@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درباره ما | گروه توسعه دهنده سایفر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --purple: #9b59b6;
+            --teal: #1abc9c;
+            --gold: #f1c40f;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* پارالاکس بکگراند */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 243, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(185, 103, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 45, 149, 0.08) 0%, transparent 50%);
+            background-attachment: fixed;
+            background-size: 0%;
+            z-index: -2;
+            animation: parallaxMove 4s ease-in-out infinite;
+        }
+
+        @keyframes parallaxMove {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        .container {
+            max-width: 92.5%;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* دکمه بازگشت */
+        .back-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .back-btn:hover::before {
+            left: 100%;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        /* هدر */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            margin-bottom: 40px;
+            text-align: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--warning), var(--danger));
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            color: var(--dark);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: var(--gray);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* محتوا */
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .section:hover::before {
+            transform: scaleX(1);
+        }
+
+        .section h2 {
+            color: var(--dark);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section p {
+            color: var(--dark);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .section li {
+            color: var(--dark);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            padding-right: 30px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .section li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* تیم ما */
+        .team-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .team-member {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .team-member:hover::before {
+            transform: scaleX(1);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .team-member:hover .member-avatar {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .member-name {
+            display: inline-block;
+            padding: 10px 18px;
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--dark);
+            background: rgba(255,255,255,0.9);
+            border: 2px solid rgba(52, 152, 219, 0.25);
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .member-role {
+            font-size: 1.1rem;
+            color: var(--gray);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            font-size: 1rem;
+            color: var(--dark);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* ویژگی‌ها */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .feature-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--purple)); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* تماس با ما */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .contact-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .contact-desc {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* فوتر */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .developer-credit {
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .team-section,
+            .features-grid,
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* اسکرول بار سفارشی */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #8e44ad);
+        }
+        body::after {
+    content: "Copilot_20251204_133442";
+    position: fixed;
+    inset: 0;
+    background: url('cypher-bg.jpg') center / cover no-repeat;
+    z-index: -2;
+    opacity: 0.15; /* میزان شفافیت تصویر */
+}
+
+    </style>
+</head>
+<body>
+     <div class="parallax-bg"><img src="pics/Copilot_20251204_133442.png" alt="CypherGroup"></div>
+    <div class="container">
+        <button class="back-btn fade-in" onclick="window.location.href='index.html'">
+            <i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی
+        </button>
+        
+        <div class="header fade-in">
+            <h1> درباره گروه توسعه دهنده سایفر (Cypher) </h1>
+            <p>گروه حرفه ای توسعه دهنده پلتفرم‌ها ، بسترها ، وبسایت‌ها و صفحات تعامل‌گرای اینترنتی</p>
+        </div>
+        
+        <div class="content fade-in">
+            <!-- تاریخچه و ماموریت -->
+            <div class="section">
+                <h2><i class="fas fa-history"></i>تاریخچه</h2>
+                <p>گروه توسعه دهنده حرفه ای Cypher در شهریورماه سال 1404 با هدف تولید محتوای خلاقانه و کاربرپسند شروع به کار کرد.</p>
+                <p></p>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-invite"></i> دعوت به همکاری ...</h2>
+                <p>گروه توسعه دهنده سایفر از تمامی افراد علاقمند به برنامه نویسی و توسعه وب سایت یا تولید محتوای آموزشی ،دانش آموزان توانمند در حوزه هوش مصنوعی ، ایده پردازان و تمام افرادی که دغدغه شان ایجاد تحولی نوین در آموزش و جستجو است دعوت به همکاری (به صرف چای و شیرینی!) مینماید.برای اطلاعات بیشتر : sinajunior2011@gmail.com یا آیدی sina_jr@ در پیامرسان شاد </p>
+            </div>
+
+            <!-- اهداف ما -->
+            <div class="section">
+                <h2><i class="fas fa-bullseye"></i>اهداف ما در سایت ققنوس ادب</h2>
+                <ul>
+                    <li>ایجاد محیطی تعاملی برای آموزش زبان فارسی</li>
+                    <li>تسهیل ارتباط بین معلمان و دانش‌آموزان</li>
+                    <li>ارائه ابزارهای تحلیلی برای پیگیری پیشرفت تحصیلی</li>
+                    <li>توسعه مهارت‌های زبانی و ادبی دانش‌آموزان</li>
+                    <li>استفاده از بازی‌های آموزشی برای افزایش انگیزه یادگیری</li>
+                    <li>ارائه محتوای آموزشی متنوع و جذاب</li>
+                    <li>و از همه مهم‌تر ، ایجاد تحولی نوین در برنامه آموزشی مدارس ...</li>
+                </ul>
+            </div>
+
+            <!-- ویژگی‌های منحصر به فرد -->
+            <div class="section">
+                <h2><i class="fas fa-star"></i>  برخی از ویژگی‌های منحصر به فرد </h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎮</div>
+                        <div class="feature-title">بازی‌های آموزشی</div>
+                        <div class="feature-desc">یادگیری از طریق بازی‌های جذاب و تعاملی</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">تحلیل پیشرفت</div>
+                        <div class="feature-desc">پیگیری دقیق عملکرد و پیشرفت تحصیلی</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🤖</div>
+                        <div class="feature-title">قدرت گرفته از هوش مصنوعی</div>
+                        <div class="feature-desc">استفاده از API های قدرتمند هوش مصنوعی برای بهره وری بالاتر</div>
+                    </div>
+                
+                </div>
+            </div>
+
+            <!-- تیم ما -->
+            <div class="section">
+                <h2><i class="fas fa-users"></i> تیم ما</h2>
+                <p>تیم سایفر متشکل از 4 دانش‌آموز حرفه ای کدنویس است که به طور مستمر در حال بهبود و توسعه این سامانه هستند.</p>
+                
+                <div class="team-section">
+                    <div class="team-member">
+                        <div class="member-avatar"><div class="member-pic"><img src="pics/IMG_20241205_222821_630 (4).jpg" alt="SJ"></div>
+                        
+                        </div>
+                        <div class="member-name">سینا جعفری</div>
+                        <div class="member-role">توسعه‌دهنده و مؤسس</div>
+                        <div class="member-bio">
+                        یک دانش‌آموز توسعه‌دهنده نوآور با ایده هایی تحول آفرین! 
+                        </div>
+                    </div>
+                </div>
+                  
+                <div class="team-section">
+                    <div class="team-member">
+                        <div class="member-avatar"><div class="member-pic"><img src="pics/.jpg" alt="KS"></div>
+                           
+                        </div>
+                        <div class="member-name">کیان شمس‌آبادی</div>
+                        <div class="member-role">طراح و توسعه دهنده پشتیبان</div>
+                        <div class="member-bio">
+                        یک دانش‌آموز هنرمند و خلاق و همه فن حریف!
+                        </div>
+                    </div>
+                </div>
+            </div>
+               <div class="team-section">
+                    <div class="team-member">
+                        <div class="member-avatar"><div class="member-pic"><img src="pics/" alt="PG"></div>
+                        
+                        </div>
+                        <div class="member-name">پارسا گل ماهی  </div>
+                        <div class="member-role"> توسعه دهنده هوش مصنوعی و وب دیزاینر</div>
+                        <div class="member-bio">
+                         یک دانش آموز ایده پرداز و سریع
+                        </div>
+                    </div>
+                </div>   
+                <div class="team-section">
+                    <div class="team-member">
+                        <div class="member-avatar"><div class="member-pic"><img src="pics/" alt="MH"></div>
+                          
+                        </div>
+                        <div class="member-name">محمدجواد همت‌آبادی</div>
+                        <div class="member-role">تولیدکننده محتوا و وب دیزاینر</div>
+                        <div class="member-bio">
+                          یک دانش‌آموز آینده نگر و خوره PHP!
+                        </div>
+                    </div>
+                </div>
+              
+
+            <!-- تماس با ما -->
+            <div class="section">
+                <h2><i class="fas fa-envelope"></i> تماس با ما</h2>
+                <p>برای ارتباط با تیم Cypher می‌توانید از طریق راه‌های زیر اقدام نمایید:</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-title">ایمیل سرگروه</div>
+                        <div class="contact-desc">sinajunior2011@gmail.com</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <div class="contact-title">وب‌سایت</div>
+                        <div class="contact-desc">وب‌سایت تیم Cypher به دلیل بروزرسانی فعلا خارج از دسترس است</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-title">پشتیبانی</div>
+                        <div class="contact-desc">به صفحه "تماس با ما" در پنل اصلی سایت مراجعه کنید</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- فوتر -->
+        <div class="footer fade-in">
+            <p>پلتفرم جامع آموزشی ققنوس ادب | نسخه 1.0</p>
+            <p class="developer-credit">🛠️developed by Cypher.g</p>
+        </div>
+    </div>
+
+    <script>
+        // انیمیشن‌های اضافی برای المان‌ها
+        document.addEventListener('DOMContentLoaded', function() {
+            // انیمیشن برای المان‌های section
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.2}s`;
+            });
+
+            // افکت hover پیشرفته برای کارت‌ها
+            const cards = document.querySelectorAll('.feature-item, .team-member, .contact-item');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // افکت تایپ برای عنوان اصلی
+            const title = document.querySelector('.header h1');
+            const originalText = title.textContent;
+            title.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            
+            // شروع تایپ پس از لود صفحه
+            setTimeout(typeWriter, 1000);
+        });
+    </script>
+</body>
+</html>
