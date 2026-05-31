@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ققنوس ادب | سامانه جامع آموزشی فارسی</title>
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #b967ff;
+            --neon-pink: #ff2d95;
+            --neon-green: #00ff88;
+            --neon-orange: #ff6b35;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(16, 18, 40, 0.85);
+            --gradient-neon: linear-gradient(135deg, #00f3ff 0%, #b967ff 50%, #ff2d95 100%);
+            --gradient-fire: linear-gradient(135deg, #ff6b35 0%, #ff2d95 50%, #b967ff 100%);
+            --gradient-cyber: linear-gradient(135deg, #00ff88 0%, #00f3ff 50%, #b967ff 100%);
+        }
+
+        body {
+            background: var(--dark-bg);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+            line-height: 1.6;
+        }
+
+        /* پارالاکس بکگراند */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: auto;
+            right: auto;
+            width: auto;
+            height: auto;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 243, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(185, 103, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 45, 149, 0.08) 0%, transparent 50%);
+            background-attachment: fixed;
+            background-size: 50px;
+            z-index: 2;
+            animation: parallaxMove 10px ease-in-out infinite;
+        }
+
+        @keyframes parallaxMove {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        .container {
+            max-width: 92.5%;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* هدر */
+        .epic-header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 50px 40px;
+            border-radius: 25px;
+            margin-bottom: 50px;
+            text-align: center;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 
+                0 0 50px rgba(0, 243, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .epic-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-neon);
+            animation: neonFlow 3s ease-in-out infinite;
+        }
+
+        .epic-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-neon);
+            opacity: 0.02;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        .epic-header h1 {
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 900;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        .epic-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .welcome-message {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(185, 103, 255, 0.1));
+            color: var(--neon-blue);
+            padding: 25px 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* کارت دانش‌آموز */
+        .user-type {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .cyber-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 50px 35px;
+            border-radius: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 320px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 
+                0 0 30px rgba(0, 243, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: floatCard 6s ease-in-out infinite;
+        }
+        
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-cyber);
+            animation: neonFlow 3s ease-in-out infinite;
+        }
+        
+        .cyber-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-cyber);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        
+        .cyber-card:hover::after {
+            opacity: 0.05;
+        }
+        
+        .cyber-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 
+                0 0 50px rgba(0, 255, 136, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 255, 136, 0.5);
+            animation-play-state: paused;
+        }
+
+        /* LABS */
+        .lab-section {
+            margin: 60px 0 30px;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.12);
+        }
+
+        .lab-section h2 {
+            margin: 0 0 10px;
+            font-size: 1.8rem;
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .lab-section p {
+            margin: 0 0 25px;
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 600;
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .lab-card {
+            background: rgba(16, 18, 40, 0.85);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .lab-card h3 {
+            margin: 0 0 12px;
+            color: #00f3ff;
+            font-size: 1.2rem;
+        }
+
+        .lab-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 8px;
+        }
+
+        .lab-card a {
+            color: #b967ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .lab-card a:hover {
+            color: #ff2d95;
+            text-decoration: underline;
+        }
+        
+        .cyber-card h3 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 3;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        
+        .cyber-card p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .student-card::before {
+            background: var(--gradient-cyber);
+        }
+        
+        .cyber-btn {
+            background: var(--gradient-cyber);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 17px;
+            margin-top: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 800;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 136, 0.3),
+                0 8px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 3;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .cyber-btn:hover::before {
+            left: 100%;
+        }
+        
+        .cyber-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 0 50px rgba(0, 255, 136, 0.5),
+                0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .student-card .cyber-btn {
+            background: var(--gradient-cyber);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 136, 0.3),
+                0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* سیستم اطلاعات */
+        .cyber-system-info {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 45px;
+            border-radius: 25px;
+            margin-top: 60px;
+            text-align: center;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 
+                0 0 50px rgba(0, 243, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .cyber-system-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-neon);
+            animation: neonFlow 3s ease-in-out infinite;
+        }
+
+        .cyber-system-info h3 {
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 35px;
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .cyber-stat-item {
+            background: var(--card-bg);
+            color: white;
+            padding: 35px 40px;
+            border-radius: 20px;
+            min-width: 180px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 
+                0 0 30px rgba(0, 243, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-neon);
+            animation: neonFlow 3s ease-in-out infinite;
+        }
+
+        .cyber-stat-item:hover {
+            transform: translateY(-12px) scale(1.08);
+            box-shadow: 
+                0 0 50px rgba(0, 243, 255, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-stat-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 700;
+        }
+
+        /* فوتر */
+        .cyber-footer {
+            text-align: center;
+            margin-top: 80px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            padding: 40px;
+            position: relative;
+        }
+
+        .cyber-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 200px;
+            height: 3px;
+            background: var(--gradient-neon);
+            border-radius: 3px;
+            animation: neonFlow 3s ease-in-out infinite;
+        }
+
+        .cyber-footer-links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .cyber-footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            background: rgba(16, 18, 40, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .cyber-footer-link:hover {
+            color: white;
+            background: rgba(0, 243, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            border-color: rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-developer-credit {
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-icon {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            display: block;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 3;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));
+        }
+
+        .cyber-card:hover .cyber-icon {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.8));
+        }
+
+        /* دکمه‌های کوچک در فوتر */
+        .mini-login-buttons {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .mini-login-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(16, 18, 40, 0.8);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .mini-login-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
+            color: white;
+            border-color: rgba(0, 243, 255, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        .mini-teacher {
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .mini-teacher:hover {
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .mini-developer {
+            border-color: rgba(185, 103, 255, 0.3);
+        }
+
+        .mini-developer:hover {
+            border-color: rgba(185, 103, 255, 0.5);
+            box-shadow: 0 0 15px rgba(185, 103, 255, 0.3);
+        }
+
+        /* انیمیشن‌های خفن */
+        @keyframes neonFlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.02; }
+            50% { opacity: 0.05; }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 30px rgba(0, 243, 255, 0.5); }
+            100% { text-shadow: 0 0 50px rgba(0, 243, 255, 0.8), 0 0 70px rgba(185, 103, 255, 0.6); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 243, 255, 0.2); }
+            50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(0, 243, 255, 0.4); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-15px) rotate(2deg); }
+            66% { transform: translateY(-8px) rotate(-2deg); }
+        }
+
+        .cyber-card {
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards, floatCard 6s ease-in-out infinite;
+        }
+
+        /* افکت‌های ویژه */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            filter: blur(1px);
+        }
+
+        /* رسپانسیو */
+        @media (max-width: 768px) {
+            .user-type {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cyber-card {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .epic-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cyber-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cyber-footer-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mini-login-buttons {
+                position: relative;
+                left: auto;
+                top: auto;
+                justify-content: center;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- پس‌زمینه پارالاکس -->
+    <div class="parallax-bg">ققنوس ادب | توسعه یافته توسط Cypher.g</div>
+    
+    <div class="container">
+        <!-- هدر خفن -->
+        <div class="epic-header">
+            <h1>🦅 ققنوس ادب | سامانه جامع آموزشی فارسی</h1>
+            <p>پلتفرم جامع آموزش زبان و ادبیات فارسی</p>
+            
+            <div class="welcome-message">
+                🚀 سیستم مدیریت آموزشی پیشرفته برای دانش‌آموزان (نسخه آزمایشی)
+            </div>
+        </div>
+        
+        <!-- کارت دانش‌آموز -->
+        <div class="user-type">
+            <!-- دانش‌آموز -->
+            <div class="cyber-card student-card" onclick="cyberLogin('student')">
+                <span class="cyber-icon">🎓</span>
+                <h3>پنل دانش‌آموز</h3>
+                <p>شرکت در آزمون‌ها، بازی‌های آموزشی و پیگیری پیشرفت تحصیلی</p>
+                <button class="cyber-btn">ورود</button>
+            </div>
+        </div>
+
+        <!-- سیستم اطلاعات -->
+        <div class="cyber-system-info">
+            <h3>📊 آمار زنده سیستم</h3>
+            <div class="cyber-stats">
+                <div class="cyber-stat-item">
+                    <div class="cyber-stat-number" id="cyberStudentsCount">۰</div>
+                    <div class="cyber-stat-label">دانش‌آموز فعال</div>
+                </div>
+                <div class="cyber-stat-item">
+                    <div class="cyber-stat-number" id="cyberTeachersCount">۰</div>
+                    <div class="cyber-stat-label">معلم آنلاین</div>
+                </div>
+                <div class="cyber-stat-item">
+                    <div class="cyber-stat-number" id="cyberExamsCount">۰</div>
+                    <div class="cyber-stat-label">آزمون فعال</div>
+                </div>
+                <div class="cyber-stat-item">
+                    <div class="cyber-stat-number" id="cyberResultsCount">۰</div>
+                    <div class="cyber-stat-label">نتایج امروز</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- فوتر خفن -->
+                <!-- LABS -->
+
+
+<div class="cyber-footer">
+            <!-- دکمه‌های کوچک ورود -->
+            <div class="mini-login-buttons">
+                <button class="mini-login-btn mini-teacher" onclick="cyberLogin('teacher')" title="ورود معلم">م</button>
+                <button class="mini-login-btn mini-developer" onclick="cyberLogin('developer')" title="ورود توسعه‌دهنده">ت</button>
+            </div>
+
+            <p>سامانه آموزشی ققنوس ادب | نسخه 1.0</p>
+            <p class="cyber-developer-credit">✨developed by Cypher.g </p>
+            <div class="cyber-footer-links">
+                <a href="help.html" class="cyber-footer-link">📖 راهنما</a>
+                <a href="about.html" class="cyber-footer-link">👥 درباره ما</a>
+                <a href="rules.html" class="cyber-footer-link">📜 قوانین</a>
+                <a href="contact.html" class="cyber-footer-link">📞 تماس با ما</a>
+                
+            </div><br>
+            <div><a href="questions.html" class="cyber-footer-link">🔍 سوالات متداول</a></div>
+        </div>
+    </div>
+
+    <script>
+        
+        // ایجاد افکت ذرات
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            // رنگ تصادفی
+            const colors = ['#00f3ff', '#b967ff', '#ff2d95', '#00ff88', '#ff6b35'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.body.appendChild(particle);
+            
+            // انیمیشن ذره
+            particle.animate([
+                { 
+                    opacity: 1, 
+                    transform: 'scale(0) translate(0, 0)',
+                    filter: 'blur(1px)'
+                },
+                { 
+                    opacity: 0.8, 
+                    transform: `scale(1) translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`,
+                    filter: 'blur(2px)'
+                },
+                { 
+                    opacity: 0, 
+                    transform: `scale(0) translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`,
+                    filter: 'blur(3px)'
+                }
+            ], {
+                duration: 1000 + Math.random() * 1000,
+                easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }).onfinish = () => particle.remove();
+        }
+
+        // تابع ورود خفن
+        function cyberLogin(userType) {
+            // افکت ذرات روی کلیک
+            for(let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createParticle(event.clientX, event.clientY);
+                }, i * 50);
+            }
+            
+            localStorage.setItem('userType', userType);
+            
+            // افکت انتقال
+            document.querySelector('.container').style.transition = 'all 0.8s ease';
+            document.querySelector('.container').style.opacity = '0.8';
+            document.querySelector('.container').style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                switch(userType) {
+                    case 'teacher':
+                        const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+                        if (teachers.length > 0) {
+                            window.location.href = 'teacher-login.html';
+                        } else {
+                            window.location.href = 'teacher-register.html';
+                        }
+                        break;
+                        
+                    case 'student':
+                        window.location.href = 'student-login.html';
+                        break;
+                        
+                    case 'developer':
+                        const developer = JSON.parse(localStorage.getItem('developer'));
+                        if (developer && developer.isActive) {
+                            window.location.href = 'developer-login.html';
+                        } else {
+                            window.location.href = 'developer-register.html';
+                        }
+                        break;
+                }
+            }, 800);
+        }
+
+        // انیمیشن شمارنده خفن
+        function cyberAnimateCounter(elementId, target) {
+            const element = document.getElementById(elementId);
+            let current = 0;
+            const increment = target / 25;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                    // افکت تکمیل
+                    element.style.textShadow = '0 0 30px rgba(0, 243, 255, 0.8)';
+                    setTimeout(() => element.style.textShadow = '0 0 20px rgba(0, 243, 255, 0.5)', 500);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 50);
+        }
+
+        // بارگذاری آمار
+        function loadCyberStats() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+
+            cyberAnimateCounter('cyberStudentsCount', students.length);
+            cyberAnimateCounter('cyberTeachersCount', teachers.length);
+            cyberAnimateCounter('cyberExamsCount', exams.length);
+            cyberAnimateCounter('cyberResultsCount', results.length);
+        }
+
+        // ایجاد داده‌های نمونه
+        function createCyberSampleData() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            if (students.length === 0) {
+                const sampleStudents = [
+                    {
+                        fullName: "علی احمدی",
+                        nationalCode: "1111111111",
+                        grade: "10",
+                        email: "mohammad@example.com",
+                        password: "123456",
+                        registerDate: new Date().toLocaleDateString('fa-IR')
+                    }
+                ];
+                localStorage.setItem('students', JSON.stringify(sampleStudents));
+            }
+
+            const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+            if (teachers.length === 0) {
+                const sampleTeachers = [
+                    {
+                        fullName: "استاد فارسی",
+                        nationalCode: "2222222222",
+                        subject: "فارسی",
+                        email: "farsi@school.com",
+                        phone: "09120000001",
+                        password: "123456",
+                        registerDate: new Date().toLocaleDateString('fa-IR')
+                    }
+                ];
+                localStorage.setItem('teachers', JSON.stringify(sampleTeachers));
+            }
+        }
+
+        // افکت‌های تعاملی
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.97) {
+                createParticle(e.clientX, e.clientY);
+            }
+        });
+
+        // راه‌اندازی
+        document.addEventListener('DOMContentLoaded', function() {
+            createCyberSampleData();
+            loadCyberStats();
+            
+            localStorage.removeItem('currentStudent');
+            localStorage.removeItem('currentTeacher');
+            localStorage.removeItem('currentDeveloper');
+            
+            console.log('🦅 ققنوس ادب | سیستم آماده است!');
+        });
+        
+    </script>
+</body>
+</html>
+
+]
