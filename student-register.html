@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت‌نام دانش‌آموز</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #564FD8;
+            --secondary: #FF6584;
+            --dark: #2D3748;
+            --light: #F7FAFC;
+            --gray: #A0AEC0;
+            --success: #48BB78;
+            --error: #F56565;
+            --warning: #ED8936;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .student-footer {
+            margin-top: 25px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            text-align: center;
+            color: var(--dark);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .student-footer a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .student-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .register-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .register-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .register-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .register-header h2 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .register-header p {
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        .register-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .register-icon i {
+            font-size: 36px;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px 45px 15px 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--light);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            color: var(--gray);
+            font-size: 18px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        .register-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .register-btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .login-link a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: var(--primary-dark);
+        }
+
+        .login-link a:hover::after {
+            width: 100%;
+        }
+
+        .success-message {
+            color: var(--success);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(72, 187, 120, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .error-message {
+            color: var(--error);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(245, 101, 101, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .warning-message {
+            color: var(--warning);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(237, 137, 54, 0.1);
+        }
+
+        .back-btn {
+            background: var(--gray);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .back-btn:hover {
+            background: #718096;
+            transform: translateY(-2px);
+        }
+
+        .form-hint {
+            color: var(--gray);
+            font-size: 12px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-error {
+            border-color: var(--error) !important;
+            box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.2) !important;
+        }
+
+        .input-success {
+            border-color: var(--success) !important;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E2E8F0;
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .password-strength {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .strength-item {
+            flex: 1;
+            text-align: center;
+            padding: 2px;
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+
+        .strength-item.active {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .register-header h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation" id="bgAnimation"></div>
+    
+    <div class="register-container">
+        <div class="register-header">
+            <div class="register-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2>ثبت‌نام دانش‌آموز</h2>
+            <p>لطفا اطلاعات خود را برای ایجاد حساب کاربری وارد کنید.</p>
+            <p>(تایید نهایی ثبت‌نام به منزله پذیرش تمامی قوانین و موافقت با تمامی ضوابط و شرایط سامانه تلقی می‌شود.)</p>
+        </div>
+        
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="fullName">نام و نام خانوادگی:</label>
+                <div class="input-container">
+                    <input type="text" id="fullName" required placeholder="مثال:علی محمدی">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="nationalCode">کد ملی:</label>
+                <div class="input-container">
+                    <input type="text" id="nationalCode" required placeholder="۱۰ رقم کد ملی" maxlength="10">
+                    <div class="input-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                </div>
+                <div class="form-hint">
+                    <i class="fas fa-info-circle"></i>
+                    کد ملی باید دقیقاً ۱۰ رقم باشد
+                </div>
+                <div class="error-message" id="nationalCodeError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="grade">پایه تحصیلی:</label>
+                <div class="input-container">
+                    <select id="grade" required>
+                        <option value="">انتخاب کنید</option>
+                        <option value="7">هفتم</option>
+                        <option value="8">هشتم</option>
+                        <option value="9">نهم</option>
+                    </select>
+                    <div class="input-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">ایمیل:</label>
+                <div class="input-container">
+                    <input type="email" id="email" placeholder="example@email.com">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">رمز عبور:</label>
+                <div class="input-container">
+                    <input type="password" id="password" required placeholder="حداقل ۶ کاراکتر">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="passwordStrength"></div>
+                </div>
+                <div class="password-strength">
+                    <span class="strength-item" id="strengthWeak">ضعیف</span>
+                    <span class="strength-item" id="strengthMedium">متوسط</span>
+                    <span class="strength-item" id="strengthStrong">قوی</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">تکرار رمز عبور:</label>
+                <div class="input-container">
+                    <input type="password" id="confirmPassword" required placeholder="رمز عبور را مجددا وارد کنید">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="error-message" id="passwordMatch"></div>
+            </div>
+            
+            <button type="submit" class="register-btn">
+                <i class="fas fa-user-plus"></i>ثبت‌نام و ایجاد حساب
+            </button>
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+        
+        <div class="login-link">
+            <p>حساب کاربری دارید؟ <a href="student-login.html">وارد شوید</a></p>
+        </div>
+
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی
+        </button>
+    </div>
+
+    <script>
+        // ایجاد انیمیشن حباب‌های پس‌زمینه
+        function createBubbles() {
+            const bgAnimation = document.getElementById('bgAnimation');
+            const colors = ['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.05)', 'rgba(255,255,255,0.15)'];
+            
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bg-bubble');
+                
+                const size = Math.random() * 100 + 50;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.background = color;
+                bubble.style.top = `${Math.random() * 100}%`;
+                bubble.style.right = `${Math.random() * 100}%`;
+                bubble.style.animationDelay = `${Math.random() * 15}s`;
+                
+                bgAnimation.appendChild(bubble);
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // تابع برای نمایش/مخفی کردن رمز
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggleIcon = input.parentNode.querySelector('.password-toggle i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // اعتبارسنجی کد ملی
+        document.getElementById('nationalCode').addEventListener('input', function() {
+            const nationalCode = this.value;
+            const errorElement = document.getElementById('nationalCodeError');
+            
+            // فقط اعداد مجاز
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            if (nationalCode.length === 0) {
+                errorElement.textContent = '';
+                this.classList.remove('input-error', 'input-success');
+                return;
+            }
+
+            if (nationalCode.length !== 10) {
+                errorElement.textContent = '❌ کد ملی باید ۱۰ رقم باشد';
+                this.classList.add('input-error');
+                this.classList.remove('input-success');
+            } else {
+                errorElement.textContent = '✅ کد ملی معتبر';
+                errorElement.style.color = '#48BB78';
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+            }
+        });
+
+        // بررسی قدرت رمز عبور
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrength');
+            const weak = document.getElementById('strengthWeak');
+            const medium = document.getElementById('strengthMedium');
+            const strong = document.getElementById('strengthStrong');
+            
+            // ریست کردن کلاس‌ها
+            weak.classList.remove('active');
+            medium.classList.remove('active');
+            strong.classList.remove('active');
+            
+            if (password.length === 0) {
+                strengthBar.style.width = '0%';
+                return;
+            }
+            
+            let strength = 0;
+            
+            // طول رمز
+            if (password.length >= 6) strength += 25;
+            if (password.length >= 8) strength += 25;
+            
+            // حروف بزرگ و کوچک
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 25;
+            
+            // اعداد و کاراکترهای خاص
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+            
+            strengthBar.style.width = `${strength}%`;
+            
+            // تغییر رنگ و نمایش قدرت
+            if (strength < 50) {
+                strengthBar.style.background = '#F56565';
+                weak.classList.add('active');
+            } else if (strength < 75) {
+                strengthBar.style.background = '#ED8936';
+                medium.classList.add('active');
+            } else {
+                strengthBar.style.background = '#48BB78';
+                strong.classList.add('active');
+            }
+        });
+
+        // بررسی تطابق رمز عبور
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const matchElement = document.getElementById('passwordMatch');
+
+            if (confirmPassword.length === 0) {
+                matchElement.textContent = '';
+                this.classList.remove('input-error', 'input-success');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                matchElement.textContent = '❌ رمزهای عبور مطابقت ندارند';
+                this.classList.add('input-error');
+                this.classList.remove('input-success');
+            } else {
+                matchElement.textContent = '✅ رمزهای عبور مطابقت دارند';
+                matchElement.style.color = '#48BB78';
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+            }
+        });
+
+        // ثبت‌نام
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentData = {
+                fullName: document.getElementById('fullName').value,
+                nationalCode: document.getElementById('nationalCode').value,
+                grade: document.getElementById('grade').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // اعتبارسنجی
+            if (studentData.password !== confirmPassword) {
+                errorMessage.textContent = '❌ رمزهای عبور مطابقت ندارند';
+                return;
+            }
+
+            if (studentData.password.length < 6) {
+                errorMessage.textContent = '❌ رمز عبور باید حداقل ۶ کاراکتر باشد';
+                return;
+            }
+
+            if (studentData.nationalCode.length !== 10) {
+                errorMessage.textContent = '❌ کد ملی باید ۱۰ رقم باشد';
+                return;
+            }
+
+            // بررسی تکراری نبودن کد ملی
+            const existingStudents = JSON.parse(localStorage.getItem('students')) || [];
+            const existingStudent = existingStudents.find(s => s.nationalCode === studentData.nationalCode);
+            
+            if (existingStudent) {
+                errorMessage.textContent = '❌ این کد ملی قبلا ثبت شده است';
+                return;
+            }
+
+            // ذخیره در localStorage
+            existingStudents.push(studentData);
+            localStorage.setItem('students', JSON.stringify(existingStudents));
+
+            // نمایش پیام موفقیت
+            errorMessage.textContent = '';
+            successMessage.textContent = '✅ ثبت‌نام با موفقیت انجام شد! در حال انتقال...';
+
+            // هدایت به صفحه لاگین بعد از ۲ ثانیه
+            setTimeout(() => {
+                window.location.href = 'student-login.html';
+            }, 2000);
+        });
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            createBubbles();
+        });
+    </script>
+
+    <footer class="student-footer">
+        <span>© 2025 Cypher</span>
+        <span>|</span>
+        <a href="about.html">درباره ما</a>
+    </footer>
+</body>
+</html>
