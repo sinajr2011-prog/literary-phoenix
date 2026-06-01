@@ -1,0 +1,4 @@
+window.teacherCodes = [
+    "D47WE10M", "5P4Q3R2S", "1V9W8Y7Z", "3C2F1H0J", "7N6T5U4X",
+    "5B4D3G2J", "2L1O0R9U", "4A3C2F1H", "6E5I4L3O", "8S7V6Y5Z"
+];
