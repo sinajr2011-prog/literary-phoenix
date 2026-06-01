@@ -1,0 +1,3764 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل معلم پیشرفته 🎯 ققنوس ادب</title>
+    <style>
+        /* استایل‌های اصلی و ترکیبی */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .teacher-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* هدر */
+        .teacher-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .teacher-info h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .teacher-info p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .primary-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .secondary-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .success-btn {
+            background: linear-gradient(45deg, #27ae60, #219a52);
+            color: white;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .logout-btn {
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 73, 94, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* کارت‌های آماری */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: #e74c3c;
+        }
+
+        .stat-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .trend-up {
+            background: rgba(39, 174, 96, 0.2);
+            color: #27ae60;
+        }
+
+        .trend-down {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        /* بخش‌های اصلی */
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #e74c3c;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            flex-wrap: wrap;
+        }
+
+        /* لیست آزمون‌ها */
+        .exam-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .exam-item {
+            border: 2px solid #ecf0f1;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .exam-item:hover {
+            border-color: #e74c3c;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .exam-title {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .exam-status {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background: #27ae60;
+            color: white;
+        }
+
+        .status-inactive {
+            background: #bdc3c7;
+            color: white;
+        }
+
+        .status-upcoming {
+            background: #3498db;
+            color: white;
+        }
+
+        .exam-details {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .exam-details div {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .exam-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .results-btn {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .preview-btn {
+            background: #f39c12;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* جدول دانش‌آموزان */
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .students-table th,
+        .students-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .students-table th {
+            background: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .students-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .grade-excellent { color: #27ae60; font-weight: bold; }
+        .grade-good { color: #f39c12; font-weight: bold; }
+        .grade-average { color: #e67e22; font-weight: bold; }
+        .grade-poor { color: #e74c3c; font-weight: bold; }
+
+        /* اقدامات سریع */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .quick-action-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .quick-action-btn.create-exam {
+            background: linear-gradient(45deg, #27ae60, #219a52);
+        }
+
+        .quick-action-btn.view-results {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+        }
+
+        .quick-action-btn.manage-students {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+        }
+
+        /* مودال‌ها */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #ecf0f1;
+        }
+
+        .modal-title {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #e74c3c;
+        }
+
+        /* فرم‌ها */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* سوالات */
+        .question-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ecf0f1;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .remove-question {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .add-question {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* آپلود تصویر */
+        .image-preview {
+            max-width: 300px;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 2px dashed #3498db;
+            padding: 10px;
+        }
+
+        /* بانک سوالات */
+        .question-bank-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .question-bank-item {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .question-bank-item:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .question-bank-item.selected {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        /* کلاس‌بدج */
+        .class-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .class-7 { background: #3498db; color: white; }
+        .class-8 { background: #9b59b6; color: white; }
+        .class-9 { background: #e67e22; color: white; }
+        .class-10 { background: #27ae60; color: white; }
+        .class-11 { background: #e74c3c; color: white; }
+        .class-12 { background: #34495e; color: white; }
+
+        /* سطح‌بدج */
+        .level-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .level-beginner { background: #27ae60; color: white; }
+        .level-intermediate { background: #f39c12; color: white; }
+        .level-advanced { background: #e74c3c; color: white; }
+
+        /* ویژگی‌های هوش مصنوعی */
+        .ai-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .ai-feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .ai-feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* پیام‌ها */
+        .no-data {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 60px 20px;
+            font-size: 1.1rem;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+        }
+
+        /* تب‌ها */
+        .tab-container {
+            margin-top: 20px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .tab-btn.active {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* جستجو و فیلتر */
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-filter input,
+        .search-filter select {
+            padding: 10px 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* استایل‌های ویژه */
+        .notification-badge {
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .student-checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .student-checkbox-item:hover {
+            background: #e3f2fd;
+            border-color: #3498db;
+        }
+
+        /* سوال تشریحی */
+        .essay-question {
+            background: #fff3e0;
+            border: 2px dashed #f39c12 !important;
+        }
+
+        .score-input {
+            width: 100px;
+            margin-top: 10px;
+        }
+
+        /* API Status */
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-connected { background: #27ae60; }
+        .status-disconnected { background: #e74c3c; }
+        .status-connecting { background: #f39c12; }
+
+        /* فوتر */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .developer-credit {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* اسکرول بار */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e74c3c;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c0392b;
+        }
+
+        /* رسپانسیو */
+        @media (max-width: 768px) {
+            .teacher-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .header-actions .btn {
+                width: 100%;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .exam-actions {
+                justify-content: center;
+            }
+            
+            .students-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="teacher-container">
+        <!-- هدر -->
+        <div class="teacher-header">
+            <div class="teacher-info">
+                <h1>👨‍🏫 پنل مدیریت معلم پیشرفته</h1>
+                <p id="teacherWelcome">خوش آمدید!</p>
+                <div class="api-status" id="apiStatus">
+                    <div class="status-indicator status-connected"></div>
+                    <span>API متصل</span><br><br><br>
+                </div>
+               <div class="no-data">
+                <p> پلتفرم محاسباتی به شکل <strong><strong>رایگان</strong></strong> و <strong><strong>آزمایشی</strong></strong>  در دسترس است ... برای ورود روی<a href="kharazmi(6).htm"> <strong>اینجا</strong> </a>کلیک کنید .</p>
+           </div>
+            </div>
+            <div class="header-actions">
+              
+                <button class="btn primary-btn" onclick="showCreateExamModal()">📝 ایجاد آزمون</button>
+                <button class="btn secondary-btn" onclick="showQuestionBank()">📚 بانک سوالات</button>
+                <button class="btn success-btn" onclick="showAIFeatures()">🤖 هوش مصنوعی</button>
+                <button class="btn logout-btn" onclick="logout()">🚪 خروج</button>
+                
+            </div>
+        </div>
+         
+
+        <!-- کارت‌های آماری -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <h3>تعداد دانش‌آموزان</h3>
+                <div class="stat-number" id="studentsCount">0</div>
+                <div class="stat-trend trend-up">+۲٪</div>
+            </div>
+            <div class="stat-card">
+                <h3>آزمون‌های فعال</h3>
+                <div class="stat-number" id="activeExamsCount">0</div>
+                <div class="stat-trend trend-up">+۱</div>
+            </div>
+            <div class="stat-card">
+                <h3>سوالات در بانک</h3>
+                <div class="stat-number" id="questionBankCount">0</div>
+                <div class="stat-trend trend-up">+۵</div>
+            </div>
+            <div class="stat-card">
+                <h3>میانگین کلاس</h3>
+                <div class="stat-number" id="classAverage">0%</div>
+                <div class="stat-trend trend-up">+۳٪</div>
+            </div>
+        </div>
+
+        <!-- اقدامات سریع -->
+        <div class="section">
+            <h2 class="section-title">⚡ اقدامات سریع</h2>
+            <div class="quick-actions">
+                <button class="quick-action-btn create-exam" onclick="showCreateExamModal()">
+                    📝 ایجاد آزمون جدید
+                </button>
+                <button class="quick-action-btn view-results" onclick="viewAllResults()">
+                    📊 مشاهده نتایج کامل
+                </button>
+                <button class="quick-action-btn manage-students" onclick="manageStudents()">
+                    👥 مدیریت دانش‌آموزان
+                </button>
+                <button class="quick-action-btn" onclick="showMessagingSection()">
+                    📬 ارسال پیام
+                </button>
+            </div>
+        </div>
+
+        <!-- بخش‌های اصلی -->
+        <div class="dashboard-sections">
+            <!-- آزمون‌های اخیر -->
+            <div class="section">
+                <h2 class="section-title">
+                    📋 آزمون‌های من
+                    <button class="btn primary-btn" style="padding: 10px 20px; font-size: 13px;" 
+                            onclick="showCreateExamModal()">
+                        + آزمون جدید
+                    </button>
+                </h2>
+                
+                <div class="search-filter">
+                    <input type="text" id="examSearch" placeholder="🔍 جستجو در آزمون‌ها..." 
+                           onkeyup="filterExams()">
+                    <select id="examFilter" onchange="filterExams()">
+                        <option value="all">همه آزمون‌ها</option>
+                        <option value="active">فعال</option>
+                        <option value="upcoming">آینده</option>
+                        <option value="completed">پایان یافته</option>
+                    </select>
+                    <select id="classExamFilter" onchange="filterExams()">
+                        <option value="all">همه پایه‌ها</option>
+                        <option value="7">پایه هفتم</option>
+                        <option value="8">پایه هشتم</option>
+                        <option value="9">پایه نهم</option>
+                    </select>
+                </div>
+                
+                <div class="exam-list" id="recentExamsContainer">
+                    <div class="no-data">📭 هنوز هیچ آزمونی ایجاد نکرده‌اید</div>
+                </div>
+            </div>
+
+            <!-- دانش‌آموزان -->
+            <div class="section">
+                <h2 class="section-title">👥 دانش‌آموزان</h2>
+                
+                <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="switchTab('allStudents', this)">همه دانش‌آموزان</button>
+                        <button class="tab-btn" onclick="switchTab('classStudents', this)">بر اساس پایه</button>
+                        <button class="tab-btn" onclick="switchTab('topStudents', this)">🏆 برترین‌ها</button>
+                        <button class="tab-btn" onclick="switchTab('weakStudents', this)">
+                            نیاز به توجه <span class="notification-badge" id="weakStudentsBadge">0</span>
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content active" id="allStudents">
+                        <div class="search-filter">
+                            <input type="text" id="studentSearch" placeholder="🔍 جستجوی دانش‌آموز..." 
+                                   onkeyup="filterAllStudents()">
+                        </div>
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>نام دانش‌آموز</th>
+                                    <th>کد ملی</th>
+                                    <th>پایه</th>
+                                    <th>میانگین</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allStudentsTableBody">
+                                <tr>
+                                    <td colspan="5" class="no-data">📭 هیچ دانش‌آموزی ثبت‌نام نکرده است</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="tab-content" id="classStudents">
+                        <div class="search-filter">
+                            <select id="classSelect" onchange="filterStudentsByClass()">
+                                <option value="all">همه پایه‌ها</option>
+                                <option value="7">پایه هفتم</option>
+                                <option value="8">پایه هشتم</option>
+                                <option value="9">پایه نهم</option>
+                            </select>
+                        </div>
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>نام دانش‌آموز</th>
+                                    <th>کد ملی</th>
+                                    <th>پایه</th>
+                                    <th>میانگین</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="classStudentsTableBody">
+                                <tr>
+                                    <td colspan="5" class="no-data">پایه‌ای انتخاب نشده است</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="tab-content" id="topStudents">
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>نام دانش‌آموز</th>
+                                    <th>کد ملی</th>
+                                    <th>پایه</th>
+                                    <th>میانگین</th>
+                                    <th>شرکت در آزمون</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topStudentsTableBody">
+                                <tr>
+                                    <td colspan="5" class="no-data">📭 هیچ دانش‌آموزی ثبت‌نام نکرده است</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="tab-content" id="weakStudents">
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>نام دانش‌آموز</th>
+                                    <th>کد ملی</th>
+                                    <th>میانگین</th>
+                                    <th>نقاط ضعف</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="weakStudentsTableBody">
+                                <tr>
+                                    <td colspan="5" class="no-data">🎉 تبریک! هیچ دانش‌آموزی نیاز به توجه ندارد</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- بانک سوالات -->
+        <div class="section" id="questionBankSection">
+            <h2 class="section-title">
+                📚 بانک سوالات
+                <div>
+                    <button class="btn secondary-btn" onclick="addToBankFromCurrent()" style="margin-left: 10px;">
+                        ➕ افزودن سوالات فعلی به بانک
+                    </button>
+                    <button class="btn success-btn" onclick="exportQuestionBank()">
+                        📥 خروجی Excel
+                    </button>
+                </div>
+            </h2>
+            
+            <div class="search-filter">
+                <input type="text" id="questionBankSearch" placeholder="🔍 جستجو در سوالات..." 
+                       onkeyup="filterQuestionBank()">
+                <select id="questionSubjectFilter" onchange="filterQuestionBank()">
+                    <option value="all">همه دروس</option>
+                    <option value="فارسی">فارسی</option>
+                    <option value="ریاضی">ریاضی</option>
+                    <option value="علوم">علوم</option>
+                    <option value="انگلیسی">انگلیسی</option>
+                </select>
+                <select id="questionClassFilter" onchange="filterQuestionBank()">
+                    <option value="all">همه پایه‌ها</option>
+                    <option value="7">پایه هفتم</option>
+                    <option value="8">پایه هشتم</option>
+                    <option value="9">پایه نهم</option>
+                </select>
+            </div>
+            
+            <div class="question-bank-list" id="questionBankList">
+                <!-- سوالات بانک اینجا نمایش داده می‌شوند -->
+            </div>
+        </div>
+
+        <!-- ویژگی‌های هوش مصنوعی -->
+        <div class="section">
+            <h2 class="section-title">🤖 ویژگی‌های هوش مصنوعی</h2>
+            <div class="ai-features">
+                <div class="ai-feature-card" onclick="generateQuestionsWithAI()">
+                    <h3>🧠 تولید سوالات هوشمند</h3>
+                    <p>ایجاد سوالات استاندارد بر اساس موضوع و سطح دشواری</p>
+                </div>
+                <div class="ai-feature-card" onclick="analyzeStudentPerformance()">
+                    <h3>📈 تحلیل عملکرد دانش‌آموزان</h3>
+                    <p>شناسایی نقاط قوت و ضعف هر دانش‌آموز</p>
+                </div>
+                <div class="ai-feature-card" onclick="generatePersonalizedExams()">
+                    <h3>🎯 آزمون‌های شخصی‌سازی شده</h3>
+                    <p>طراحی آزمون‌های اختصاصی برای هر دانش‌آموز</p>
+                </div>
+                <div class="ai-feature-card" onclick="predictStudentSuccess()">
+                    <h3>🔮 پیش‌بینی موفقیت</h3>
+                    <p>پیش‌بینی عملکرد دانش‌آموزان در آزمون‌های آینده</p>
+                </div>
+                <div class="ai-feature-card" onclick="aiGrading()">
+                    <h3>📝 تصحیح خودکار</h3>
+                    <p>تصحیح خودکار پاسخ‌های تشریحی با هوش مصنوعی</p>
+                </div>
+                <div class="ai-feature-card" onclick="learningPath()">
+                    <h3>🗺️ مسیر یادگیری هوشمند</h3>
+                    <p>طراحی مسیر یادگیری شخصی برای هر دانش‌آموز</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- بخش ارسال پیام -->
+        <div class="section" id="messagingSection">
+            <h2 class="section-title">📬 ارسال پیام به دانش‌آموزان</h2>
+            
+            <div class="search-filter">
+                <input type="text" id="studentSearchMessage" placeholder="🔍 جستجوی دانش‌آموز..." 
+                       onkeyup="filterStudentsForMessage()">
+                <select id="classFilter" onchange="filterStudentsForMessage()">
+                    <option value="all">همه کلاس‌ها</option>
+                    <option value="excellent">برترین‌ها</option>
+                    <option value="weak">نیازمند توجه</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="messageType">نوع پیام:</label>
+                <select id="messageType" class="form-control" onchange="updateMessageTemplate()">
+                    <option value="custom">پیام سفارشی</option>
+                    <option value="encouragement">تشویقی</option>
+                    <option value="warning">هشدار</option>
+                    <option value="announcement">اعلان</option>
+                    <option value="homework">تکلیف</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="messageTitle">عنوان پیام:</label>
+                <input type="text" id="messageTitle" class="form-control" placeholder="عنوان پیام...">
+            </div>
+            
+            <div class="form-group">
+                <label for="messageContent">متن پیام:</label>
+                <textarea id="messageContent" class="form-control" rows="5" placeholder="متن پیام خود را وارد کنید..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>انتخاب دانش‌آموزان:</label>
+                <div id="studentsChecklist" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px; background: #f8f9fa;">
+                    <!-- لیست دانش‌آموزان اینجا نمایش داده می‌شود -->
+                </div>
+                <div style="margin-top: 10px;">
+                    <button type="button" class="action-btn secondary-btn" onclick="selectAllStudents()">انتخاب همه</button>
+                    <button type="button" class="action-btn secondary-btn" onclick="deselectAllStudents()">لغو انتخاب همه</button>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="btn success-btn" onclick="sendBulkMessage()" style="flex: 1;">
+                    📨 ارسال پیام به دانش‌آموزان انتخاب شده
+                </button>
+                <button class="btn primary-btn" onclick="previewMessage()" style="flex: 1;">
+                    👁️ پیش‌نمایش پیام
+                </button>
+            </div>
+            
+            <div id="messageResult" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- تاریخچه پیام‌های ارسالی -->
+        <div class="section">
+            <h2 class="section-title">📋 تاریخچه پیام‌های ارسالی</h2>
+            <div id="sentMessagesContainer">
+                <!-- پیام‌های ارسالی اینجا نمایش داده می‌شوند -->
+            </div>
+        </div>
+
+        <!-- فوتر -->
+        <div class="footer">
+            <p>پلتفرم جامع آموزشی ققنوس ادب | نسخه 1.0 (ترکیبی پیشرفته)</p>
+            <p class="developer-credit">⚡ developed by cypher.g</p>
+        </div>
+    </div>
+
+    <!-- مودال ایجاد آزمون -->
+    <div class="modal" id="createExamModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📝 ایجاد آزمون جدید</h3>
+                <button class="close-modal" onclick="closeModal('createExamModal')">×</button>
+            </div>
+            <form id="createExamForm">
+                <div class="form-group">
+                    <label for="examTitle">عنوان آزمون:</label>
+                    <input type="text" id="examTitle" required placeholder="مثال: آزمون فارسی درس اول">
+                </div>
+                
+                <div class="form-group">
+                    <label for="examSubject">درس:</label>
+                    <select id="examSubject" required>
+                        <option value="فارسی">زبان و ادبیات فارسی</option>
+                        <option value="ریاضی">ریاضی</option>
+                        <option value="علوم">علوم تجربی</option>
+                        <option value="انگلیسی">زبان انگلیسی</option>
+                        <option value="اجتماعی">مطالعات اجتماعی</option>
+                        <option value="دینی">هدیه‌های آسمانی</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="examClass">پایه تحصیلی:</label>
+                    <select id="examClass" required>
+                        <option value="7">هفتم</option>
+                        <option value="8">هشتم</option>
+                        <option value="9">نهم</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="examLevel">سطح دشواری:</label>
+                    <select id="examLevel" required>
+                        <option value="beginner">مبتدی</option>
+                        <option value="intermediate">متوسط</option>
+                        <option value="advanced">پیشرفته</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="examDuration">مدت زمان آزمون (دقیقه):</label>
+                    <input type="number" id="examDuration" required min="5" max="180" value="45">
+                </div>
+
+                <div class="form-group">
+                    <label for="examEndTime">مهلت انجام آزمون:</label>
+                    <input type="datetime-local" id="examEndTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="examDescription">توضیحات آزمون (اختیاری):</label>
+                    <textarea id="examDescription" placeholder="توضیحات مربوط به آزمون..."></textarea>
+                </div>
+
+                <h4 style="margin: 30px 0 20px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">📝 سوالات آزمون</h4>
+                
+                <button type="button" class="question-bank-btn action-btn" onclick="showQuestionBankForSelection()" style="background: #9b59b6; color: white; margin-bottom: 20px;">
+                    📚 انتخاب سوال از بانک
+                </button>
+                
+                <div id="selectedQuestionsFromBank" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; display: none;">
+                    <h5>سوالات انتخاب شده از بانک:</h5>
+                    <div id="selectedQuestionsList"></div>
+                </div>
+                
+                <div id="questionsContainer">
+                    <!-- سوالات اینجا اضافه می‌شوند -->
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                    <button type="button" class="add-question" onclick="addQuestion()">+ افزودن سوال جدید</button>
+                    <button type="button" class="btn secondary-btn" onclick="generateQuestionsWithAI()">🤖 تولید سوالات با هوش مصنوعی</button>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                    <button type="submit" class="btn success-btn" style="flex: 1;">✅ ایجاد آزمون</button>
+                    <button type="button" class="btn secondary-btn" style="flex: 1;" onclick="closeModal('createExamModal')">❌ انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- مودال‌های دیگر -->
+    <!-- مودال بانک سوالات برای انتخاب -->
+    <div class="modal" id="questionBankSelectionModal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h3 class="modal-title">📚 انتخاب سوال از بانک</h3>
+                <button class="close-modal" onclick="closeModal('questionBankSelectionModal')">×</button>
+            </div>
+            <div class="question-bank-list" id="questionBankSelectionList">
+                <!-- سوالات برای انتخاب -->
+            </div>
+            <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                <button type="button" class="btn success-btn" style="flex: 1;" onclick="addSelectedQuestionsToExam()">✅ افزودن سوالات انتخاب شده</button>
+                <button type="button" class="btn secondary-btn" style="flex: 1;" onclick="closeModal('questionBankSelectionModal')">❌ انصراف</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال آپلود تصویر -->
+    <div class="modal" id="imageUploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🖼️ آپلود تصویر</h3>
+                <button class="close-modal" onclick="closeModal('imageUploadModal')">×</button>
+            </div>
+            <div id="imageUploadContent">
+                <!-- محتوای آپلود تصویر -->
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال تصحیح سوال تشریحی -->
+    <div class="modal" id="essayGradingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📝 تصحیح سوال تشریحی</h3>
+                <button class="close-modal" onclick="closeModal('essayGradingModal')">×</button>
+            </div>
+            <div id="essayGradingContent">
+                <!-- محتوای تصحیح -->
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال هوش مصنوعی -->
+    <div class="modal" id="aiFeaturesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🤖 ویژگی‌های هوش مصنوعی</h3>
+                <button class="close-modal" onclick="closeModal('aiFeaturesModal')">×</button>
+            </div>
+            <div id="aiFeaturesContent">
+                <div class="ai-features">
+                    <div class="ai-feature-card" onclick="generateQuestionsWithAI()">
+                        <h3>🧠 تولید سوالات هوشمند</h3>
+                        <p>ایجاد سوالات استاندارد بر اساس موضوع و سطح دشواری</p>
+                    </div>
+                    <div class="ai-feature-card" onclick="analyzeStudentPerformance()">
+                        <h3>📈 تحلیل عملکرد دانش‌آموزان</h3>
+                        <p>شناسایی نقاط قوت و ضعف هر دانش‌آموز</p>
+                    </div>
+                    <div class="ai-feature-card" onclick="generatePersonalizedExams()">
+                        <h3>🎯 آزمون‌های شخصی‌سازی شده</h3>
+                        <p>طراحی آزمون‌های اختصاصی برای هر دانش‌آموز</p>
+                    </div>
+                    <div class="ai-feature-card" onclick="predictStudentSuccess()">
+                        <h3>🔮 پیش‌بینی موفقیت</h3>
+                        <p>پیش‌بینی عملکرد دانش‌آموزان در آزمون‌های آینده</p>
+                    </div>
+                    <div class="ai-feature-card" onclick="aiGrading()">
+                        <h3>📝 تصحیح خودکار</h3>
+                        <p>تصحیح خودکار پاسخ‌های تشریحی با هوش مصنوعی</p>
+                    </div>
+                    <div class="ai-feature-card" onclick="learningPath()">
+                        <h3>🗺️ مسیر یادگیری هوشمند</h3>
+                        <p>طراحی مسیر یادگیری شخصی برای هر دانش‌آموز</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال نتایج آزمون -->
+    <div class="modal" id="examResultsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="resultsModalTitle">📊 نتایج آزمون</h3>
+                <button class="close-modal" onclick="closeModal('examResultsModal')">×</button>
+            </div>
+            <div id="examResultsContent">
+                <!-- نتایج اینجا نمایش داده می‌شود -->
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال پیش‌نمایش پیام -->
+    <div class="modal" id="previewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">👁️ پیش‌نمایش پیام</h3>
+                <button class="close-modal" onclick="closeModal('previewModal')">×</button>
+            </div>
+            <div id="previewContent">
+                <!-- محتوای پیش‌نمایش اینجا نمایش داده می‌شود -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== متغیرهای global ==========
+        let currentTeacher = null;
+        let questionsCount = 0;
+        let currentQuestionType = 'multiple-choice';
+        let selectedQuestionsFromBank = [];
+        let selectedImages = {};
+        let currentGradingQuestion = null;
+
+        // ========== بارگذاری اولیه ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTeacherData();
+            loadStatistics();
+            loadRecentExams();
+            loadAllStudents();
+            loadTopStudents();
+            loadWeakStudents();
+            loadQuestionBank();
+            initializeExamForm();
+            initializeAPI();
+            loadStudentsForMessage();
+            loadSentMessages();
+        });
+
+        // ========== توابع بارگذاری داده ==========
+        
+        // بارگذاری اطلاعات معلم
+        function loadTeacherData() {
+            const savedTeacher = localStorage.getItem('currentTeacher');
+            if (!savedTeacher) {
+                currentTeacher = {
+                    nationalCode: "teacher123",
+                    fullName: "معلم نمونه",
+                    subject: "فارسی"
+                };
+                localStorage.setItem('currentTeacher', JSON.stringify(currentTeacher));
+            } else {
+                currentTeacher = JSON.parse(savedTeacher);
+            }
+
+            document.getElementById('teacherWelcome').textContent = 
+                `سلام ${currentTeacher.fullName}! (${currentTeacher.subject})`;
+        }
+
+        // بارگذاری آمار
+        function loadStatistics() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const questionBank = JSON.parse(localStorage.getItem('questionBank')) || [];
+
+            // فیلتر کردن آزمون‌های این معلم
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+
+            document.getElementById('studentsCount').textContent = students.length;
+            document.getElementById('activeExamsCount').textContent = teacherExams.filter(exam => 
+                new Date(exam.endTime) > new Date() && exam.isActive
+            ).length;
+            document.getElementById('questionBankCount').textContent = questionBank.length;
+
+            // محاسبه میانگین کلاس
+            const teacherResults = results.filter(result => 
+                teacherExams.some(exam => exam.id === result.examId)
+            );
+            
+            if (teacherResults.length > 0) {
+                const average = teacherResults.reduce((sum, result) => sum + result.percentage, 0) / teacherResults.length;
+                document.getElementById('classAverage').textContent = average.toFixed(1) + '%';
+            }
+        }
+
+        // بارگذاری آزمون‌های اخیر
+        function loadRecentExams() {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            const container = document.getElementById('recentExamsContainer');
+
+            if (teacherExams.length === 0) {
+                container.innerHTML = '<div class="no-data">📭 هنوز هیچ آزمونی ایجاد نکرده‌اید</div>';
+                return;
+            }
+
+            renderExamsList(teacherExams, container);
+        }
+
+        // رندر لیست آزمون‌ها
+        function renderExamsList(exams, container) {
+            container.innerHTML = '';
+            
+            exams.forEach(exam => {
+                const isActive = new Date(exam.endTime) > new Date() && exam.isActive;
+                const isUpcoming = new Date(exam.endTime) > new Date() && !exam.isActive;
+                
+                let statusClass = 'status-inactive';
+                let statusText = 'پایان یافته';
+                
+                if (isActive) {
+                    statusClass = 'status-active';
+                    statusText = 'فعال';
+                } else if (isUpcoming) {
+                    statusClass = 'status-upcoming';
+                    statusText = 'آینده';
+                }
+
+                const examItem = document.createElement('div');
+                examItem.className = 'exam-item';
+                
+                const hasEssay = exam.questions.some(q => q.type === 'essay');
+                
+                examItem.innerHTML = `
+                    <div class="exam-header">
+                        <div class="exam-title">${exam.title}</div>
+                        <div class="exam-status ${statusClass}">${statusText}</div>
+                    </div>
+                    <div class="exam-details">
+                        <div>📖 درس: ${exam.subject}</div>
+                        <div>🎯 پایه: <span class="class-badge class-${exam.class}">${exam.class}</span></div>
+                        <div>⏰ زمان: ${exam.duration} دقیقه</div>
+                        <div>📋 تعداد سوالات: ${exam.questions.length} ${hasEssay ? '(با سوال تشریحی)' : ''}</div>
+                        <div>📅 مهلت: ${new Date(exam.endTime).toLocaleDateString('fa-IR')}</div>
+                        <div>👥 شرکت‌کنندگان: ${getExamParticipantsCount(exam.id)} نفر</div>
+                        <div>🎯 سطح: ${getExamLevelText(exam.level)}</div>
+                    </div>
+                    <div class="exam-actions">
+                        <button class="action-btn preview-btn" onclick="previewExam('${exam.id}')">👁️ پیش‌نمایش</button>
+                        <button class="action-btn edit-btn" onclick="editExam('${exam.id}')">✏️ ویرایش</button>
+                        <button class="action-btn results-btn" onclick="viewExamResults('${exam.id}')">📊 نتایج</button>
+                        ${hasEssay ? `<button class="action-btn" style="background: #f39c12; color: white;" onclick="gradeEssayQuestions('${exam.id}')">📝 تصحیح تشریحی</button>` : ''}
+                        <button class="action-btn delete-btn" onclick="deleteExam('${exam.id}')">🗑️ حذف</button>
+                    </div>
+                `;
+                
+                container.appendChild(examItem);
+            });
+        }
+
+        // بارگذاری تمام دانش‌آموزان
+        function loadAllStudents() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            const tbody = document.getElementById('allStudentsTableBody');
+
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">📭 هیچ دانش‌آموزی ثبت‌نام نکرده است</td></tr>';
+                return;
+            }
+
+            renderStudentsTable(students, tbody, teacherExams, results);
+        }
+
+        // رندر جدول دانش‌آموزان
+        function renderStudentsTable(students, tbody, teacherExams, results) {
+            tbody.innerHTML = '';
+
+            students.forEach(student => {
+                const studentResults = results.filter(result => 
+                    result.studentId === student.nationalCode && 
+                    teacherExams.some(exam => exam.id === result.examId)
+                );
+                
+                const average = studentResults.length > 0 ? 
+                    (studentResults.reduce((sum, result) => sum + result.percentage, 0) / studentResults.length).toFixed(1) : 
+                    0;
+
+                const gradeClass = getGradeClass(parseFloat(average));
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${student.fullName}</strong></td>
+                    <td>${student.nationalCode}</td>
+                    <td><span class="class-badge class-${student.class || '7'}">${student.class || '7'}</span></td>
+                    <td class="${gradeClass}">${average}%</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="viewStudentDetails('${student.nationalCode}')">مشاهده</button>
+                        <button class="action-btn secondary-btn" onclick="sendMessageToStudent('${student.nationalCode}')">پیام</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // بارگذاری دانش‌آموزان برتر
+        function loadTopStudents() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            const tbody = document.getElementById('topStudentsTableBody');
+
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">📭 هیچ دانش‌آموزی ثبت‌نام نکرده است</td></tr>';
+                return;
+            }
+
+            // محاسبه میانگین هر دانش‌آموز
+            const studentAverages = students.map(student => {
+                const studentResults = results.filter(result => 
+                    result.studentId === student.nationalCode && 
+                    teacherExams.some(exam => exam.id === result.examId)
+                );
+                
+                const average = studentResults.length > 0 ? 
+                    (studentResults.reduce((sum, result) => sum + result.percentage, 0) / studentResults.length).toFixed(1) : 
+                    0;
+
+                return {
+                    ...student,
+                    average: parseFloat(average),
+                    examsTaken: studentResults.length
+                };
+            });
+
+            // مرتب‌سازی بر اساس میانگین
+            const topStudents = studentAverages
+                .filter(student => student.examsTaken > 0)
+                .sort((a, b) => b.average - a.average)
+                .slice(0, 5);
+
+            tbody.innerHTML = '';
+
+            if (topStudents.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">🎯 هیچ دانش‌آموزی در آزمون‌ها شرکت نکرده است</td></tr>';
+                return;
+            }
+
+            topStudents.forEach(student => {
+                const gradeClass = getGradeClass(student.average);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${student.fullName}</strong></td>
+                    <td>${student.nationalCode}</td>
+                    <td><span class="class-badge class-${student.class || '7'}">${student.class || '7'}</span></td>
+                    <td class="${gradeClass}">${student.average}%</td>
+                    <td>${student.examsTaken} آزمون</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // بارگذاری دانش‌آموزان ضعیف
+        function loadWeakStudents() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            const tbody = document.getElementById('weakStudentsTableBody');
+
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">📭 هیچ دانش‌آموزی ثبت‌نام نکرده است</td></tr>';
+                return;
+            }
+
+            // محاسبه میانگین هر دانش‌آموز
+            const studentAverages = students.map(student => {
+                const studentResults = results.filter(result => 
+                    result.studentId === student.nationalCode && 
+                    teacherExams.some(exam => exam.id === result.examId)
+                );
+                
+                const average = studentResults.length > 0 ? 
+                    (studentResults.reduce((sum, result) => sum + result.percentage, 0) / studentResults.length).toFixed(1) : 
+                    0;
+
+                return {
+                    ...student,
+                    average: parseFloat(average),
+                    examsTaken: studentResults.length,
+                    weakPoints: identifyWeakPoints(student.nationalCode, teacherExams, results)
+                };
+            });
+
+            // فیلتر دانش‌آموزان ضعیف (میانگین کمتر از 50)
+            const weakStudents = studentAverages.filter(student => 
+                student.average < 50 && student.examsTaken > 0
+            );
+
+            // به‌روزرسانی badge
+            document.getElementById('weakStudentsBadge').textContent = weakStudents.length;
+
+            tbody.innerHTML = '';
+
+            if (weakStudents.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">🎉 هیچ دانش‌آموزی نیاز به توجه ندارد</td></tr>';
+                return;
+            }
+
+            weakStudents.forEach(student => {
+                const gradeClass = getGradeClass(student.average);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${student.fullName}</strong></td>
+                    <td>${student.nationalCode}</td>
+                    <td class="${gradeClass}">${student.average}%</td>
+                    <td>${student.weakPoints.join('، ')}</td>
+                    <td>
+                        <button class="action-btn success-btn" onclick="createPersonalizedPlan('${student.nationalCode}')">برنامه‌ریزی</button>
+                        <button class="action-btn secondary-btn" onclick="sendMessageToStudent('${student.nationalCode}')">پیام</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // بارگذاری بانک سوالات
+        function loadQuestionBank() {
+            const questionBank = JSON.parse(localStorage.getItem('questionBank')) || [];
+            const container = document.getElementById('questionBankList');
+
+            if (questionBank.length === 0) {
+                container.innerHTML = '<div class="no-data">📭 بانک سوالات خالی است</div>';
+                return;
+            }
+
+            renderQuestionBank(questionBank, container);
+        }
+
+        // رندر بانک سوالات
+        function renderQuestionBank(questions, container) {
+            container.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-bank-item';
+                questionDiv.dataset.id = question.id;
+                
+                let questionHTML = `
+                    <strong>سوال ${index + 1}:</strong> ${question.text.substring(0, 100)}...
+                    <div style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                        <span class="class-badge class-${question.class}">پایه ${question.class}</span>
+                        <span> | درس: ${question.subject}</span>
+                        <span> | نوع: ${question.type === 'essay' ? 'تشریحی' : 'چهارگزینه‌ای'}</span>
+                        <span> | تاریخ: ${new Date(question.createdAt).toLocaleDateString('fa-IR')}</span>
+                    </div>
+                `;
+                
+                if (question.image) {
+                    questionHTML += `<div style="margin-top: 10px;">🖼️ دارای تصویر</div>`;
+                }
+                
+                questionDiv.innerHTML = questionHTML;
+                
+                // دابل کلیک برای انتخاب
+                questionDiv.ondblclick = function() {
+                    questionDiv.classList.toggle('selected');
+                    const questionId = questionDiv.dataset.id;
+                    if (questionDiv.classList.contains('selected')) {
+                        selectedQuestionsFromBank.push(question);
+                    } else {
+                        selectedQuestionsFromBank = selectedQuestionsFromBank.filter(q => q.id !== questionId);
+                    }
+                };
+                
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // ========== توابع آزمون ==========
+        
+        // نمایش مودال ایجاد آزمون
+        function showCreateExamModal() {
+            questionsCount = 0;
+            selectedQuestionsFromBank = [];
+            document.getElementById('questionsContainer').innerHTML = '';
+            document.getElementById('selectedQuestionsList').innerHTML = '';
+            document.getElementById('selectedQuestionsFromBank').style.display = 'none';
+            document.getElementById('examTitle').value = '';
+            document.getElementById('examSubject').value = 'فارسی';
+            document.getElementById('examClass').value = '7';
+            document.getElementById('examLevel').value = 'intermediate';
+            document.getElementById('examDuration').value = '45';
+            document.getElementById('examDescription').value = '';
+            
+            // تنظیم زمان پیش‌فرض برای مهلت آزمون (۲ روز بعد)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 2);
+            document.getElementById('examEndTime').value = tomorrow.toISOString().slice(0, 16);
+            
+            currentQuestionType = 'multiple-choice';
+            addQuestion(); // اضافه کردن اولین سوال
+            showModal('createExamModal');
+        }
+
+        // اضافه کردن سوال جدید
+        function addQuestion() {
+            questionsCount++;
+            const questionId = `question_${questionsCount}`;
+            
+            const questionHTML = `
+                <div class="question-item" id="${questionId}">
+                    <div class="question-header">
+                        <strong>سوال ${questionsCount}</strong>
+                        <div>
+                            <button type="button" class="action-btn" onclick="changeQuestionType('${questionId}')" style="margin-left: 10px;">
+                                ${currentQuestionType === 'multiple-choice' ? '🔀 تغییر به تشریحی' : '🔀 تغییر به چهارگزینه‌ای'}
+                            </button>
+                            <button type="button" class="action-btn" onclick="showImageUpload('${questionId}')" style="background: #9b59b6; margin-left: 10px;">
+                                🖼️ افزودن تصویر
+                            </button>
+                            <button type="button" class="remove-question" onclick="removeQuestion('${questionId}')">🗑️ حذف</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>متن سوال:</label>
+                        <textarea placeholder="متن سوال را وارد کنید..." required></textarea>
+                    </div>
+                    <div id="questionOptions_${questionId}">
+                        ${currentQuestionType === 'multiple-choice' ? renderMultipleChoiceOptions(questionId) : renderEssayQuestion(questionId)}
+                    </div>
+                    <div id="imagePreview_${questionId}" class="image-preview-container"></div>
+                </div>
+            `;
+            
+            document.getElementById('questionsContainer').insertAdjacentHTML('beforeend', questionHTML);
+        }
+
+        // رندر گزینه‌های چهارگزینه‌ای
+        function renderMultipleChoiceOptions(questionId) {
+            return `
+                <div class="form-group">
+                    <label>گزینه‌ها:</label>
+                    <div class="option-item">
+                        <input type="radio" name="correct_${questionId}" value="0" checked>
+                        <input type="text" placeholder="گزینه ۱" required>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" name="correct_${questionId}" value="1">
+                        <input type="text" placeholder="گزینه ۲" required>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" name="correct_${questionId}" value="2">
+                        <input type="text" placeholder="گزینه ۳" required>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" name="correct_${questionId}" value="3">
+                        <input type="text" placeholder="گزینه ۴" required>
+                    </div>
+                    <button type="button" class="action-btn" onclick="addOption('${questionId}')" style="background: #27ae60; margin-top: 10px;">
+                        + افزودن گزینه
+                    </button>
+                </div>
+            `;
+        }
+
+        // رندر سوال تشریحی
+        function renderEssayQuestion(questionId) {
+            return `
+                <div class="form-group">
+                    <label>سوال تشریحی:</label>
+                    <div class="essay-question" style="padding: 15px; border-radius: 8px;">
+                        <p>این یک سوال تشریحی است. دانش‌آموز باید پاسخ خود را در جعبه متن زیر بنویسد.</p>
+                        <div class="form-group">
+                            <label>حداکثر نمره:</label>
+                            <input type="number" class="score-input" min="1" max="100" value="10" 
+                                   id="maxScore_${questionId}">
+                        </div>
+                        <div class="form-group">
+                            <label>راهنمای تصحیح (اختیاری):</label>
+                            <textarea placeholder="راهنمای تصحیح این سوال را وارد کنید..." rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ایجاد آزمون جدید
+        function createNewExam() {
+            const title = document.getElementById('examTitle').value;
+            const subject = document.getElementById('examSubject').value;
+            const classLevel = document.getElementById('examClass').value;
+            const level = document.getElementById('examLevel').value;
+            const duration = parseInt(document.getElementById('examDuration').value);
+            const endTime = document.getElementById('examEndTime').value;
+            const description = document.getElementById('examDescription').value;
+
+            // اعتبارسنجی فرم
+            if (!validateExamForm()) {
+                return;
+            }
+
+            // جمع‌آوری سوالات از بانک
+            const bankQuestions = selectedQuestionsFromBank.map((question, index) => ({
+                ...question,
+                id: `bank_${Date.now()}_${index}`,
+                fromBank: true
+            }));
+
+            // جمع‌آوری سوالات جدید
+            const newQuestions = [];
+            const questionItems = document.querySelectorAll('#questionsContainer .question-item');
+            
+            let hasError = false;
+            
+            questionItems.forEach((questionItem, index) => {
+                const questionText = questionItem.querySelector('textarea').value;
+                const questionId = questionItem.id;
+                
+                // بررسی نوع سوال
+                const isEssay = questionItem.classList.contains('essay-question');
+                
+                if (isEssay) {
+                    // سوال تشریحی
+                    const maxScore = parseInt(document.getElementById(`maxScore_${questionId}`).value) || 10;
+                    const gradingGuide = questionItem.querySelector('.essay-question textarea')?.value || '';
+                    
+                    newQuestions.push({
+                        id: `new_${Date.now()}_${index}`,
+                        text: questionText,
+                        type: 'essay',
+                        maxScore: maxScore,
+                        gradingGuide: gradingGuide,
+                        image: selectedImages[questionId] || null,
+                        class: classLevel,
+                        subject: subject
+                    });
+                } else {
+                    // سوال چهارگزینه‌ای
+                    const options = questionItem.querySelectorAll('.option-item input[type="text"]');
+                    const correctAnswer = parseInt(questionItem.querySelector('input[type="radio"]:checked').value);
+                    
+                    const optionTexts = [];
+                    options.forEach(option => {
+                        optionTexts.push(option.value);
+                    });
+                    
+                    newQuestions.push({
+                        id: `new_${Date.now()}_${index}`,
+                        text: questionText,
+                        type: 'multiple-choice',
+                        options: optionTexts,
+                        correctAnswer: correctAnswer,
+                        image: selectedImages[questionId] || null,
+                        class: classLevel,
+                        subject: subject
+                    });
+                }
+            });
+
+            // ترکیب سوالات
+            const allQuestions = [...bankQuestions, ...newQuestions];
+
+            if (allQuestions.length === 0) {
+                alert('❌ حداقل یک سوال باید اضافه کنید');
+                return;
+            }
+
+            // ایجاد شیء آزمون
+            const newExam = {
+                id: 'exam_' + Date.now(),
+                title: title,
+                subject: subject,
+                class: classLevel,
+                level: level,
+                duration: duration,
+                questions: allQuestions,
+                description: description,
+                createdBy: currentTeacher.nationalCode,
+                createdAt: new Date().toISOString(),
+                endTime: endTime,
+                isActive: true
+            };
+
+            // ذخیره در localStorage
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            exams.push(newExam);
+            localStorage.setItem('exams', JSON.stringify(exams));
+
+            // افزودن سوالات جدید به بانک
+            addQuestionsToBank(newQuestions);
+
+            // نمایش پیام موفقیت
+            showSuccessMessage('✅ آزمون با موفقیت ایجاد شد!');
+
+            // بستن مودال و به‌روزرسانی
+            closeModal('createExamModal');
+            loadRecentExams();
+            loadStatistics();
+            loadQuestionBank();
+        }
+
+        // ========== توابع سوالات ==========
+        
+        function changeQuestionType(questionId) {
+            const questionDiv = document.getElementById(questionId);
+            const optionsContainer = document.getElementById(`questionOptions_${questionId}`);
+            
+            if (currentQuestionType === 'multiple-choice') {
+                currentQuestionType = 'essay';
+                optionsContainer.innerHTML = renderEssayQuestion(questionId);
+                questionDiv.classList.add('essay-question');
+            } else {
+                currentQuestionType = 'multiple-choice';
+                optionsContainer.innerHTML = renderMultipleChoiceOptions(questionId);
+                questionDiv.classList.remove('essay-question');
+            }
+        }
+
+        function addOption(questionId) {
+            const optionsContainer = document.querySelector(`#questionOptions_${questionId} .form-group`);
+            const optionCount = optionsContainer.querySelectorAll('.option-item').length;
+            
+            const newOption = document.createElement('div');
+            newOption.className = 'option-item';
+            newOption.innerHTML = `
+                <input type="radio" name="correct_${questionId}" value="${optionCount}">
+                <input type="text" placeholder="گزینه ${optionCount + 1}" required>
+            `;
+            
+            optionsContainer.insertBefore(newOption, optionsContainer.querySelector('button'));
+        }
+
+        function removeQuestion(questionId) {
+            if (questionsCount > 1) {
+                document.getElementById(questionId).remove();
+                questionsCount--;
+                delete selectedImages[questionId];
+                updateQuestionNumbers();
+            } else {
+                alert('❌ حداقل یک سوال باید وجود داشته باشد');
+            }
+        }
+
+        function updateQuestionNumbers() {
+            const questions = document.querySelectorAll('#questionsContainer .question-item');
+            questions.forEach((question, index) => {
+                const header = question.querySelector('.question-header strong');
+                header.textContent = `سوال ${index + 1}`;
+            });
+        }
+
+        // ========== توابع بانک سوالات ==========
+        
+        function showQuestionBankForSelection() {
+            const questionBank = JSON.parse(localStorage.getItem('questionBank')) || [];
+            const container = document.getElementById('questionBankSelectionList');
+            
+            if (questionBank.length === 0) {
+                container.innerHTML = '<div class="no-data">📭 بانک سوالات خالی است</div>';
+            } else {
+                renderQuestionBankForSelection(questionBank, container);
+            }
+            
+            showModal('questionBankSelectionModal');
+        }
+
+        function renderQuestionBankForSelection(questions, container) {
+            container.innerHTML = '';
+            selectedQuestionsFromBank = [];
+            
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-bank-item';
+                questionDiv.dataset.id = question.id;
+                questionDiv.onclick = function() {
+                    questionDiv.classList.toggle('selected');
+                    const questionId = questionDiv.dataset.id;
+                    if (questionDiv.classList.contains('selected')) {
+                        selectedQuestionsFromBank.push(question);
+                    } else {
+                        selectedQuestionsFromBank = selectedQuestionsFromBank.filter(q => q.id !== questionId);
+                    }
+                };
+                
+                questionDiv.innerHTML = `
+                    <strong>سوال ${index + 1}:</strong> ${question.text.substring(0, 150)}...
+                    <div style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                        <span class="class-badge class-${question.class}">پایه ${question.class}</span>
+                        <span> | درس: ${question.subject}</span>
+                        <span> | نوع: ${question.type === 'essay' ? 'تشریحی' : 'چهارگزینه‌ای'}</span>
+                        ${question.image ? '<span> | 🖼️ دارای تصویر</span>' : ''}
+                    </div>
+                `;
+                
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function addSelectedQuestionsToExam() {
+            if (selectedQuestionsFromBank.length === 0) {
+                alert('❌ لطفاً حداقل یک سوال انتخاب کنید');
+                return;
+            }
+
+            const selectedList = document.getElementById('selectedQuestionsList');
+            selectedQuestionsFromBank.forEach((question, index) => {
+                selectedList.innerHTML += `
+                    <div style="padding: 10px; margin: 5px 0; background: white; border-radius: 5px; border: 1px solid #e9ecef;">
+                        <strong>سوال ${questionsCount + index + 1} (از بانک):</strong> ${question.text.substring(0, 50)}...
+                        <span class="class-badge class-${question.class}" style="margin-right: 10px;">پایه ${question.class}</span>
+                    </div>
+                `;
+            });
+
+            questionsCount += selectedQuestionsFromBank.length;
+            document.getElementById('selectedQuestionsFromBank').style.display = 'block';
+            closeModal('questionBankSelectionModal');
+            showSuccessMessage(`✅ ${selectedQuestionsFromBank.length} سوال از بانک انتخاب شد`);
+        }
+
+        function addQuestionsToBank(questions) {
+            const questionBank = JSON.parse(localStorage.getItem('questionBank')) || [];
+            
+            questions.forEach(question => {
+                // بررسی تکراری نبودن سوال
+                const isDuplicate = questionBank.some(q => q.text === question.text);
+                if (!isDuplicate) {
+                    questionBank.push({
+                        ...question,
+                        id: 'qb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                        teacherId: currentTeacher.nationalCode,
+                        addedToBank: true
+                    });
+                }
+            });
+            
+            localStorage.setItem('questionBank', JSON.stringify(questionBank));
+        }
+
+        function addToBankFromCurrent() {
+            const questionItems = document.querySelectorAll('#questionsContainer .question-item');
+            const subject = document.getElementById('examSubject').value;
+            const classLevel = document.getElementById('examClass').value;
+            
+            if (questionItems.length === 0) {
+                alert('❌ هیچ سوالی برای افزودن به بانک وجود ندارد');
+                return;
+            }
+
+            const questionsToAdd = [];
+            
+            questionItems.forEach((questionItem, index) => {
+                const questionText = questionItem.querySelector('textarea').value;
+                const questionId = questionItem.id;
+                const isEssay = questionItem.classList.contains('essay-question');
+                
+                if (isEssay) {
+                    const maxScore = parseInt(document.getElementById(`maxScore_${questionId}`).value) || 10;
+                    const gradingGuide = questionItem.querySelector('.essay-question textarea')?.value || '';
+                    
+                    questionsToAdd.push({
+                        text: questionText,
+                        type: 'essay',
+                        maxScore: maxScore,
+                        gradingGuide: gradingGuide,
+                        image: selectedImages[questionId] || null,
+                        class: classLevel,
+                        subject: subject
+                    });
+                } else {
+                    const options = questionItem.querySelectorAll('.option-item input[type="text"]');
+                    const correctAnswer = parseInt(questionItem.querySelector('input[type="radio"]:checked').value);
+                    const optionTexts = Array.from(options).map(opt => opt.value);
+                    
+                    questionsToAdd.push({
+                        text: questionText,
+                        type: 'multiple-choice',
+                        options: optionTexts,
+                        correctAnswer: correctAnswer,
+                        image: selectedImages[questionId] || null,
+                        class: classLevel,
+                        subject: subject
+                    });
+                }
+            });
+
+            addQuestionsToBank(questionsToAdd);
+            showSuccessMessage(`✅ ${questionsToAdd.length} سوال به بانک اضافه شد`);
+            loadQuestionBank();
+        }
+
+        // ========== توابع پیام‌رسانی ==========
+        
+        function loadStudentsForMessage() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const container = document.getElementById('studentsChecklist');
+            container.innerHTML = '';
+            
+            if (students.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data">
+                        📭 هیچ دانش‌آموزی ثبت‌نام نکرده است
+                        <br>
+                        <button class="btn primary-btn" onclick="addSampleStudents()" style="margin-top: 10px;">
+                            ➕ اضافه کردن دانش‌آموزان نمونه
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            students.forEach(student => {
+                const studentDiv = document.createElement('div');
+                studentDiv.className = 'student-checkbox-item';
+                
+                studentDiv.innerHTML = `
+                    <input type="checkbox" id="student_${student.nationalCode}" 
+                           value="${student.nationalCode}">
+                    <label for="student_${student.nationalCode}" style="flex: 1; cursor: pointer; margin: 0;">
+                        <strong>${student.fullName}</strong>
+                        <span style="color: #7f8c8d; font-size: 0.9em; margin-right: 10px;">
+                            | کد ملی: ${student.nationalCode}
+                        </span>
+                    </label>
+                `;
+                
+                container.appendChild(studentDiv);
+            });
+        }
+
+        function addSampleStudents() {
+            const sampleStudents = [
+                {
+                    nationalCode: "1234567890",
+                    fullName: "علی محمدی",
+                    phone: "09123456789",
+                    email: "ali@example.com",
+                    password: "123456",
+                    class: "7"
+                },
+                {
+                    nationalCode: "0987654321",
+                    fullName: "فاطمه احمدی",
+                    phone: "09129876543",
+                    email: "fatemeh@example.com",
+                    password: "123456",
+                    class: "8"
+                },
+                {
+                    nationalCode: "1122334455",
+                    fullName: "محمد رضایی",
+                    phone: "09121122334",
+                    email: "mohammad@example.com",
+                    password: "123456",
+                    class: "9"
+                }
+            ];
+            
+            localStorage.setItem('students', JSON.stringify(sampleStudents));
+            
+            showSuccessMessage('✅ دانش‌آموزان نمونه با موفقیت اضافه شدند');
+            
+            loadStudentsForMessage();
+            loadStatistics();
+            loadTopStudents();
+            loadAllStudents();
+            loadWeakStudents();
+        }
+
+        function selectAllStudents() {
+            const checkboxes = document.querySelectorAll('#studentsChecklist input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+        }
+
+        function deselectAllStudents() {
+            const checkboxes = document.querySelectorAll('#studentsChecklist input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+
+        function updateMessageTemplate() {
+            const messageType = document.getElementById('messageType').value;
+            const titleInput = document.getElementById('messageTitle');
+            const contentInput = document.getElementById('messageContent');
+            
+            const templates = {
+                encouragement: {
+                    title: 'تشویق به خاطر عملکرد عالی',
+                    content: 'سلام عزیز،\n\nبا تشکر از تلاش و پشتکار شما در آزمون‌های اخیر. عملکرد شما بسیار عالی بوده و این نشان‌دهنده‌ی مطالعه‌ی دقیق و فهم عمیق شما از مطالب است.\n\nهمچنان با انگیزه و تلاش ادامه دهید.\n\nبا احترام،\nمعلم شما'
+                },
+                warning: {
+                    title: 'نیاز به توجه و تمرین بیشتر',
+                    content: 'سلام،\n\nمتوجه شدم که در برخی مباحث نیاز به تمرین بیشتری دارید. پیشنهاد می‌کنم زمان بیشتری برای مطالعه‌ی این مباحث اختصاص دهید.\n\nدر صورت نیاز به راهنمایی بیشتر، در خدمت شما هستم.\n\nبا احترام،\nمعلم شما'
+                },
+                announcement: {
+                    title: 'اعلان مهم',
+                    content: 'سلام به همه دانش‌آموزان عزیز،\n\nاین یک اعلان مهم است. لطفاً به دقت مطالعه فرمایید.\n\nبا تشکر'
+                },
+                homework: {
+                    title: 'تکلیف جدید',
+                    content: 'سلام،\n\nتکلیف جدید برای شما تعریف شده است. لطفاً تا تاریخ مشخص شده آن را انجام دهید.\n\nموفق باشید.\n\nبا احترام،\nمعلم شما'
+                },
+                custom: {
+                    title: '',
+                    content: ''
+                }
+            };
+            
+            if (templates[messageType]) {
+                titleInput.value = templates[messageType].title;
+                contentInput.value = templates[messageType].content;
+            }
+        }
+
+        function previewMessage() {
+            const title = document.getElementById('messageTitle').value;
+            const content = document.getElementById('messageContent').value;
+            const selectedStudents = getSelectedStudents();
+            
+            if (!title || !content) {
+                alert('❌ لطفاً عنوان و متن پیام را وارد کنید');
+                return;
+            }
+            
+            if (selectedStudents.length === 0) {
+                alert('❌ لطفاً حداقل یک دانش‌آموز را انتخاب کنید');
+                return;
+            }
+            
+            const previewHTML = `
+                <div style="background: white; padding: 20px; border-radius: 10px; border: 2px solid #e9ecef; margin-bottom: 20px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #f8f9fa; padding-bottom: 10px;">${title}</h4>
+                    <p style="white-space: pre-line; line-height: 1.6; color: #5a6c7d; font-size: 14px;">${content}</p>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <p><strong>📊 اطلاعات ارسال:</strong></p>
+                    <p><strong>تعداد گیرندگان:</strong> ${selectedStudents.length} دانش‌آموز</p>
+                    <p><strong>گیرندگان:</strong></p>
+                    <div style="max-height: 150px; overflow-y: auto; margin-top: 10px;">
+                        ${selectedStudents.map(student => `
+                            <div style="padding: 5px 10px; background: white; margin: 5px 0; border-radius: 5px; border: 1px solid #e9ecef;">
+                                👤 ${student.name}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="btn success-btn" onclick="sendBulkMessage(); closeModal('previewModal');" style="flex: 1;">
+                        ✅ تأیید و ارسال
+                    </button>
+                    <button class="btn secondary-btn" onclick="closeModal('previewModal')" style="flex: 1;">
+                        ✏️ ویرایش پیام
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('previewContent').innerHTML = previewHTML;
+            showModal('previewModal');
+        }
+
+        function getSelectedStudents() {
+            const selectedStudents = [];
+            const checkboxes = document.querySelectorAll('#studentsChecklist input[type="checkbox"]:checked');
+            
+            checkboxes.forEach(checkbox => {
+                const studentId = checkbox.value;
+                const label = checkbox.nextElementSibling;
+                const studentName = label.querySelector('strong').textContent;
+                selectedStudents.push({
+                    id: studentId,
+                    name: studentName
+                });
+            });
+            
+            return selectedStudents;
+        }
+
+        function sendBulkMessage() {
+            const title = document.getElementById('messageTitle').value;
+            const content = document.getElementById('messageContent').value;
+            const messageType = document.getElementById('messageType').value;
+            const selectedStudents = getSelectedStudents();
+            
+            if (!title || !content) {
+                alert('❌ لطفاً عنوان و متن پیام را وارد کنید');
+                return;
+            }
+            
+            if (selectedStudents.length === 0) {
+                alert('❌ لطفاً حداقل یک دانش‌آموز را انتخاب کنید');
+                return;
+            }
+            
+            const messages = JSON.parse(localStorage.getItem('teacherMessages')) || [];
+            const messageId = 'msg_' + Date.now();
+            
+            selectedStudents.forEach(student => {
+                const newMessage = {
+                    id: messageId + '_' + student.id,
+                    teacherId: currentTeacher.nationalCode,
+                    teacherName: currentTeacher.fullName,
+                    studentId: student.id,
+                    studentName: student.name,
+                    title: title,
+                    content: content,
+                    type: messageType,
+                    date: new Date().toISOString(),
+                    read: false
+                };
+                messages.push(newMessage);
+            });
+            
+            localStorage.setItem('teacherMessages', JSON.stringify(messages));
+            
+            document.getElementById('messageResult').innerHTML = `
+                <div class="success-message">
+                    ✅ پیام با موفقیت به ${selectedStudents.length} دانش‌آموز ارسال شد
+                </div>
+            `;
+            
+            loadSentMessages();
+            
+            document.getElementById('messageTitle').value = '';
+            document.getElementById('messageContent').value = '';
+            deselectAllStudents();
+            
+            setTimeout(() => {
+                document.getElementById('messageResult').innerHTML = '';
+            }, 3000);
+        }
+
+        function loadSentMessages() {
+            const messages = JSON.parse(localStorage.getItem('teacherMessages')) || [];
+            const teacherMessages = messages.filter(msg => msg.teacherId === currentTeacher.nationalCode);
+            
+            const container = document.getElementById('sentMessagesContainer');
+            container.innerHTML = '';
+            
+            if (teacherMessages.length === 0) {
+                container.innerHTML = '<div class="no-data">📭 هیچ پیامی ارسال نکرده‌اید</div>';
+                return;
+            }
+            
+            const groupedMessages = {};
+            teacherMessages.forEach(msg => {
+                const baseId = msg.id.split('_')[0] + '_' + msg.id.split('_')[1];
+                if (!groupedMessages[baseId]) {
+                    groupedMessages[baseId] = {
+                        title: msg.title,
+                        content: msg.content,
+                        type: msg.type,
+                        date: msg.date,
+                        recipients: []
+                    };
+                }
+                groupedMessages[baseId].recipients.push({
+                    studentName: msg.studentName,
+                    read: msg.read
+                });
+            });
+            
+            Object.entries(groupedMessages).forEach(([messageId, messageData]) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'exam-item';
+                
+                const readCount = messageData.recipients.filter(r => r.read).length;
+                const totalCount = messageData.recipients.length;
+                
+                messageDiv.innerHTML = `
+                    <div class="exam-header">
+                        <div class="exam-title">${messageData.title}</div>
+                        <div class="exam-status ${readCount === totalCount ? 'status-active' : 'status-upcoming'}">
+                            ${readCount}/${totalCount} خوانده شده
+                        </div>
+                    </div>
+                    <div class="exam-details">
+                        <div>📅 تاریخ: ${new Date(messageData.date).toLocaleString('fa-IR')}</div>
+                        <div>📋 نوع: ${getMessageTypeText(messageData.type)}</div>
+                        <div>👥 گیرندگان: ${messageData.recipients.map(r => r.studentName).join('، ')}</div>
+                    </div>
+                    <div style="margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <strong>متن پیام:</strong>
+                        <p style="white-space: pre-line; margin-top: 10px; color: #5a6c7d;">${messageData.content}</p>
+                    </div>
+                `;
+                
+                container.appendChild(messageDiv);
+            });
+        }
+
+        // ========== توابع هوش مصنوعی ==========
+        
+        function showAIFeatures() {
+            showModal('aiFeaturesModal');
+        }
+
+        function generateQuestionsWithAI() {
+            const subject = document.getElementById('examSubject').value || 'فارسی';
+            const level = document.getElementById('examLevel').value || 'intermediate';
+            const count = 5; // تعداد سوالات پیشنهادی
+            
+            // شبیه‌سازی هوش مصنوعی - در نسخه واقعی این بخش با API واقعی جایگزین می‌شود
+            const aiQuestions = generateAISampleQuestions(subject, level, count);
+            
+            let questionsHTML = '<h3>🧠 سوالات تولید شده توسط هوش مصنوعی</h3>';
+            questionsHTML += `<p>موضوع: ${subject} | سطح: ${getExamLevelText(level)}</p>`;
+            questionsHTML += '<hr style="margin: 15px 0;">';
+            
+            aiQuestions.forEach((question, index) => {
+                questionsHTML += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: #f0f8ff; border-radius: 10px;">
+                        <strong>سوال ${index + 1}:</strong> ${question.text}
+                        <div style="margin-top: 10px; margin-right: 20px;">
+                            ${question.options.map((option, optIndex) => `
+                                <div>${String.fromCharCode(1570 + optIndex)}) ${option} ${optIndex === question.correctAnswer ? '✅' : ''}</div>
+                            `).join('')}
+                        </div>
+                        <button class="action-btn success-btn" onclick="addAIQuestion(${index})" style="margin-top: 10px;">➕ افزودن به آزمون</button>
+                    </div>
+                `;
+            });
+            
+            // ذخیره سوالات AI برای استفاده بعدی
+            localStorage.setItem('aiGeneratedQuestions', JSON.stringify(aiQuestions));
+            
+            document.getElementById('resultsModalTitle').textContent = '🧠 سوالات هوش مصنوعی';
+            document.getElementById('examResultsContent').innerHTML = questionsHTML;
+            showModal('examResultsModal');
+        }
+
+        function analyzeStudentPerformance() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            if (students.length === 0) {
+                alert('👥 هیچ دانش‌آموزی برای تحلیل وجود ندارد');
+                return;
+            }
+            
+            let analysisHTML = '<h3>📈 تحلیل عملکرد دانش‌آموزان با هوش مصنوعی</h3>';
+            analysisHTML += '<hr style="margin: 15px 0;">';
+            
+            // تحلیل هر دانش‌آموز
+            students.forEach(student => {
+                const studentResults = results.filter(result => 
+                    result.studentId === student.nationalCode && 
+                    teacherExams.some(exam => exam.id === result.examId)
+                );
+                
+                if (studentResults.length > 0) {
+                    const average = studentResults.reduce((sum, result) => sum + result.percentage, 0) / studentResults.length;
+                    const trend = calculatePerformanceTrend(studentResults);
+                    const weakSubjects = identifyWeakSubjects(student.nationalCode, teacherExams, results);
+                    
+                    analysisHTML += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <h4>${student.fullName}</h4>
+                            <p><strong>میانگین نمرات:</strong> ${average.toFixed(1)}%</p>
+                            <p><strong>روند عملکرد:</strong> ${trend}</p>
+                            ${weakSubjects.length > 0 ? `<p><strong>نیاز به تمرین در:</strong> ${weakSubjects.join('، ')}</p>` : '<p>🎉 عملکرد مطلوب در تمام دروس</p>'}
+                            <button class="action-btn secondary-btn" onclick="viewStudentDetails('${student.nationalCode}')">مشاهده جزئیات</button>
+                        </div>
+                    `;
+                } else {
+                    analysisHTML += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: #fff3cd; border-radius: 10px;">
+                            <h4>${student.fullName}</h4>
+                            <p>📭 این دانش‌آموز هنوز در هیچ آزمونی شرکت نکرده است</p>
+                        </div>
+                    `;
+                }
+            });
+            
+            // نمایش تحلیل
+            document.getElementById('resultsModalTitle').textContent = '📈 تحلیل عملکرد دانش‌آموزان';
+            document.getElementById('examResultsContent').innerHTML = analysisHTML;
+            showModal('examResultsModal');
+        }
+
+        function generatePersonalizedExams() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            if (students.length === 0) {
+                alert('👥 هیچ دانش‌آموزی برای ایجاد آزمون شخصی‌سازی شده وجود ندارد');
+                return;
+            }
+            
+            let personalizedHTML = '<h3>🎯 آزمون‌های شخصی‌سازی شده</h3>';
+            personalizedHTML += '<p>این آزمون‌ها بر اساس نقاط ضعف هر دانش‌آموز طراحی شده‌اند:</p>';
+            personalizedHTML += '<hr style="margin: 15px 0;">';
+            
+            students.forEach(student => {
+                const studentResults = results.filter(result => 
+                    result.studentId === student.nationalCode && 
+                    teacherExams.some(exam => exam.id === result.examId)
+                );
+                
+                if (studentResults.length > 0) {
+                    const weakSubjects = identifyWeakSubjects(student.nationalCode, teacherExams, results);
+                    
+                    if (weakSubjects.length > 0) {
+                        personalizedHTML += `
+                            <div style="margin-bottom: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                                <h4>${student.fullName}</h4>
+                                <p><strong>آزمون تمرینی پیشنهادی:</strong> تمرین ${weakSubjects[0]}</p>
+                                <p><strong>سطح دشواری:</strong> متوسط</p>
+                                <p><strong>تعداد سوالات:</strong> ۱۰ سوال</p>
+                                <button class="action-btn success-btn" onclick="createPersonalizedExam('${student.nationalCode}', '${weakSubjects[0]}')">ایجاد آزمون</button>
+                            </div>
+                        `;
+                    } else {
+                        personalizedHTML += `
+                            <div style="margin-bottom: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px;">
+                                <h4>${student.fullName}</h4>
+                                <p>🎉 این دانش‌آموز در تمام دروس عملکرد مطلوبی دارد</p>
+                                <p><strong>پیشنهاد:</strong> آزمون چالشی با سطح پیشرفته</p>
+                                <button class="action-btn secondary-btn" onclick="createChallengeExam('${student.nationalCode}')">ایجاد آزمون چالشی</button>
+                            </div>
+                        `;
+                    }
+                }
+            });
+            
+            // نمایش پیشنهادات
+            document.getElementById('resultsModalTitle').textContent = '🎯 آزمون‌های شخصی‌سازی شده';
+            document.getElementById('examResultsContent').innerHTML = personalizedHTML;
+            showModal('examResultsModal');
+        }
+
+        function predictStudentSuccess() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            if (students.length === 0) {
+                alert('👥 هیچ دانش‌آموزی برای پیش‌بینی وجود ندارد');
+                return;
+            }
+            
+            let predictionHTML = '<h3>🔮 پیش‌بینی موفقیت دانش‌آموزان</h3>';
+            predictionHTML += '<p>این پیش‌بینی‌ها بر اساس تحلیل عملکرد گذشته دانش‌آموزان انجام شده است:</p>';
+            predictionHTML += '<hr style="margin: 15px 0;">';
+            
+            students.forEach(student => {
+                const studentResults = results.filter(result => 
+                    result.studentId === student.nationalCode && 
+                    teacherExams.some(exam => exam.id === result.examId)
+                );
+                
+                if (studentResults.length > 0) {
+                    const average = studentResults.reduce((sum, result) => sum + result.percentage, 0) / studentResults.length;
+                    const trend = calculatePerformanceTrend(studentResults);
+                    const successProbability = calculateSuccessProbability(average, trend);
+                    
+                    predictionHTML += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: ${getPredictionColor(successProbability)}; border-radius: 10px;">
+                            <h4>${student.fullName}</h4>
+                            <p><strong>میانگین نمرات:</strong> ${average.toFixed(1)}%</p>
+                            <p><strong>روند عملکرد:</strong> ${trend}</p>
+                            <p><strong>احتمال موفقیت در آزمون بعدی:</strong> ${successProbability}%</p>
+                            <p><strong>توصیه:</strong> ${getSuccessRecommendation(successProbability)}</p>
+                        </div>
+                    `;
+                } else {
+                    predictionHTML += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: #fff3cd; border-radius: 10px;">
+                            <h4>${student.fullName}</h4>
+                            <p>📭 داده کافی برای پیش‌بینی وجود ندارد</p>
+                            <p><strong>توصیه:</strong> شرکت در آزمون‌های بیشتر برای جمع‌آوری داده</p>
+                        </div>
+                    `;
+                }
+            });
+            
+            // نمایش پیش‌بینی‌ها
+            document.getElementById('resultsModalTitle').textContent = '🔮 پیش‌بینی موفقیت';
+            document.getElementById('examResultsContent').innerHTML = predictionHTML;
+            showModal('examResultsModal');
+        }
+
+        function aiGrading() {
+            alert('📝 سیستم تصحیح خودکار با هوش مصنوعی\n\nاین قابلیت در نسخه بعدی اضافه خواهد شد و امکان تصحیح پاسخ‌های تشریحی را فراهم می‌کند.');
+        }
+
+        function learningPath() {
+            alert('🗺️ سیستم مسیر یادگیری هوشمند\n\nاین قابلیت در نسخه بعدی اضافه خواهد شد و مسیر یادگیری شخصی‌سازی شده برای هر دانش‌آموز ایجاد می‌کند.');
+        }
+
+        // ========== توابع ابزاری ==========
+        
+        function showMessagingSection() {
+            document.getElementById('messagingSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showQuestionBank() {
+            document.getElementById('questionBankSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'classStudents') {
+                filterStudentsByClass();
+            } else if (tabName === 'topStudents') {
+                loadTopStudents();
+            } else if (tabName === 'weakStudents') {
+                loadWeakStudents();
+            }
+        }
+
+        function filterExams() {
+            const searchTerm = document.getElementById('examSearch').value.toLowerCase();
+            const filterValue = document.getElementById('examFilter').value;
+            const classFilter = document.getElementById('classExamFilter').value;
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            const container = document.getElementById('recentExamsContainer');
+
+            let filteredExams = teacherExams.filter(exam => 
+                exam.title.toLowerCase().includes(searchTerm) ||
+                exam.subject.toLowerCase().includes(searchTerm)
+            );
+
+            if (filterValue !== 'all') {
+                const now = new Date();
+                filteredExams = filteredExams.filter(exam => {
+                    const endTime = new Date(exam.endTime);
+                    if (filterValue === 'active') {
+                        return endTime > now && exam.isActive;
+                    } else if (filterValue === 'upcoming') {
+                        return endTime > now && !exam.isActive;
+                    } else if (filterValue === 'completed') {
+                        return endTime <= now;
+                    }
+                    return true;
+                });
+            }
+
+            if (classFilter !== 'all') {
+                filteredExams = filteredExams.filter(exam => exam.class == classFilter);
+            }
+
+            if (filteredExams.length === 0) {
+                container.innerHTML = '<div class="no-data">🔍 هیچ آزمونی مطابق با جستجوی شما یافت نشد</div>';
+                return;
+            }
+
+            renderExamsList(filteredExams, container);
+        }
+
+        function filterAllStudents() {
+            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            const tbody = document.getElementById('allStudentsTableBody');
+
+            let filteredStudents = students.filter(student => 
+                student.fullName.toLowerCase().includes(searchTerm) ||
+                student.nationalCode.includes(searchTerm)
+            );
+
+            if (filteredStudents.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">🔍 هیچ دانش‌آموزی مطابق با جستجوی شما یافت نشد</td></tr>';
+                return;
+            }
+
+            renderStudentsTable(filteredStudents, tbody, teacherExams, results);
+        }
+
+        function filterStudentsByClass() {
+            const classValue = document.getElementById('classSelect').value;
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            const tbody = document.getElementById('classStudentsTableBody');
+
+            let filteredStudents = classValue === 'all' ? students : students.filter(student => student.class == classValue);
+
+            if (filteredStudents.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">🔍 هیچ دانش‌آموزی در این پایه یافت نشد</td></tr>';
+                return;
+            }
+
+            renderStudentsTable(filteredStudents, tbody, teacherExams, results);
+        }
+
+        function filterQuestionBank() {
+            const searchTerm = document.getElementById('questionBankSearch').value.toLowerCase();
+            const subjectFilter = document.getElementById('questionSubjectFilter').value;
+            const classFilter = document.getElementById('questionClassFilter').value;
+            const questionBank = JSON.parse(localStorage.getItem('questionBank')) || [];
+            const container = document.getElementById('questionBankList');
+
+            let filteredQuestions = questionBank.filter(question => 
+                question.text.toLowerCase().includes(searchTerm) ||
+                question.subject.toLowerCase().includes(searchTerm)
+            );
+
+            if (subjectFilter !== 'all') {
+                filteredQuestions = filteredQuestions.filter(question => question.subject === subjectFilter);
+            }
+
+            if (classFilter !== 'all') {
+                filteredQuestions = filteredQuestions.filter(question => question.class == classFilter);
+            }
+
+            if (filteredQuestions.length === 0) {
+                container.innerHTML = '<div class="no-data">🔍 هیچ سوالی مطابق با جستجوی شما یافت نشد</div>';
+                return;
+            }
+
+            renderQuestionBank(filteredQuestions, container);
+        }
+
+        function filterStudentsForMessage() {
+            const searchTerm = document.getElementById('studentSearchMessage').value.toLowerCase();
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const container = document.getElementById('studentsChecklist');
+            
+            let filteredStudents = students.filter(student => 
+                student.fullName.toLowerCase().includes(searchTerm) ||
+                student.nationalCode.includes(searchTerm)
+            );
+            
+            container.innerHTML = '';
+            
+            if (filteredStudents.length === 0) {
+                container.innerHTML = '<div class="no-data">🔍 هیچ دانش‌آموزی مطابق با جستجوی شما یافت نشد</div>';
+                return;
+            }
+            
+            filteredStudents.forEach(student => {
+                const studentDiv = document.createElement('div');
+                studentDiv.className = 'student-checkbox-item';
+                
+                studentDiv.innerHTML = `
+                    <input type="checkbox" id="student_${student.nationalCode}" 
+                           value="${student.nationalCode}">
+                    <label for="student_${student.nationalCode}" style="flex: 1; cursor: pointer; margin: 0;">
+                        <strong>${student.fullName}</strong>
+                        <span style="color: #7f8c8d; font-size: 0.9em; margin-right: 10px;">
+                            | کد ملی: ${student.nationalCode}
+                        </span>
+                    </label>
+                `;
+                
+                container.appendChild(studentDiv);
+            });
+        }
+
+        // ========== توابع کمکی ==========
+        
+        function getExamParticipantsCount(examId) {
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            return results.filter(result => result.examId === examId).length;
+        }
+
+        function getExamLevelText(level) {
+            switch(level) {
+                case 'beginner': return 'مبتدی';
+                case 'intermediate': return 'متوسط';
+                case 'advanced': return 'پیشرفته';
+                default: return 'نامشخص';
+            }
+        }
+
+        function getGradeClass(percentage) {
+            if (percentage >= 90) return 'grade-excellent';
+            if (percentage >= 75) return 'grade-good';
+            if (percentage >= 50) return 'grade-average';
+            return 'grade-poor';
+        }
+
+        function getMessageTypeText(type) {
+            const types = {
+                'custom': 'سفارشی',
+                'encouragement': 'تشویقی',
+                'warning': 'هشدار',
+                'announcement': 'اعلان',
+                'homework': 'تکلیف'
+            };
+            return types[type] || type;
+        }
+
+        function identifyWeakPoints(studentId, teacherExams, allResults) {
+            const studentResults = allResults.filter(result => result.studentId === studentId);
+            const weakPoints = [];
+            
+            // تحلیل نتایج برای شناسایی نقاط ضعف
+            teacherExams.forEach(exam => {
+                const examResult = studentResults.find(result => result.examId === exam.id);
+                if (examResult && examResult.percentage < 60) {
+                    weakPoints.push(exam.subject);
+                }
+            });
+            
+            // حذف موارد تکراری
+            return [...new Set(weakPoints)].slice(0, 3);
+        }
+
+        // ========== توابع هوش مصنوعی کمکی ==========
+        
+        function generateAISampleQuestions(subject, level, count) {
+            const questions = [];
+            
+            for (let i = 0; i < count; i++) {
+                let questionText = '';
+                let options = [];
+                let correctAnswer = Math.floor(Math.random() * 4);
+                
+                // تولید سوال بر اساس موضوع و سطح
+                switch(subject) {
+                    case 'فارسی':
+                        questionText = `کدام گزینه صحیح است؟ (سوال ${i+1} فارسی ${level})`;
+                        options = [
+                            'گزینه اول نمونه',
+                            'گزینه دوم نمونه',
+                            'گزینه سوم نمونه',
+                            'گزینه چهارم نمونه'
+                        ];
+                        break;
+                    default:
+                        questionText = `سوال نمونه ${i+1} در ${subject}`;
+                        options = ['گزینه ۱', 'گزینه ۲', 'گزینه ۳', 'گزینه ۴'];
+                }
+                
+                questions.push({
+                    text: questionText,
+                    options: options,
+                    correctAnswer: correctAnswer
+                });
+            }
+            
+            return questions;
+        }
+
+        function calculatePerformanceTrend(results) {
+            if (results.length < 2) return 'ثابت';
+            
+            const sortedResults = results.sort((a, b) => new Date(a.submitDate) - new Date(b.submitDate));
+            const firstScore = sortedResults[0].percentage;
+            const lastScore = sortedResults[sortedResults.length - 1].percentage;
+            
+            if (lastScore > firstScore + 5) return '📈 صعودی';
+            if (lastScore < firstScore - 5) return '📉 نزولی';
+            return '➡️ ثابت';
+        }
+
+        function identifyWeakSubjects(studentId, teacherExams, allResults) {
+            const studentResults = allResults.filter(result => result.studentId === studentId);
+            const subjectScores = {};
+            
+            // محاسبه میانگین هر درس
+            teacherExams.forEach(exam => {
+                const examResult = studentResults.find(result => result.examId === exam.id);
+                if (examResult) {
+                    if (!subjectScores[exam.subject]) {
+                        subjectScores[exam.subject] = [];
+                    }
+                    subjectScores[exam.subject].push(examResult.percentage);
+                }
+            });
+            
+            // شناسایی دروس با میانگین کمتر از 60
+            const weakSubjects = [];
+            for (const subject in subjectScores) {
+                const avg = subjectScores[subject].reduce((sum, score) => sum + score, 0) / subjectScores[subject].length;
+                if (avg < 60) {
+                    weakSubjects.push(subject);
+                }
+            }
+            
+            return weakSubjects;
+        }
+
+        function calculateSuccessProbability(average, trend) {
+            let probability = average;
+            
+            if (trend.includes('صعودی')) probability += 10;
+            if (trend.includes('نزولی')) probability -= 10;
+            
+            return Math.max(0, Math.min(100, Math.round(probability)));
+        }
+
+        function getPredictionColor(probability) {
+            if (probability >= 80) return '#e8f5e8';
+            if (probability >= 60) return '#fff3cd';
+            return '#ffebee';
+        }
+
+        function getSuccessRecommendation(probability) {
+            if (probability >= 80) return 'آمادگی عالی، ادامه دهید';
+            if (probability >= 60) return 'نیاز به تمرین بیشتر';
+            return 'نیاز به توجه و تمرین فشرده';
+        }
+
+        // ========== توابع اصلی ==========
+        
+        function viewAllResults() {
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            if (teacherExams.length === 0) {
+                alert('📊 هنوز هیچ آزمونی ایجاد نکرده‌اید');
+                return;
+            }
+            
+            const teacherResults = results.filter(result => 
+                teacherExams.some(exam => exam.id === result.examId)
+            );
+            
+            if (teacherResults.length === 0) {
+                alert('📊 هنوز هیچ دانش‌آموزی در آزمون‌های شما شرکت نکرده است');
+                return;
+            }
+            
+            let allResultsHTML = `<h3>📊 نتایج کلی تمام آزمون‌ها</h3>`;
+            
+            // آمار کلی
+            const totalStudents = [...new Set(teacherResults.map(result => result.studentId))].length;
+            const totalExams = teacherExams.length;
+            const avgOverall = teacherResults.reduce((sum, result) => sum + result.percentage, 0) / teacherResults.length;
+            
+            allResultsHTML += `
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                    <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 1.2rem; font-weight: bold; color: #27ae60;">${totalStudents}</div>
+                        <div style="font-size: 0.8rem;">تعداد دانش‌آموزان</div>
+                    </div>
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 1.2rem; font-weight: bold; color: #2196f3;">${totalExams}</div>
+                        <div style="font-size: 0.8rem;">تعداد آزمون‌ها</div>
+                    </div>
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 1.2rem; font-weight: bold; color: #ff9800;">${avgOverall.toFixed(1)}%</div>
+                        <div style="font-size: 0.8rem;">میانگین کلی</div>
+                    </div>
+                </div>
+            `;
+            
+            allResultsHTML += `<hr style="margin: 15px 0;">`;
+            allResultsHTML += `<h4>نتایج به تفکیک آزمون:</h4>`;
+            
+            teacherExams.forEach(exam => {
+                const examResults = teacherResults.filter(result => result.examId === exam.id);
+                if (examResults.length > 0) {
+                    const examAvg = examResults.reduce((sum, result) => sum + result.percentage, 0) / examResults.length;
+                    allResultsHTML += `
+                        <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                            <strong>${exam.title}</strong> (${exam.subject})<br>
+                            <span>میانگین: ${examAvg.toFixed(1)}% | شرکت‌کنندگان: ${examResults.length} نفر</span><br>
+                            <button class="action-btn secondary-btn" onclick="viewExamResults('${exam.id}')" style="margin-top: 10px;">مشاهده جزئیات</button>
+                        </div>
+                    `;
+                }
+            });
+            
+            // نمایش در مودال
+            document.getElementById('resultsModalTitle').textContent = '📊 نتایج کلی تمام آزمون‌ها';
+            document.getElementById('examResultsContent').innerHTML = allResultsHTML;
+            showModal('examResultsModal');
+        }
+
+        function manageStudents() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            alert(`👥 مدیریت دانش‌آموزان\n\nتعداد دانش‌آموزان: ${students.length} نفر\n\nبرای مشاهده جزئیات کامل به تب "همه دانش‌آموزان" مراجعه کنید.`);
+        }
+
+        function gotomathweb (href) {
+            document.getElementByHref("hrefs").questionText = "آیا میخواهید وارد پلتفرم جامع محاسباتی گروه سایفر شوید؟";
+        }
+
+        function viewExamResults(examId) {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const exam = exams.find(e => e.id === examId);
+            
+            if (exam) {
+                const examResults = results.filter(result => result.examId === examId);
+                
+                if (examResults.length === 0) {
+                    alert('📊 هنوز هیچ‌کس در این آزمون شرکت نکرده است');
+                    return;
+                }
+                
+                let resultsHTML = `<h3>نتایج ${exam.title}</h3>`;
+                resultsHTML += `<p>تعداد شرکت‌کنندگان: ${examResults.length} نفر</p>`;
+                
+                // محاسبه آمار
+                const avgScore = examResults.reduce((sum, result) => sum + result.percentage, 0) / examResults.length;
+                const maxScore = Math.max(...examResults.map(result => result.percentage));
+                const minScore = Math.min(...examResults.map(result => result.percentage));
+                
+                resultsHTML += `
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.2rem; font-weight: bold; color: #27ae60;">${avgScore.toFixed(1)}%</div>
+                            <div style="font-size: 0.8rem;">میانگین کلاس</div>
+                        </div>
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.2rem; font-weight: bold; color: #2196f3;">${maxScore}%</div>
+                            <div style="font-size: 0.8rem;">بیشترین نمره</div>
+                        </div>
+                        <div style="background: #ffebee; padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.2rem; font-weight: bold; color: #f44336;">${minScore}%</div>
+                            <div style="font-size: 0.8rem;">کمترین نمره</div>
+                        </div>
+                    </div>
+                `;
+                
+                resultsHTML += `<hr style="margin: 15px 0;">`;
+                
+                // مرتب‌سازی بر اساس نمره
+                examResults.sort((a, b) => b.percentage - a.percentage);
+                
+                resultsHTML += `<div style="max-height: 400px; overflow-y: auto;">`;
+                
+                examResults.forEach((result, index) => {
+                    const student = students.find(s => s.nationalCode === result.studentId);
+                    const studentName = student ? student.fullName : 'نامشخص';
+                    const gradeClass = getGradeClass(result.percentage);
+                    
+                    resultsHTML += `
+                        <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>رتبه ${index + 1}:</strong> ${studentName}<br>
+                                <span class="${gradeClass}">نمره: ${result.score}/${result.totalScore} (${result.percentage}%)</span><br>
+                                <small>تاریخ: ${new Date(result.submitDate).toLocaleDateString('fa-IR')}</small>
+                            </div>
+                            <div>
+                                <button class="action-btn secondary-btn" onclick="viewStudentExamDetails('${result.studentId}', '${examId}')">جزئیات</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                resultsHTML += `</div>`;
+                
+                // نمایش در مودال
+                document.getElementById('resultsModalTitle').textContent = `📊 نتایج ${exam.title}`;
+                document.getElementById('examResultsContent').innerHTML = resultsHTML;
+                showModal('examResultsModal');
+            }
+        }
+
+        function previewExam(examId) {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const exam = exams.find(e => e.id === examId);
+            
+            if (exam) {
+                let previewHTML = `<h3>${exam.title}</h3>`;
+                previewHTML += `<p><strong>درس:</strong> ${exam.subject}</p>`;
+                previewHTML += `<p><strong>سطح:</strong> ${getExamLevelText(exam.level)}</p>`;
+                previewHTML += `<p><strong>مدت زمان:</strong> ${exam.duration} دقیقه</p>`;
+                previewHTML += `<p><strong>تعداد سوالات:</strong> ${exam.questions.length}</p>`;
+                if (exam.description) {
+                    previewHTML += `<p><strong>توضیحات:</strong> ${exam.description}</p>`;
+                }
+                previewHTML += `<hr style="margin: 20px 0;">`;
+                
+                exam.questions.forEach((question, index) => {
+                    previewHTML += `
+                        <div style="margin-bottom: 25px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <strong>سوال ${index + 1}:</strong> ${question.text}
+                            <div style="margin-top: 10px; margin-right: 20px;">
+                                ${question.options ? question.options.map((option, optIndex) => `
+                                    <div>${String.fromCharCode(1570 + optIndex)}) ${option} ${optIndex === question.correctAnswer ? '✅' : ''}</div>
+                                `).join('') : '<div>سوال تشریحی - نیاز به پاسخ تشریحی</div>'}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                alert(previewHTML);
+            }
+        }
+
+        function editExam(examId) {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const exam = exams.find(e => e.id === examId);
+            
+            if (exam) {
+                const newTitle = prompt('عنوان جدید آزمون:', exam.title);
+                if (newTitle && newTitle.trim() !== '') {
+                    exam.title = newTitle.trim();
+                    localStorage.setItem('exams', JSON.stringify(exams));
+                    showSuccessMessage('✅ عنوان آزمون با موفقیت ویرایش شد');
+                    loadRecentExams();
+                }
+                
+                const newStatus = confirm(`آیا می‌خواهید وضعیت آزمون "${exam.title}" را تغییر دهید؟\n\nاکنون: ${exam.isActive ? 'فعال' : 'غیرفعال'}`);
+                if (newStatus !== null) {
+                    exam.isActive = !exam.isActive;
+                    localStorage.setItem('exams', JSON.stringify(exams));
+                    showSuccessMessage(`✅ وضعیت آزمون به ${exam.isActive ? 'فعال' : 'غیرفعال'} تغییر یافت`);
+                    loadRecentExams();
+                }
+            }
+        }
+
+        function deleteExam(examId) {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const exam = exams.find(e => e.id === examId);
+            
+            if (exam && confirm(`آیا از حذف آزمون "${exam.title}" اطمینان دارید؟\nاین عمل غیرقابل بازگشت است!`)) {
+                const updatedExams = exams.filter(e => e.id !== examId);
+                localStorage.setItem('exams', JSON.stringify(updatedExams));
+                showSuccessMessage('✅ آزمون با موفقیت حذف شد');
+                loadRecentExams();
+                loadStatistics();
+            }
+        }
+
+        function viewStudentDetails(studentId) {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const teacherExams = exams.filter(exam => exam.createdBy === currentTeacher.nationalCode);
+            
+            const student = students.find(s => s.nationalCode === studentId);
+            const studentResults = results.filter(result => 
+                result.studentId === studentId && 
+                teacherExams.some(exam => exam.id === result.examId)
+            );
+            
+            if (student) {
+                let detailsHTML = `
+                    <h3>👤 جزئیات دانش‌آموز</h3>
+                    <p><strong>نام کامل:</strong> ${student.fullName}</p>
+                    <p><strong>کد ملی:</strong> ${student.nationalCode}</p>
+                    <p><strong>شماره تماس:</strong> ${student.phone || 'ثبت نشده'}</p>
+                    <p><strong>ایمیل:</strong> ${student.email || 'ثبت نشده'}</p>
+                    <hr style="margin: 15px 0;">
+                `;
+                
+                if (studentResults.length > 0) {
+                    const average = studentResults.reduce((sum, result) => sum + result.percentage, 0) / studentResults.length;
+                    const bestScore = Math.max(...studentResults.map(result => result.percentage));
+                    const worstScore = Math.min(...studentResults.map(result => result.percentage));
+                    
+                    detailsHTML += `
+                        <h4>📊 عملکرد تحصیلی</h4>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0;">
+                            <div style="background: #e8f5e8; padding: 10px; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: bold; color: #27ae60;">${average.toFixed(1)}%</div>
+                                <div style="font-size: 0.8rem;">میانگین</div>
+                            </div>
+                            <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: bold; color: #2196f3;">${bestScore}%</div>
+                                <div style="font-size: 0.8rem;">بهترین نمره</div>
+                            </div>
+                            <div style="background: #ffebee; padding: 10px; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: bold; color: #f44336;">${worstScore}%</div>
+                                <div style="font-size: 0.8rem;">کمترین نمره</div>
+                            </div>
+                        </div>
+                        
+                        <h4>📋 تاریخچه آزمون‌ها</h4>
+                    `;
+                    
+                    studentResults.forEach(result => {
+                        const exam = teacherExams.find(e => e.id === result.examId);
+                        if (exam) {
+                            const gradeClass = getGradeClass(result.percentage);
+                            detailsHTML += `
+                                <div style="margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                                    <strong>${exam.title}</strong><br>
+                                    <span class="${gradeClass}">نمره: ${result.score}/${result.totalScore} (${result.percentage}%)</span><br>
+                                    <small>تاریخ: ${new Date(result.submitDate).toLocaleDateString('fa-IR')}</small>
+                                </div>
+                            `;
+                        }
+                    });
+                } else {
+                    detailsHTML += `<p>🎯 این دانش‌آموز هنوز در هیچ آزمونی شرکت نکرده است.</p>`;
+                }
+                
+                // نمایش در مودال
+                document.getElementById('resultsModalTitle').textContent = `👤 جزئیات ${student.fullName}`;
+                document.getElementById('examResultsContent').innerHTML = detailsHTML;
+                showModal('examResultsModal');
+            }
+        }
+
+        function sendMessageToStudent(studentId) {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const student = students.find(s => s.nationalCode === studentId);
+            
+            if (student) {
+                const message = prompt(`ارسال پیام به ${student.fullName}:`, '');
+                if (message && message.trim() !== '') {
+                    // ذخیره پیام در localStorage
+                    const messages = JSON.parse(localStorage.getItem('teacherMessages')) || [];
+                    messages.push({
+                        id: 'msg_' + Date.now(),
+                        teacherId: currentTeacher.nationalCode,
+                        studentId: studentId,
+                        message: message.trim(),
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                    localStorage.setItem('teacherMessages', JSON.stringify(messages));
+                    
+                    showSuccessMessage(`✅ پیام به ${student.fullName} ارسال شد`);
+                }
+            }
+        }
+
+        function createPersonalizedPlan(studentId) {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const student = students.find(s => s.nationalCode === studentId);
+            
+            if (student) {
+                const plan = prompt(`ایجاد برنامه آموزشی برای ${student.fullName}:\n\nموضوعات نیاز به تمرین را وارد کنید:`, 'ریاضی - جبر و معادلات');
+                if (plan && plan.trim() !== '') {
+                    // ذخیره برنامه در localStorage
+                    const plans = JSON.parse(localStorage.getItem('studentPlans')) || [];
+                    plans.push({
+                        id: 'plan_' + Date.now(),
+                        studentId: studentId,
+                        teacherId: currentTeacher.nationalCode,
+                        plan: plan.trim(),
+                        createdDate: new Date().toISOString(),
+                        completed: false
+                    });
+                    localStorage.setItem('studentPlans', JSON.stringify(plans));
+                    
+                    showSuccessMessage(`✅ برنامه آموزشی برای ${student.fullName} ایجاد شد`);
+                }
+            }
+        }
+
+        function createPersonalizedExam(studentId, subject) {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const student = students.find(s => s.nationalCode === studentId);
+            
+            if (student) {
+                // پر کردن فرم ایجاد آزمون با اطلاعات شخصی‌سازی شده
+                document.getElementById('examTitle').value = `آزمون تمرینی ${subject} - ${student.fullName}`;
+                document.getElementById('examSubject').value = subject;
+                document.getElementById('examLevel').value = 'intermediate';
+                document.getElementById('examDescription').value = `آزمون شخصی‌سازی شده برای ${student.fullName} جهت بهبود عملکرد در ${subject}`;
+                
+                // پاک کردن سوالات قبلی
+                questionsCount = 0;
+                document.getElementById('questionsContainer').innerHTML = '';
+                
+                // اضافه کردن سوالات نمونه
+                addQuestion();
+                addQuestion();
+                addQuestion();
+                
+                closeModal('examResultsModal');
+                showModal('createExamModal');
+                showSuccessMessage(`✅ فرم آزمون برای ${student.fullName} آماده شد`);
+            }
+        }
+
+        function createChallengeExam(studentId) {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const student = students.find(s => s.nationalCode === studentId);
+            
+            if (student) {
+                // پر کردن فرم ایجاد آزمون چالشی
+                document.getElementById('examTitle').value = `آزمون چالشی - ${student.fullName}`;
+                document.getElementById('examSubject').value = 'فارسی';
+                document.getElementById('examLevel').value = 'advanced';
+                document.getElementById('examDescription').value = `آزمون چالشی برای ${student.fullName} جهت سنجش سطح پیشرفته`;
+                
+                // پاک کردن سوالات قبلی
+                questionsCount = 0;
+                document.getElementById('questionsContainer').innerHTML = '';
+                
+                // اضافه کردن سوالات بیشتر
+                for (let i = 0; i < 5; i++) {
+                    addQuestion();
+                }
+                
+                closeModal('examResultsModal');
+                showModal('createExamModal');
+                showSuccessMessage(`✅ فرم آزمون چالشی برای ${student.fullName} آماده شد`);
+            }
+        }
+
+        function gradeEssayQuestions(examId) {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            
+            const exam = exams.find(e => e.id === examId);
+            if (!exam) return;
+
+            const essayQuestions = exam.questions.filter(q => q.type === 'essay');
+            if (essayQuestions.length === 0) {
+                alert('📝 این آزمون سوال تشریحی ندارد');
+                return;
+            }
+
+            const examResults = results.filter(r => r.examId === examId);
+            const modalContent = document.getElementById('essayGradingContent');
+            
+            let gradingHTML = `
+                <h3>📝 تصحیح سوالات تشریحی آزمون: ${exam.title}</h3>
+                <p>تعداد سوالات تشریحی: ${essayQuestions.length}</p>
+                <p>تعداد دانش‌آموزان: ${examResults.length}</p>
+                <hr style="margin: 20px 0;">
+            `;
+
+            examResults.forEach((result, studentIndex) => {
+                const student = students.find(s => s.nationalCode === result.studentId);
+                const studentName = student ? student.fullName : 'نامشخص';
+                
+                gradingHTML += `
+                    <div class="student-grading-section" style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <h4>👤 دانش‌آموز: ${studentName}</h4>
+                        <p>کد ملی: ${result.studentId}</p>
+                        
+                        ${essayQuestions.map((question, qIndex) => {
+                            const studentAnswer = result.essayAnswers?.[question.id] || 'پاسخی داده نشده';
+                            const currentScore = result.essayScores?.[question.id] || 0;
+                            
+                            return `
+                                <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                                    <strong>سوال ${qIndex + 1}:</strong> ${question.text.substring(0, 100)}...
+                                    <div style="margin-top: 10px;">
+                                        <strong>پاسخ دانش‌آموز:</strong>
+                                        <div style="padding: 10px; background: #e3f2fd; border-radius: 5px; margin-top: 5px;">
+                                            ${studentAnswer}
+                                        </div>
+                                    </div>
+                                    ${question.gradingGuide ? `
+                                        <div style="margin-top: 10px;">
+                                            <strong>راهنمای تصحیح:</strong>
+                                            <div style="padding: 10px; background: #fff3e0; border-radius: 5px; margin-top: 5px;">
+                                                ${question.gradingGuide}
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                    <div style="margin-top: 10px;">
+                                        <label>نمره (حداکثر ${question.maxScore}):</label>
+                                        <input type="number" 
+                                               class="score-input" 
+                                               min="0" 
+                                               max="${question.maxScore}"
+                                               value="${currentScore}"
+                                               onchange="updateEssayScore('${result.id}', '${question.id}', this.value)"
+                                               style="width: 100px;">
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                        
+                        <div style="margin-top: 15px;">
+                            <button class="btn success-btn" onclick="saveEssayGrades('${result.id}')">
+                                💾 ذخیره نمرات این دانش‌آموز
+                            </button>
+                        </div>
+                    </div>
+                    <hr style="margin: 20px 0;">
+                `;
+            });
+
+            modalContent.innerHTML = gradingHTML;
+            showModal('essayGradingModal');
+        }
+
+        function updateEssayScore(resultId, questionId, score) {
+            let results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const resultIndex = results.findIndex(r => r.id === resultId);
+            
+            if (resultIndex !== -1) {
+                if (!results[resultIndex].essayScores) {
+                    results[resultIndex].essayScores = {};
+                }
+                results[resultIndex].essayScores[questionId] = parseInt(score);
+                localStorage.setItem('examResults', JSON.stringify(results));
+                showSuccessMessage('✅ نمره به‌روزرسانی شد');
+            }
+        }
+
+        function saveEssayGrades(resultId) {
+            let results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const resultIndex = results.findIndex(r => r.id === resultId);
+            
+            if (resultIndex !== -1) {
+                // محاسبه نمره کل از سوالات تشریحی
+                let essayTotalScore = 0;
+                let essayMaxScore = 0;
+                
+                if (results[resultIndex].essayScores) {
+                    const exam = getExamById(results[resultIndex].examId);
+                    exam.questions.filter(q => q.type === 'essay').forEach(q => {
+                        essayMaxScore += q.maxScore;
+                        essayTotalScore += results[resultIndex].essayScores[q.id] || 0;
+                    });
+                }
+                
+                // به‌روزرسانی نمره کلی
+                results[resultIndex].essayTotalScore = essayTotalScore;
+                results[resultIndex].essayMaxScore = essayMaxScore;
+                
+                // محاسبه درصد جدید
+                const totalScore = results[resultIndex].score + essayTotalScore;
+                const totalMaxScore = results[resultIndex].totalScore + essayMaxScore;
+                results[resultIndex].percentage = Math.round((totalScore / totalMaxScore) * 100);
+                
+                localStorage.setItem('examResults', JSON.stringify(results));
+                showSuccessMessage('✅ نمرات تشریحی ذخیره شدند');
+            }
+        }
+
+        // ========== توابع ابزاری ==========
+        
+        function showImageUpload(questionId) {
+            currentGradingQuestion = questionId;
+            const modalContent = document.getElementById('imageUploadContent');
+            
+            modalContent.innerHTML = `
+                <div class="form-group">
+                    <label>آپلود تصویر برای سوال:</label>
+                    <div class="image-upload">
+                        <input type="file" id="imageUploadInput" accept="image/*" style="display: none;" 
+                               onchange="handleImageUpload(event, '${questionId}')">
+                        <div class="upload-btn" onclick="document.getElementById('imageUploadInput').click()">
+                            📁 انتخاب تصویر
+                        </div>
+                        <div class="image-preview" id="imagePreviewUpload"></div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 30px;">
+                    <button type="button" class="btn success-btn" style="flex: 1;" onclick="saveImageToQuestion('${questionId}')">💾 ذخیره تصویر</button>
+                    <button type="button" class="btn secondary-btn" style="flex: 1;" onclick="closeModal('imageUploadModal')">❌ انصراف</button>
+                </div>
+            `;
+            
+            showModal('imageUploadModal');
+        }
+
+        function handleImageUpload(event, questionId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImages[questionId] = e.target.result;
+                    document.getElementById('imagePreviewUpload').src = e.target.result;
+                    document.getElementById('imagePreviewUpload').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveImageToQuestion(questionId) {
+            if (selectedImages[questionId]) {
+                const previewContainer = document.getElementById(`imagePreview_${questionId}`);
+                previewContainer.innerHTML = `
+                    <div style="margin-top: 10px;">
+                        <strong>تصویر ضمیمه:</strong>
+                        <img src="${selectedImages[questionId]}" class="image-preview">
+                        <button type="button" class="remove-question" onclick="removeImage('${questionId}')" style="margin-top: 10px;">
+                            🗑️ حذف تصویر
+                        </button>
+                    </div>
+                `;
+                closeModal('imageUploadModal');
+                showSuccessMessage('✅ تصویر با موفقیت اضافه شد');
+            }
+        }
+
+        function removeImage(questionId) {
+            delete selectedImages[questionId];
+            document.getElementById(`imagePreview_${questionId}`).innerHTML = '';
+        }
+
+        function addAIQuestion(questionIndex) {
+            const aiQuestions = JSON.parse(localStorage.getItem('aiGeneratedQuestions')) || [];
+            const question = aiQuestions[questionIndex];
+            
+            if (question) {
+                questionsCount++;
+                const questionId = `question_${questionsCount}`;
+                
+                const questionHTML = `
+                    <div class="question-item" id="${questionId}">
+                        <div class="question-header">
+                            <strong>سوال ${questionsCount} (هوش مصنوعی)</strong>
+                            <button type="button" class="remove-question" onclick="removeQuestion('${questionId}')">🗑️ حذف</button>
+                        </div>
+                        <div class="form-group">
+                            <label>متن سوال:</label>
+                            <textarea placeholder="متن سوال را وارد کنید..." required>${question.text}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>گزینه‌ها:</label>
+                            ${question.options.map((option, optIndex) => `
+                                <div class="option-item">
+                                    <input type="radio" name="correct_${questionsCount}" value="${optIndex}" ${optIndex === question.correctAnswer ? 'checked' : ''}>
+                                    <input type="text" placeholder="گزینه ${optIndex + 1}" value="${option}" required>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('questionsContainer').insertAdjacentHTML('beforeend', questionHTML);
+                closeModal('examResultsModal');
+                showSuccessMessage('✅ سوال هوش مصنوعی به آزمون اضافه شد');
+            }
+        }
+
+        function viewStudentExamDetails(studentId, examId) {
+            const results = JSON.parse(localStorage.getItem('examResults')) || [];
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            
+            const result = results.find(r => r.studentId === studentId && r.examId === examId);
+            const student = students.find(s => s.nationalCode === studentId);
+            const exam = exams.find(e => e.id === examId);
+            
+            if (result && student && exam) {
+                let detailsHTML = `
+                    <h3>جزئیات آزمون ${student.fullName}</h3>
+                    <p><strong>آزمون:</strong> ${exam.title}</p>
+                    <p><strong>نمره:</strong> ${result.score}/${result.totalScore} (${result.percentage}%)</p>
+                    <p><strong>زمان صرف شده:</strong> ${result.timeSpent || 0} دقیقه</p>
+                    <hr style="margin: 15px 0;">
+                    <h4>پاسخ‌های دانش‌آموز:</h4>
+                `;
+                
+                if (result.answers) {
+                    result.answers.forEach((answer, index) => {
+                        const question = exam.questions[index];
+                        if (question.type === 'multiple-choice') {
+                            const isCorrect = answer === question.correctAnswer;
+                            const correctAnswerText = question.options[question.correctAnswer];
+                            const studentAnswerText = question.options[answer];
+                            
+                            detailsHTML += `
+                                <div style="margin-bottom: 15px; padding: 15px; background: ${isCorrect ? '#e8f5e8' : '#ffebee'}; border-radius: 8px;">
+                                    <strong>سوال ${index + 1}:</strong> ${question.text}<br>
+                                    <div style="margin-top: 10px;">
+                                        <span style="color: ${isCorrect ? '#27ae60' : '#e74c3c'};">
+                                            ${isCorrect ? '✅ پاسخ صحیح' : '❌ پاسخ نادرست'}
+                                        </span><br>
+                                        <strong>پاسخ دانش‌آموز:</strong> ${studentAnswerText || 'پاسخ نداده'}<br>
+                                        ${!isCorrect ? `<strong>پاسخ صحیح:</strong> ${correctAnswerText}<br>` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+                
+                alert(detailsHTML);
+            }
+        }
+
+        function exportQuestionBank() {
+            const questionBank = JSON.parse(localStorage.getItem('questionBank')) || [];
+            if (questionBank.length === 0) {
+                alert('❌ بانک سوالات خالی است');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "شماره,متن سوال,نوع,پایه,درس,تاریخ ایجاد\n";
+            
+            questionBank.forEach((question, index) => {
+                const row = [
+                    index + 1,
+                    question.text.replace(/,/g, '،'),
+                    question.type === 'essay' ? 'تشریحی' : 'چهارگزینه‌ای',
+                    question.class,
+                    question.subject,
+                    new Date(question.createdAt).toLocaleDateString('fa-IR')
+                ].join(',');
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "بانک_سوالات.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showSuccessMessage('✅ بانک سوالات با فرمت Excel دانلود شد');
+        }
+
+        function getExamById(examId) {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            return exams.find(e => e.id === examId);
+        }
+
+        function validateExamForm() {
+            const title = document.getElementById('examTitle').value.trim();
+            const duration = parseInt(document.getElementById('examDuration').value);
+            const endTime = new Date(document.getElementById('examEndTime').value);
+            
+            if (title.length < 3) {
+                showError('عنوان آزمون باید حداقل ۳ کاراکتر باشد');
+                return false;
+            }
+            
+            if (duration < 5 || duration > 180) {
+                showError('مدت زمان آزمون باید بین ۵ تا ۱۸۰ دقیقه باشد');
+                return false;
+            }
+            
+            if (endTime <= new Date()) {
+                showError('مهلت آزمون باید در آینده باشد');
+                return false;
+            }
+            
+            return true;
+        }
+
+        function showError(message) {
+            alert(`❌ ${message}`);
+        }
+
+        function showSuccessMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'success-message';
+            messageDiv.textContent = message;
+            document.querySelector('.teacher-container').insertBefore(messageDiv, document.querySelector('.stats-cards'));
+            setTimeout(() => messageDiv.remove(), 3000);
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function initializeAPI() {
+            // شبیه‌سازی اتصال به API
+            setTimeout(() => {
+                const apiStatus = document.getElementById('apiStatus');
+                apiStatus.innerHTML = `
+                    <div class="status-indicator status-connected"></div>
+                    <span>API متصل | بانک سوالات: ${getQuestionBankCount()} سوال</span>
+                `;
+            }, 1000);
+        }
+
+        function getQuestionBankCount() {
+            const questionBank = JSON.parse(localStorage.getItem('questionBank')) || [];
+            return questionBank.length;
+        }
+
+        function initializeExamForm() {
+            document.getElementById('createExamForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createNewExam();
+            });
+        }
+
+        function logout() {
+            if (confirm('آیا می‌خواهید از حساب کاربری خود خارج شوید؟')) {
+                localStorage.removeItem('currentTeacher');
+                window.location.href = 'teacher-login.html';
+            }
+        }
+    </script>
+</body>
+</html>
