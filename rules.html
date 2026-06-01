@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قوانین | ققنوس ادب</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --purple: #9b59b6;
+            --teal: #1abc9c;
+            --gold: #f1c40f;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* دکمه بازگشت */
+        .back-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .back-btn:hover::before {
+            left: 100%;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        /* هدر */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            margin-bottom: 40px;
+            text-align: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--warning), var(--danger));
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            color: var(--dark);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: var(--gray);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* محتوا */
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* بخش‌های قوانین */
+        .rules-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rules-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .rules-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .rules-section:hover::before {
+            transform: scaleX(1);
+        }
+
+        .rules-section h2 {
+            color: var(--dark);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* لیست قوانین */
+        .rules-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rule-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .rule-item:hover {
+            transform: translateX(-5px);
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .rule-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .rule-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .rule-item:hover .rule-number {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .rule-content {
+            flex: 1;
+        }
+
+        .rule-content p {
+            margin: 0;
+            color: var(--dark);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* هشدار مهم */
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid var(--warning);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.2);
+        }
+
+        .warning-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--warning), #e67e22);
+        }
+
+        .warning-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--warning);
+        }
+
+        .warning-text {
+            color: var(--dark);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        /* کارت‌های دسته‌بندی */
+        .category-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 600;
+            padding: 5px 15px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        /* فوتر */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .developer-credit {
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .rules-section {
+                padding: 20px;
+            }
+
+            .category-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .rule-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .rule-number {
+                align-self: center;
+            }
+        }
+
+        /* اسکرول بار سفارشی */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #8e44ad);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn fade-in" onclick="window.location.href='index.html'">
+            <i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی
+        </button>
+        
+        <div class="header fade-in">
+            <h1>📜 قوانین و مقررات ققنوس ادب</h1>
+            <p>راهنمای کامل قوانین استفاده از سامانه آموزشی</p>
+        </div>
+        
+        <div class="content fade-in">
+            <!-- کارت‌های دسته‌بندی -->
+            <div class="category-cards">
+                <div class="category-card" onclick="scrollToSection('general-rules')">
+                    <div class="category-icon">📋</div>
+                    <div class="category-title">قوانین عمومی</div>
+                    <div class="category-count">۴ ماده</div>
+                </div>
+                <div class="category-card" onclick="scrollToSection('exam-rules')">
+                    <div class="category-icon">📝</div>
+                    <div class="category-title">قوانین آزمون‌ها</div>
+                    <div class="category-count">۳ ماده</div>
+                </div>
+                <div class="category-card" onclick="scrollToSection('content-rules')">
+                    <div class="category-icon">📄</div>
+                    <div class="category-title">قوانین محتوایی</div>
+                    <div class="category-count">۳ ماده</div>
+                </div>
+                <div class="category-card" onclick="scrollToSection('system-commitments')">
+                    <div class="category-icon">🤝</div>
+                    <div class="category-title">تعهدات سامانه</div>
+                    <div class="category-count">۳ ماده</div>
+                </div>
+            </div>
+
+            <!-- قوانین عمومی -->
+            <div class="rules-section" id="general-rules">
+                <h2><i class="fas fa-users"></i> قوانین عمومی</h2>
+                <ul class="rules-list">
+                    <li class="rule-item">
+                        <div class="rule-number">1</div>
+                        <div class="rule-content">
+                            <p>کاربران موظفند اطلاعات صحیح و کامل در زمان ثبت‌نام ارائه دهند. هرگونه ارائه اطلاعات نادرست می‌تواند منجر به تعلیق حساب کاربری شود.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">2</div>
+                        <div class="rule-content">
+                            <p>هر کاربر با کدملی خود تنها می‌تواند یک حساب کاربری داشته باشد. ایجاد حساب‌های متعدد ممنوع است.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">3</div>
+                        <div class="rule-content">
+                            <p>حساب کاربری غیرقابل انتقال به دیگران است. کاربر مسئول تمام فعالیت‌های انجام شده در حساب خود می‌باشد.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">4</div>
+                        <div class="rule-content">
+                            <p>کاربران مسئول حفظ امنیت حساب کاربری خود هستند. در صورت مفقودی یا سرقت اطلاعات، باید بلافاصله به پشتیبانی اطلاع دهند.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- قوانین مربوط به آزمون‌ها -->
+            <div class="rules-section" id="exam-rules">
+                <h2><i class="fas fa-file-alt"></i> قوانین مربوط به آزمون‌ها</h2>
+                <ul class="rules-list">
+                    <li class="rule-item">
+                        <div class="rule-number">1</div>
+                        <div class="rule-content">
+                            <p>شرکت در آزمون‌ها تنها برای کاربران ثبت‌نام شده امکان‌پذیر است. دسترسی به آزمون‌ها منوط به تأیید هویت کاربر می‌باشد.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">2</div>
+                        <div class="rule-content">
+                            <p>پس از شروع آزمون، امکان توقف یا بازگشت وجود ندارد. کاربر موظف است در زمان تعیین شده به سوالات پاسخ دهد.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">3</div>
+                        <div class="rule-content">
+                            <p>تصمیم‌گیری نهایی در مورد نتایج آزمون با معلم است. سیستم به صورت خودکار پاسخ‌ها را تصحیح می‌کند، اما معلم حق بازبینی و اصلاح نتایج را دارد.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- قوانین محتوایی -->
+            <div class="rules-section" id="content-rules">
+                <h2><i class="fas fa-copyright"></i> قوانین محتوایی</h2>
+                <ul class="rules-list">
+                    <li class="rule-item">
+                        <div class="rule-number">1</div>
+                        <div class="rule-content">
+                            <p>ارسال هرگونه محتوای توهین‌آمیز، غیراخلاقی یا مغایر با قوانین جمهوری اسلامی ایران ممنوع است.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">2</div>
+                        <div class="rule-content">
+                            <p>هرگونه استفاده تجاری از محتوای سامانه بدون مجوز کتبی از توسعه‌دهنده اصلی ممنوع است.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">3</div>
+                        <div class="rule-content">
+                            <p>کاربران حق ندارند محتوای سامانه را برای اهداف غیرآموزشی استفاده کنند.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- تعهدات سامانه -->
+            <div class="rules-section" id="system-commitments">
+                <h2><i class="fas fa-handshake"></i> تعهدات سامانه</h2>
+                <ul class="rules-list">
+                    <li class="rule-item">
+                        <div class="rule-number">1</div>
+                        <div class="rule-content">
+                            <p>سامانه متعهد به حفظ حریم خصوصی کاربران است. اطلاعات شخصی کاربران محرمانه تلقی شده و در اختیار اشخاص ثالث قرار نمی‌گیرد.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">2</div>
+                        <div class="rule-content">
+                            <p>اطلاعات شخصی کاربران تنها برای اهداف آموزشی و بهبود خدمات استفاده می‌شود.</p>
+                        </div>
+                    </li>
+                    <li class="rule-item">
+                        <div class="rule-number">3</div>
+                        <div class="rule-content">
+                            <p>سامانه در جهت بهبود مستمر خدمات و رفع مشکلات فنی تلاش می‌کند. کاربران می‌توانند مشکلات را از طریق بخش پشتیبانی گزارش دهند.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- هشدار مهم -->
+            <div class="warning-box fade-in">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    توجه: این قوانین ممکن است در طول زمان به روزرسانی شوند. لطفاً این صفحه را به صورت دوره‌ای بررسی کنید. آخرین نسخه قوانین همیشه در این صفحه قابل دسترسی است.
+                </div>
+            </div>
+        </div>
+
+        <!-- فوتر -->
+        <div class="footer fade-in">
+            <p>سامانه آموزشی ققنوس ادب | نسخه 1.0</p>
+            <p class="developer-credit">🛠️ developed by cypher.g</p>
+        </div>
+    </div>
+
+    <script>
+        // اسکرول نرم به بخش‌های مختلف
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // افکت هایلایت برای بخش انتخاب شده
+                element.style.animation = 'none';
+                setTimeout(() => {
+                    element.style.animation = 'fadeIn 0.8s ease-out';
+                }, 10);
+            }
+        }
+
+        // انیمیشن‌های اضافی برای المان‌ها
+        document.addEventListener('DOMContentLoaded', function() {
+            // انیمیشن برای المان‌های section
+            const sections = document.querySelectorAll('.rules-section');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.2}s`;
+            });
+
+            // افکت hover پیشرفته برای کارت‌ها
+            const cards = document.querySelectorAll('.category-card, .rule-item');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = this.classList.contains('category-card') 
+                        ? 'translateY(-10px) scale(1.02)' 
+                        : 'translateX(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // افکت تایپ برای عنوان اصلی
+            const title = document.querySelector('.header h1');
+            const originalText = title.textContent;
+            title.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            
+            // شروع تایپ پس از لود صفحه
+            setTimeout(typeWriter, 1000);
+
+            // شمارش معکوس برای قوانین
+            const ruleNumbers = document.querySelectorAll('.rule-number');
+            ruleNumbers.forEach((number, index) => {
+                number.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // افکت پالس برای هشدار
+        setInterval(() => {
+            const warningBox = document.querySelector('.warning-box');
+            warningBox.style.boxShadow = warningBox.style.boxShadow === '0 8px 25px rgba(243, 156, 18, 0.2)' 
+                ? '0 8px 25px rgba(243, 156, 18, 0.4)' 
+                : '0 8px 25px rgba(243, 156, 18, 0.2)';
+        }, 2000);
+    </script>
+</body>
+</html>
