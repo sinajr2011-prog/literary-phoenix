@@ -1,0 +1,2520 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧮 پلتفرم جامع ریاضی - ابزارهای جامع محاسباتی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --math: #a855f7;
+            --ai: #06b6d4;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            --gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --gradient-ai: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.16);
+            --shadow-xl: 0 32px 64px rgba(0,0,0,0.2);
+            --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --border-radius-xl: 32px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --blur: blur(20px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--gradient-dark);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 6s linear infinite;
+            transform: rotate(45deg);
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .description {
+            font-size: 1.2em;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            padding: 0;
+            gap: 1px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tab {
+            padding: 18px 20px;
+            cursor: pointer;
+            color: white;
+            border: none;
+            background: #4a6fa5;
+            font-size: 15px;
+            transition: var(--transition);
+            flex: 1;
+            min-width: 140px;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .tab:hover::before {
+            left: 100%;
+        }
+
+        .tab:hover {
+            background: #5a7fb5;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tab.active {
+            background: var(--accent);
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+            transform: translateY(0);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* استایل‌های ابزارهای ریاضی */
+        .calculator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--light);
+            font-size: 16px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            color: var(--light);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+            outline: none;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        button {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            margin: 8px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-ai);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-ai {
+            background: var(--gradient-ai);
+        }
+
+        .btn-ai:hover {
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .result {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            white-space: pre-wrap;
+            border-right: 5px solid var(--accent);
+            animation: slideIn 0.4s ease;
+            box-shadow: var(--shadow-md);
+            color: var(--light);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .tool-description {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border-right: 5px solid var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-description h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .history {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            max-height: 250px;
+            overflow-y: auto;
+            box-shadow: var(--shadow-md);
+        }
+
+        .history h3 {
+            margin-bottom: 15px;
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            transition: var(--transition);
+            color: var(--light);
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        /* استایل‌های هوش مصنوعی */
+        .ai-chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            border: 2px solid var(--accent);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 80%;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background: var(--gradient-primary);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .ai-message {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-input {
+            flex: 1;
+            margin-right: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--light);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+        }
+
+        /* استایل‌های تاریخچه ریاضیات */
+        .mathematician-card {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .mathematician-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .mathematician-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 20px;
+            border: 3px solid var(--accent);
+        }
+
+        .mathematician-info {
+            flex: 1;
+        }
+
+        .mathematician-name {
+            color: var(--accent);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .mathematician-era {
+            color: var(--warning);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .mathematician-contributions {
+            line-height: 1.7;
+            color: var(--light);
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .quick-actions {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+        }
+
+        .quick-actions h4 {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        /* استایل کارت 3D */
+        .math-game-3d {
+            perspective: 1000px;
+            width: 300px;
+            height: 400px;
+            margin: 30px auto;
+            cursor: pointer;
+        }
+
+        .math-card-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+
+        .math-card-3d.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-front {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .card-back {
+            background: var(--gradient-ai);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* تعاریف ریاضی */
+        .definition-category {
+            margin-bottom: 40px;
+        }
+
+        .definition-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--accent);
+            transition: var(--transition);
+        }
+
+        .definition-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .definition-term {
+            color: var(--accent);
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .definition-content {
+            color: var(--light);
+            line-height: 1.8;
+        }
+
+        .definition-example {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            border-right: 3px solid var(--warning);
+            font-style: italic;
+        }
+
+        /* مقالات تاریخچه */
+        .article-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .article-title {
+            color: var(--accent);
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        .article-meta {
+            color: var(--warning);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .article-content {
+            line-height: 1.8;
+            color: var(--light);
+        }
+
+        .article-section {
+            margin-bottom: 20px;
+        }
+
+        .article-section h4 {
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .calculator {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: auto;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group button {
+                width: 100%;
+            }
+            
+            .mathematician-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .mathematician-image {
+                margin-left: 0;
+                margin-bottom: 20px;
+                width: 120px;
+                height: 120px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .tab-content {
+                padding: 25px;
+            }
+            
+            .math-game-3d {
+                width: 250px;
+                height: 350px;
+            }
+            
+            .article-card {
+                padding: 20px;
+            }
+        };
+        /*فوتر خففففففففففن!*/
+        .cyber-developer-credit {
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-icon {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            display: block;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 3;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));
+        }
+
+        .cyber-card:hover .cyber-icon {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.8));
+        }
+    </style>
+</head>
+<body>
+     <button class="back-btn fade-in" onclick="window.location.href='teacher-dashboard.html'">
+            <i class="fas fa-arrow-right"></i> بازگشت به پنل معلم
+        </button>
+    <div class="container">
+       
+        <header>
+            <h1>🧮 پلتفرم جامع ریاضی</h1>
+            <p class="description">مجموعه‌ای کامل از ابزارهای محاسباتی، مسابقات ریاضی، هوش مصنوعی و تاریخچه ریاضیات</p>
+        </header>
+        
+        <div class="tabs" id="tabsContainer">
+            <!-- تب‌ها با JavaScript ساخته خواهند شد -->
+        </div>
+        
+        <div id="tabContents">
+            <!-- محتوای تب‌ها با JavaScript ساخته خواهد شد -->
+        </div>
+    </div>
+ 
+        <p class="cyber-footer">🏆پلتفرم جامع محاسباتی تحصیلی 🧠</p>
+        <p class="cyber-developer-credit ">✨developed by Sina Jafari</p>    
+       
+
+    <script>
+        // داده‌های ابزارهای ریاضی
+        const mathTools = [
+            {
+                name: 'تشخیص اول',
+                description: 'بررسی می‌کند که آیا یک عدد اول است یا خیر'
+            },
+            {
+                name: 'تجزیه عوامل',
+                description: 'عدد را به عوامل اول آن تجزیه می‌کند'
+            },
+            {
+                name: 'شمارش مقسوم‌علیه',
+                description: 'تعداد و لیست تمام مقسوم‌علیه‌های یک عدد را نمایش می‌دهد'
+            },
+            {
+                name: 'ب م م / ک م م',
+                description: 'بزرگترین مقسوم‌علیه مشترک و کوچکترین مضرب مشترک دو عدد را محاسبه می‌کند'
+            },
+            {
+                name: 'توان',
+                description: 'نتیجه به‌توان رساندن یک عدد را محاسبه می‌کند'
+            },
+            {
+                name: 'فاکتوریل',
+                description: 'فاکتوریل یک عدد را محاسبه می‌کند (تا ۱۰۰)'
+            },
+            {
+                name: 'رادیکال',
+                description: 'ریشه n-ام یک عدد را محاسبه می‌کند'
+            },
+            {
+                name: 'دایره',
+                description: 'محیط و مساحت دایره را بر اساس شعاع محاسبه می‌کند'
+            },
+            {
+                name: 'فیثاغورث',
+                description: 'طول وتر مثلث قائم‌الزاویه را محاسبه می‌کند'
+            },
+            {
+                name: 'ضلع مجهول',
+                description: 'طول ضلع مجهول مثلث قائم‌الزاویه را پیدا می‌کند'
+            },
+            {
+                name: 'زوایای چندضلعی',
+                description: 'زاویه داخلی و خارجی چندضلعی منتظم را محاسبه می‌کند'
+            },
+            {
+                name: 'ماشین حساب',
+                description: 'عبارات ریاضی مختلف را محاسبه می‌کند'
+            },
+            {
+                name: 'کسر مصری',
+                description: 'کسر را به مجموع کسرهای واحد تبدیل می‌کند'
+            },
+            {
+                name: 'ترکیب',
+                description: 'ترکیب n شیء گرفته شده r تا r را محاسبه می‌کند'
+            },
+            {
+                name: 'مثلث خیام',
+                description: 'سطرهای مثلث خیام-پاسکال را تولید می‌کند'
+            },
+            {
+                name: 'میانگین',
+                description: 'میانگین حسابی، میانه و مد مجموعه‌ای از اعداد را محاسبه می‌کند'
+            },
+            {
+                name: 'مسابقه ریاضی',
+                description: 'چالش ۲۰ سوالی ریاضی با تایمر و امتیازدهی (سطح هشتم)'
+            },
+            {
+                name: 'تعاریف ریاضی',
+                description: 'تعاریف جامع و کامل از مفاهیم ریاضی پایه‌ای تا پیشرفته'
+            },
+            {
+                name: 'هوش مصنوعی ریاضی',
+                description: 'بات هوش مصنوعی برای پاسخ به سوالات و آموزش مفاهیم ریاضی ( در حال توسعه ... )'
+            },
+            {
+                name: 'تاریخچه ریاضیات',
+                description: 'مقالات کامل درباره دانشمندان بزرگ ریاضی و دستاوردهای آن‌ها'
+            }
+        ];
+
+        // داده‌های دانشمندان ریاضی (گسترش یافته)
+        const mathematicians = [
+            {
+                name: 'خیام نیشابوری',
+                era: '۱۰۴۸-۱۱۳۱ میلادی',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Omar_Khayyam%2C_Portrait.png/220px-Omar_Khayyam%2C_Portrait.png',
+                contributions: 'ریاضیدان، ستاره‌شناس و شاعر ایرانی. از مهم‌ترین دستاوردهایش می‌توان به تکمیل تقویم جلالی (دقیق‌ترین تقویم جهان)، حل معادلات درجه سوم و ارائه مثلث خیام-پاسکال اشاره کرد.',
+                article: `
+                    <h4>دوران زندگی و تحصیلات</h4>
+                    <p>غیاث‌الدین ابوالفتح عمر بن ابراهیم خیام نیشابوری در نیشابور به دنیا آمد. او در دوران جوانی به فراگیری علوم مختلف پرداخت و در ریاضیات، نجوم، فلسفه و شعر به شهرت رسید.</p>
+                    
+                    <h4>دستاوردهای ریاضی</h4>
+                    <p>خیام در کتاب "جبر و مقابله" روش‌های هندسی برای حل معادلات درجه سوم ارائه داد. او معادلات درجه سوم را به ۱۴ دسته تقسیم و برای هر کدام راه‌حل هندسی ارائه کرد. این کار ۶۰۰ سال قبل از کارهای دکارت و نیوتن انجام شد.</p>
+                    
+                    <h4>مثلث خیام-پاسکال</h4>
+                    <p>خیام اولین کسی بود که مثلث حسابی (مثلث خیام-پاسکال) را کشف و بررسی کرد. این مثلث برای محاسبه ضرایب بسط دو جمله‌ای و ترکیبات استفاده می‌شود.</p>
+                    
+                    <h4>ستاره‌شناسی</h4>
+                    <p>خیام به دعوت سلطان جلال‌الدین ملک‌شاه سلجوقی، رصدخانه‌ای در اصفهان تأسیس کرد و با همکاری گروهی از دانشمندان، تقویم جلالی را تدوین نمود که از تقویم میلادی دقیق‌تر است.</p>
+                    
+                    <h4>رباعیات</h4>
+                    <p>اگرچه شهرت جهانی خیام بیشتر به دلیل رباعیات فلسفی اوست، اما این اشعار تنها بخش کوچکی از فعالیت‌های علمی این دانشمند بزرگ را تشکیل می‌دهد.</p>
+                `
+            },
+            {
+                name: 'محمد بن موسی خوارزمی',
+                era: '۷۸۰-۸۵۰ میلادی',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Al-Khwarizmi_portrait.png/220px-Al-Khwarizmi_portrait.png',
+                contributions: 'پدر جبر و الگوریتم. کتاب "الجبر و المقابله" او پایه‌گذار علم جبر شد. همچنین مفهوم الگوریتم از نام لاتین شده او (Algorithmi) گرفته شده است.',
+                article: `
+                    <h4>زندگی و فعالیت‌ها</h4>
+                    <p>ابوجعفر محمد بن موسی خوارزمی در خوارزم (ازبکستان امروزی) به دنیا آمد و در بیت‌الحکمه بغداد فعالیت می‌کرد. او ریاضیدان، ستاره‌شناس، جغرافیدان و مورخ بود.</p>
+                    
+                    <h4>کتاب الجبر و المقابله</h4>
+                    <p>این کتاب اولین کتاب مستقل در زمینه جبر است. خوارزمی در این کتاب روش‌های سیستماتیک برای حل معادلات خطی و درجه دوم ارائه داد. کلمه "الجبر" از عنوان این کتاب گرفته شده است.</p>
+                    
+                    <h4>سیستم اعداد هندی</h4>
+                    <p>خوارزمی کتاب "حساب الهند" را نوشت که در آن سیستم اعداد هندی (که امروزه به نام اعداد عربی شناخته می‌شود) را به جهان اسلام معرفی کرد. این سیستم بعداً به اروپا راه یافت.</p>
+                    
+                    <h4>جغرافیا و نجوم</h4>
+                    <p>او کتاب "صورة الارض" را نوشت که نقشه‌ای از جهان شناخته شده آن زمان بود. همچنین زیج (جدول‌های نجومی) معروفی تدوین کرد که بر ستاره‌شناسی قرون وسطی تأثیر گذاشت.</p>
+                    
+                    <h4>تأثیر بر ریاضیات جهان</h4>
+                    <p>کارهای خوارزمی از طریق ترجمه آثارش به لاتین، به اروپا راه یافت و پایه‌های ریاضیات مدرن را بنا نهاد. نام او در کلمات "الگوریتم" و "الجبرا" جاودانه شد.</p>
+                `
+            },
+            {
+                name: 'ابوریحان بیرونی',
+                era: '۹۷۳-۱۰۴۸ میلادی',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Al-Biruni_-_Istanbul_-_ca._18th_century.jpg/220px-Al-Biruni_-_Istanbul_-_ca._18th_century.jpg',
+                contributions: 'دانشمند ایرانی در زمینه‌های ریاضی، نجوم، فیزیک و تاریخ. از کارهای مهم او می‌توان به محاسبه دقیق محیط زمین، مطالعات در مورد چگالی مواد و نوشتن کتاب "التفهیم" اشاره کرد.',
+                article: `
+                    <h4>دانشمند همه‌چیزدان</h4>
+                    <p>ابوریحان محمد بن احمد بیرونی از بزرگ‌ترین دانشمندان ایران و جهان اسلام بود که در رشته‌های گوناگون از جمله ریاضیات، نجوم، فیزیک، داروسازی، تاریخ و جغرافیا تبحر داشت.</p>
+                    
+                    <h4>محاسبات نجومی</h4>
+                    <p>بیرونی با دقت بسیار بالا محیط زمین را اندازه‌گیری کرد (اختلاف محاسبه او با اندازه‌گیری‌های امروزی کمتر از ۱٪ است). او همچنین انحراف محور زمین و حرکت تقدیمی اعتدالین را محاسبه کرد.</p>
+                    
+                    <h۴>کتاب التفهیم</h۴>
+                    <p>این کتاب یکی از معروف‌ترین آثار بیرونی است که به زبان فارسی نوشته شده و دانش ریاضیات و نجوم را به شیوه‌ای ساده آموزش می‌دهد.</p>
+                    
+                    <h4>مطالعات تطبیقی</h4>
+                    <p>بیرونی در کتاب "تحقیق ماللهند" به مطالعه تطبیقی ادیان، فلسفه و علوم هندوستان پرداخت. این اثر از نخستین نمونه‌های انسان‌شناسی علمی محسوب می‌شود.</p>
+                    
+                    <h4>دستاوردهای ریاضی</h4>
+                    <p>او روش‌هایی برای محاسبه مساحت و حجم اجسام ارائه داد، قضیه سینوس‌ها را در مثلثات توسعه داد و در حساب مثلثات پیشرفت‌های مهمی ایجاد کرد.</p>
+                `
+            },
+            {
+                name: 'اقلیدس',
+                era: '۳۰۰ قبل از میلاد',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Euklid-von-Alexandria_1.jpg/220px-Euklid-von-Alexandria_1.jpg',
+                contributions: 'پدر هندسه. کتاب "اصول" او که شامل ۱۳ جلد است، پایه‌های هندسه اقلیدسی را بنا نهاد و برای بیش از ۲۰۰۰ سال مرجع اصلی آموزش هندسه بود.',
+                article: `
+                    <h4>پدر هندسه</h4>
+                    <p>اقلیدس ریاضیدان یونانی ساکن اسکندریه بود. اطلاعات کمی از زندگی شخصی او در دست است، اما تأثیر آثارش بر ریاضیات غیرقابل انکار است.</p>
+                    
+                    <h4>کتاب اصول (Elements)</h4>
+                    <p>این کتاب در ۱۳ جلد، مهم‌ترین اثر اقلیدس و یکی از تأثیرگذارترین کتاب‌ها در تاریخ بشریت است. در این کتاب، اقلیدس هندسه را به شکلی اصل موضوعی و سیستماتیک ارائه داد.</p>
+                    
+                    <h4>روش اصل موضوعی</h4>
+                    <p>اقلیدس در کتاب اصول از روش اصل موضوعی استفاده کرد: ابتدا تعاریف، سپس اصول موضوع (بدیهیات) و پس از آن گزاره‌ها (قضایا). این روش الگویی برای تمام ریاضیات پس از او شد.</p>
+                    
+                    <h4>محتوای کتاب اصول</h4>
+                    <p>این کتاب شامل هندسه مسطحه، نظریه اعداد، هندسه فضایی و نظریه تناسب است. قضیه فیثاغورث، الگوریتم اقلیدسی برای محاسبه ب.م.م، و قضایای مهم هندسی در این کتاب اثبات شده‌اند.</p>
+                    
+                    <h4>تأثیر بر تاریخ ریاضیات</h4>
+                    <p>کتاب اصول اقلیدس برای بیش از ۲۰۰۰ سال کتاب درسی اصلی هندسه در سراسر جهان بود. حتی امروزه بسیاری از مفاهیم هندسی که در مدارس تدریس می‌شود، ریشه در کارهای اقلیدس دارد.</p>
+                `
+            },
+            {
+                name: 'کارل فریدریش گاوس',
+                era: '۱۷۷۷-۱۸۵۵ میلادی',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Carl_Friedrich_Gauss_1840_by_Jensen.jpg/220px-Carl_Friedrich_Gauss_1840_by_Jensen.jpg',
+                contributions: 'شاهزاده ریاضیدانان. کشف روش کمترین مربعات، قضیه اساسی جبر، توزیع نرمال (توزیع گاوسی) و پیشرفت‌های مهم در نظریه اعداد.',
+                article: `
+                    <h4>نابغه ریاضی</h4>
+                    <p>کارل فریدریش گاوس یکی از بزرگ‌ترین ریاضیدانان تمام دوران است. او از کودکی نبوغ ریاضی خود را نشان داد و در سن ۱۹ سالگی قضیه اساسی جبر را اثبات کرد.</p>
+                    
+                    <h4>دستاوردهای نظریه اعداد</h4>
+                    <p>گاوس در ۲۱ سالگی کتاب "تحقیقات حسابی" را نوشت که نظریه اعداد مدرن را بنیان نهاد. در این کتاب مفاهیم هم‌نهشتی، جمع‌پذیری و قوانین تقابل درجه دوم را معرفی کرد.</p>
+                    
+                    <h4>هندسه نااقلیدسی</h4>
+                    <p>اگرچه گاوس نتایجش در مورد هندسه نااقلیدسی را منتشر نکرد، اما تحقیقات او در این زمینه راه را برای لوباچفسکی و بویایی هموار کرد.</p>
+                    
+                    <h4>نجوم و زمین‌شناسی</h4>
+                    <p>گاوس روش کمترین مربعات را برای محاسبه مدار سیارک سرس ابداع کرد. همچنین مطالعات مهمی در زمینه زمین‌مغناطیس انجام داد.</p>
+                    
+                    <h4>توزیع نرمال</h4>
+                    <p>منحنی زنگوله‌ای شکل توزیع نرمال که به نام منحنی گاوسی شناخته می‌شود، یکی از مهم‌ترین مفاهیم در آمار و احتمال است که توسط گاوس معرفی شد.</p>
+                `
+            },
+            {
+                name: 'مریم میرزاخانی',
+                era: '۱۹۷۷-۲۰۱۷ میلادی',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Maryam_Mirzakhani_in_Seoul%2C_2014.jpg/220px-Maryam_Mirzakhani_in_Seoul%2C_2014.jpg',
+                contributions: 'اولین زن و اولین ایرانی برنده مدال فیلدز (معتبرترین جایزه ریاضیات). تخصص در هندسه هذلولی و نظریه ارگودیک.',
+                article: `
+                    <h4>پیشگام ریاضیات</h4>
+                    <p>مریم میرزاخانی اولین زن در تاریخ بود که موفق به دریافت مدال فیلدز (معتبرترین جایزه ریاضیات جهان) شد. او در سال ۲۰۱۴ این جایزه را برای کارهایش در هندسه و سیستم‌های دینامیکی دریافت کرد.</p>
+                    
+                    <h4>تحصیلات و افتخارات</h4>
+                    <p>میرزاخانی در ایران تحصیل کرد و در المپیادهای جهانی ریاضی مدال طلا گرفت. دکترای خود را از دانشگاه هاروارد گرفت و در دانشگاه استنفورد تدریس می‌کرد.</p>
+                    
+                    <h4>دستاوردهای علمی</h4>
+                    <p>کارهای میرزاخانی بر روی سطوح ریمانی و فضاهای پیمانه‌ای متمرکز بود. او فرمول‌هایی برای محاسبه حجم فضاهای پیمانه‌ای ارائه داد که به فرمول‌های میرزاخانی معروف شدند.</p>
+                    
+                    <h4>تأثیر بر جامعه ریاضی</h4>
+                    <p>میرزاخانی الهام‌بخش بسیاری از زنان و دختران جوان برای ورود به رشته ریاضیات شد. زندگی و کار او نشان داد که ریاضیات محدود به جنسیت یا ملیت خاصی نیست.</p>
+                    
+                    <h4>ارثیه علمی</h4>
+                    <p>اگرچه مریم میرزاخانی در ۴۰ سالگی درگذشت، اما کارهای او تأثیر عمیقی بر ریاضیات مدرن گذاشت و راه را برای تحقیقات جدید در هندسه و توپولوژی هموار کرد.</p>
+                `
+            }
+        ];
+
+        // فلش کارت‌های ریاضی
+        const flashCards = [
+            {
+                term: "عدد اول",
+                definition: "عددی طبیعی بزرگتر از 1 که فقط بر 1 و خودش بخش‌پذیر باشد. مثال: 2، 3، 5، 7، 11"
+            },
+            {
+                term: "قضیه فیثاغورث",
+                definition: "در مثلث قائم‌الزاویه، مربع وتر برابر است با مجموع مربعات دو ضلع دیگر: a² + b² = c²"
+            },
+            {
+                term: "عدد پی (π)",
+                definition: "نسبت محیط دایره به قطر آن، تقریباً برابر با 3.14159. عددی گنگ و متعالی"
+            },
+            {
+                term: "لگاریتم",
+                definition: "لگاریتم عدد y در پایه b، توانی است که b باید به آن برسد تا y به دست آید: اگر bˣ = y، آنگاه log_b(y) = x"
+            },
+            {
+                term: "مشتق",
+                definition: "نرخ تغییرات یک تابع در یک نقطه. از نظر هندسی، شیب خط مماس بر منحنی تابع در آن نقطه"
+            },
+            {
+                term: "انتگرال",
+                definition: "عمل معکوس مشتق. از نظر هندسی، مساحت زیر منحنی یک تابع را نشان می‌دهد"
+            },
+            {
+                term: "اعداد مختلط",
+                definition: "اعدادی به شکل a + bi که در آن a و b اعداد حقیقی هستند و i واحد موهومی است (i² = -1)"
+            },
+            {
+                term: "دنباله فیبوناچی",
+                definition: "دنباله‌ای که هر جمله آن مجموع دو جمله قبل است: 0, 1, 1, 2, 3, 5, 8, 13, ..."
+            }
+        ];
+
+        // تعاریف ریاضی
+        const mathDefinitions = [
+            {
+                category: "مفاهیم پایه",
+                definitions: [
+                    {
+                        term: "ریاضیات",
+                        definition: "علم مطالعه کمیت، ساختار، فضا و تغییرات. ریاضیات زبانی جهانی برای توصیف الگوها و روابط در طبیعت است.",
+                        example: "فیزیک، مهندسی، اقتصاد و علوم کامپیوتر همگی از زبان ریاضیات استفاده می‌کنند."
+                    },
+                    {
+                        term: "عدد",
+                        definition: "یک مفهوم انتزاعی برای بیان کمیت، ترتیب یا اندازه. اعداد به انواع مختلفی تقسیم می‌شوند: طبیعی، صحیح، گویا، حقیقی و مختلط.",
+                        example: "اعداد طبیعی: ۱، ۲، ۳، ... | اعداد صحیح: ...، -۲، -۱، ۰، ۱، ۲، ..."
+                    },
+                    {
+                        term: "مجموعه",
+                        definition: "گردایه‌ای از اشیاء متمایز که اعضای مجموعه نامیده می‌شوند. مجموعه‌ها پایه و اساس ریاضیات مدرن هستند.",
+                        example: "مجموعه اعداد اول کوچکتر از ۱۰: {۲, ۳, ۵, ۷}"
+                    }
+                ]
+            },
+            {
+                category: "جبر",
+                definitions: [
+                    {
+                        term: "متغیر",
+                        definition: "نمادی که نشان‌دهنده یک مقدار ناشناخته یا متغیر است. معمولاً با حروف لاتین مانند x، y، z نشان داده می‌شود.",
+                        example: "در معادله ۲x + ۳ = ۷، x یک متغیر است که مقدار آن ۲ می‌باشد."
+                    },
+                    {
+                        term: "معادله",
+                        definition: "بیانی ریاضی که نشان می‌دهد دو عبارت با هم برابرند. معادلات برای یافتن مقادیر مجهول استفاده می‌شوند.",
+                        example: "۳x - ۵ = ۱۰ یک معادله خطی است."
+                    },
+                    {
+                        term: "تابع",
+                        definition: "رابطه‌ای که به هر عضو از یک مجموعه (دامنه) دقیقاً یک عضو از مجموعه دیگر (برد) را نسبت می‌دهد.",
+                        example: "f(x) = x² یک تابع درجه دوم است که به هر عدد، مربع آن را نسبت می‌دهد."
+                    },
+                    {
+                        term: "چندجمله‌ای",
+                        definition: "عبارتی جبری شامل یک یا چند جمله که هر جمله شامل ضریب و متغیر با توان‌های صحیح غیرمنفی است.",
+                        example: "۳x² - ۲x + ۵ یک چندجمله‌ای درجه دوم است."
+                    }
+                ]
+            },
+            {
+                category: "هندسه",
+                definitions: [
+                    {
+                        term: "نقطه",
+                        definition: "مکان دقیق در فضا بدون طول، عرض یا ارتفاع. نقطه در هندسه اساس همه اشکال هندسی است.",
+                        example: "در صفحه مختصات، نقطه (۲,۳) نشان‌دهنده محل تقاطع x=2 و y=3 است."
+                    },
+                    {
+                        term: "خط",
+                        definition: "مجموعه‌ای از نقاط که در یک جهت امتداد دارند. خط طول نامحدود دارد اما عرض و ارتفاع ندارد.",
+                        example: "معادله y = ۲x + ۱ یک خط راست را در صفحه مختصات نشان می‌دهد."
+                    },
+                    {
+                        term: "زاویه",
+                        definition: "فضای بین دو خط یا صفحه‌ای که در یک نقطه مشترک (رأس) به هم می‌رسند. با درجه یا رادیان اندازه‌گیری می‌شود.",
+                        example: "زاویه قائمه دقیقاً ۹۰ درجه است."
+                    },
+                    {
+                        term: "مثلث",
+                        definition: "چندضلعی با سه ضلع و سه زاویه. مجموع زوایای داخلی مثلث همیشه ۱۸۰ درجه است.",
+                        example: "مثلث قائم‌الزاویه، متساوی‌الساقین و متساوی‌الاضلاع انواع مثلث هستند."
+                    }
+                ]
+            },
+            {
+                category: "حسابان",
+                definitions: [
+                    {
+                        term: "حد",
+                        definition: "مقداری که یک تابع یا دنباله وقتی ورودی آن به یک مقدار مشخص نزدیک می‌شود، به آن نزدیک می‌شود.",
+                        example: "حد تابع f(x) = (x²-1)/(x-1) وقتی x به ۱ نزدیک می‌شود، برابر ۲ است."
+                    },
+                    {
+                        term: "مشتق",
+                        definition: "نرخ تغییرات آنی یک تابع نسبت به متغیرش. از نظر هندسی، شیب خط مماس بر نمودار تابع است.",
+                        example: "مشتق تابع f(x) = x² برابر است با f'(x) = ۲x."
+                    },
+                    {
+                        term: "انتگرال",
+                        definition: "عمل معکوس مشتق. انتگرال معین، مساحت زیر منحنی یک تابع را بین دو نقطه محاسبه می‌کند.",
+                        example: "انتگرال f(x) = ۲x از ۰ تا ۲ برابر است با ۴."
+                    }
+                ]
+            },
+            {
+                category: "نظریه اعداد",
+                definitions: [
+                    {
+                        term: "عدد اول",
+                        definition: "عددی طبیعی بزرگتر از ۱ که تنها بر ۱ و خودش بخش‌پذیر باشد. اعداد اول بلوک‌های ساختمانی اعداد طبیعی هستند.",
+                        example: "۲، ۳، ۵، ۷، ۱۱، ۱۳ اعداد اول هستند."
+                    },
+                    {
+                        term: "ب.م.م (بزرگترین مقسوم‌علیه مشترک)",
+                        definition: "بزرگترین عددی که هر دو عدد مفروض بر آن بخش‌پذیر باشند.",
+                        example: "ب.م.م ۱۲ و ۱۸ برابر ۶ است."
+                    },
+                    {
+                        term: "ک.م.م (کوچکترین مضرب مشترک)",
+                        definition: "کوچکترین عددی که مضرب هر دو عدد مفروض باشد.",
+                        example: "ک.م.م ۴ و ۶ برابر ۱۲ است."
+                    }
+                ]
+            }
+        ];
+
+        const tabsContainer = document.getElementById('tabsContainer');
+        const tabContents = document.getElementById('tabContents');
+
+        // ایجاد تب‌ها و محتوای آنها
+        mathTools.forEach((tool, index) => {
+            const tab = document.createElement('button');
+            tab.className = 'tab' + (index === 0 ? ' active' : '');
+            tab.textContent = tool.name;
+            tab.setAttribute('aria-selected', index === 0);
+            tab.onclick = () => switchTab(index);
+            tabsContainer.appendChild(tab);
+
+            const content = document.createElement('div');
+            content.className = 'tab-content' + (index === 0 ? ' active' : '');
+            content.id = 'tab' + index;
+            content.setAttribute('aria-labelledby', 'tab' + index);
+            content.innerHTML = `
+                <div class="tool-description">
+                    <h3>${tool.name}</h3>
+                    <p>${tool.description}</p>
+                </div>
+                ${createToolContent(tool.name, index)}
+            `;
+            tabContents.appendChild(content);
+        });
+
+        // تابع تغییر تب
+        function switchTab(index) {
+            document.querySelectorAll('.tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+                tab.setAttribute('aria-selected', i === index);
+            });
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+            
+            // بارگذاری محتوای خاص
+            if (mathTools[index].name === 'تاریخچه ریاضیات') {
+                setTimeout(() => displayMathematicians(index), 100);
+            } else if (mathTools[index].name === 'تعاریف ریاضی') {
+                setTimeout(() => displayDefinitions(index), 100);
+            }
+        }
+
+        // ایجاد محتوای هر ابزار
+        function createToolContent(toolName, index) {
+            const contents = {
+                'تشخیص اول': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="primeInput${index}">عدد را وارد کنید:</label>
+                                <input type="number" id="primeInput${index}" min="2" placeholder="مثلا: 17">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="checkPrime(${index})">بررسی اول بودن</button>
+                                <button class="btn-secondary" onclick="clearInput('primeInput${index}', 'primeResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="primeResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'تجزیه عوامل': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="factorInput${index}">عدد را وارد کنید:</label>
+                                <input type="number" id="factorInput${index}" min="2" placeholder="مثلا: 36">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="factorize(${index})">تجزیه عوامل اول</button>
+                                <button class="btn-secondary" onclick="clearInput('factorInput${index}', 'factorResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="factorResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'شمارش مقسوم‌علیه': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="divisorInput${index}">عدد را وارد کنید:</label>
+                                <input type="number" id="divisorInput${index}" min="1" placeholder="مثلا: 12">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="countDivisors(${index})">شمارش مقسوم‌علیه‌ها</button>
+                                <button class="btn-secondary" onclick="clearInput('divisorInput${index}', 'divisorResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="divisorResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'ب م م / ک م م': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="num1${index}">عدد اول:</label>
+                                <input type="number" id="num1${index}" placeholder="مثلا: 12">
+                            </div>
+                            <div class="input-group">
+                                <label for="num2${index}">عدد دوم:</label>
+                                <input type="number" id="num2${index}" placeholder="مثلا: 18">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculateGCDLCM(${index})">محاسبه ب م م و ک م م</button>
+                                <button class="btn-secondary" onclick="clearInputs(['num1${index}', 'num2${index}'], 'gcdlcmResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="gcdlcmResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'توان': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="baseInput${index}">پایه:</label>
+                                <input type="number" id="baseInput${index}" placeholder="مثلا: 2">
+                            </div>
+                            <div class="input-group">
+                                <label for="exponentInput${index}">توان:</label>
+                                <input type="number" id="exponentInput${index}" placeholder="مثلا: 3">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculatePower(${index})">محاسبه توان</button>
+                                <button class="btn-secondary" onclick="clearInputs(['baseInput${index}', 'exponentInput${index}'], 'powerResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="powerResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'فاکتوریل': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="factorialInput${index}">عدد را وارد کنید:</label>
+                                <input type="number" id="factorialInput${index}" min="0" max="100" placeholder="مثلا: 5">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculateFactorial(${index})">محاسبه فاکتوریل</button>
+                                <button class="btn-secondary" onclick="clearInput('factorialInput${index}', 'factorialResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="factorialResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'رادیکال': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="radicandInput${index}">عدد زیر رادیکال:</label>
+                                <input type="number" id="radicandInput${index}" min="0" placeholder="مثلا: 16">
+                            </div>
+                            <div class="input-group">
+                                <label for="degreeInput${index}">درجه رادیکال:</label>
+                                <input type="number" id="degreeInput${index}" min="2" value="2" placeholder="مثلا: 2">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculateRoot(${index})">محاسبه رادیکال</button>
+                                <button class="btn-secondary" onclick="clearInputs(['radicandInput${index}', 'degreeInput${index}'], 'rootResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="rootResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'دایره': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="radiusInput${index}">شعاع دایره:</label>
+                                <input type="number" id="radiusInput${index}" min="0" placeholder="مثلا: 5">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculateCircle(${index}, 'circumference')">محیط</button>
+                                <button onclick="calculateCircle(${index}, 'area')">مساحت</button>
+                                <button onclick="calculateCircle(${index}, 'both')">هر دو</button>
+                                <button class="btn-secondary" onclick="clearInput('radiusInput${index}', 'circleResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="circleResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'فیثاغورث': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="sideA${index}">ضلع اول (a):</label>
+                                <input type="number" id="sideA${index}" min="0" placeholder="مثلا: 3">
+                            </div>
+                            <div class="input-group">
+                                <label for="sideB${index}">ضلع دوم (b):</label>
+                                <input type="number" id="sideB${index}" min="0" placeholder="مثلا: 4">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculatePythagoras(${index})">محاسبه وتر</button>
+                                <button class="btn-secondary" onclick="clearInputs(['sideA${index}', 'sideB${index}'], 'pythagorasResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="pythagorasResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'ضلع مجهول': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="hypotenuse${index}">وتر (c):</label>
+                                <input type="number" id="hypotenuse${index}" min="0" placeholder="مثلا: 5">
+                            </div>
+                            <div class="input-group">
+                                <label for="knownSide${index}">ضلع معلوم (a یا b):</label>
+                                <input type="number" id="knownSide${index}" min="0" placeholder="مثلا: 3">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="findMissingSide(${index})">پیدا کردن ضلع مجهول</button>
+                                <button class="btn-secondary" onclick="clearInputs(['hypotenuse${index}', 'knownSide${index}'], 'missingSideResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="missingSideResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'زوایای چندضلعی': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="sidesCount${index}">تعداد اضلاع (n):</label>
+                                <input type="number" id="sidesCount${index}" min="3" placeholder="مثلا: 5">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculatePolygonAngles(${index})">محاسبه زوایا</button>
+                                <button class="btn-secondary" onclick="clearInput('sidesCount${index}', 'polygonResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="polygonResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'ماشین حساب': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="calcInput${index}">عبارت ریاضی:</label>
+                                <input type="text" id="calcInput${index}" placeholder="مثلا: 2+3*4 یا sin(30)">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculateExpression(${index})">محاسبه</button>
+                                <button class="btn-secondary" onclick="clearInput('calcInput${index}', 'calcResult${index}')">پاک کردن</button>
+                            </div>
+                            <div class="history">
+                                <h3>تاریخچه محاسبات</h3>
+                                <div id="calcHistory${index}" class="history-items"></div>
+                            </div>
+                        </div>
+                        <div class="result" id="calcResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'کسر مصری': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="numerator${index}">صورت کسر:</label>
+                                <input type="number" id="numerator${index}" min="1" placeholder="مثلا: 4">
+                            </div>
+                            <div class="input-group">
+                                <label for="denominator${index}">مخرج کسر:</label>
+                                <input type="number" id="denominator${index}" min="2" placeholder="مثلا: 5">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="egyptianFraction(${index})">تبدیل به کسر مصری</button>
+                                <button class="btn-secondary" onclick="clearInputs(['numerator${index}', 'denominator${index}'], 'egyptianResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="egyptianResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'ترکیب': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="nComb${index}">تعداد کل (n):</label>
+                                <input type="number" id="nComb${index}" min="1" placeholder="مثلا: 5">
+                            </div>
+                            <div class="input-group">
+                                <label for="rComb${index}">تعداد انتخاب (r):</label>
+                                <input type="number" id="rComb${index}" min="0" placeholder="مثلا: 2">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculateCombination(${index})">محاسبه ترکیب</button>
+                                <button class="btn-secondary" onclick="clearInputs(['nComb${index}', 'rComb${index}'], 'combinationResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="combinationResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'مثلث خیام': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="pascalRow${index}">سطر مورد نظر (0 تا 15):</label>
+                                <input type="number" id="pascalRow${index}" min="0" max="15" placeholder="مثلا: 5">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="generatePascal(${index})">نمایش سطر</button>
+                                <button onclick="generatePascalTriangle(${index})">نمایش مثلث</button>
+                                <button class="btn-secondary" onclick="clearInput('pascalRow${index}', 'pascalResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="pascalResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'میانگین': `
+                    <div class="calculator">
+                        <div>
+                            <div class="input-group">
+                                <label for="numbersInput${index}">اعداد (با کاما جدا کنید):</label>
+                                <input type="text" id="numbersInput${index}" placeholder="مثلا: 10,20,30,40">
+                            </div>
+                            <div class="button-group">
+                                <button onclick="calculateMean(${index})">میانگین حسابی</button>
+                                <button onclick="calculateMedian(${index})">میانه</button>
+                                <button onclick="calculateAllAverages(${index})">همه میانگین‌ها</button>
+                                <button class="btn-secondary" onclick="clearInput('numbersInput${index}', 'averageResult${index}')">پاک کردن</button>
+                            </div>
+                        </div>
+                        <div class="result" id="averageResult${index}">نتیجه اینجا نمایش داده می‌شود</div>
+                    </div>
+                `,
+                
+                'مسابقه ریاضی': `
+                    <div class="game-container" style="max-width: 800px; margin: 0 auto;">
+                        <div id="start-screen${index}" class="screen active">
+                            <h3 style="text-align: center; color: var(--accent); margin-bottom: 30px; font-size: 2em;">🎯 مسابقه ریاضی سطح هشتم</h3>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">🎯 تعداد سوالات</div>
+                                    <div style="font-size: 2em; font-weight: bold;">۲۰</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">⚡ زمان هر سوال</div>
+                                    <div style="font-size: 2em; font-weight: bold;">۲۰ ثانیه</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">💎 حداکثر امتیاز</div>
+                                    <div style="font-size: 2em; font-weight: bold;">۱۰۰۰</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">🏆 رکورد شما</div>
+                                    <div style="font-size: 2em; font-weight: bold;" id="start-high-score${index}">0</div>
+                                </div>
+                            </div>
+
+                            <div style="text-align: center; margin-top: 40px;">
+                                <button onclick="startGame(${index})" style="background: var(--gradient-success); color: white; padding: 25px 50px; font-size: 1.3em; border: none; border-radius: var(--border-radius); cursor: pointer;">
+                                    🚀 شروع مسابقه
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="game-screen${index}" class="screen">
+                            <h3 style="text-align: center; color: var(--light); margin-bottom: 20px;">سوال <span id="current-question${index}">1</span> از 20</h3>
+                            
+                            <div style="font-size: 2.2em; text-align: center; margin: 25px 0; color: #FFD700; font-weight: bold;" id="timer${index}">⏰ ۲۰ ثانیه</div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">امتیاز کل</div>
+                                    <div style="font-size: 2em; font-weight: bold;" id="total-score${index}">0</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">صحیح/کل</div>
+                                    <div style="font-size: 2em; font-weight: bold;" id="correct-ratio${index}">0/0</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">زنده‌ها</div>
+                                    <div style="font-size: 2em; font-weight: bold;" id="lives${index}">❤️❤️❤️</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: var(--border-radius); text-align: center;">
+                                    <div style="font-size: 0.9em; color: var(--warning); margin-bottom: 8px;">رکورد</div>
+                                    <div style="font-size: 2em; font-weight: bold;" id="high-score${index}">0</div>
+                                </div>
+                            </div>
+
+                            <div id="question-container${index}"></div>
+
+                            <div style="text-align: center; margin-top: 30px;">
+                                <button id="next-btn${index}" onclick="nextQuestion(${index})" style="display: none; background: var(--gradient-success); color: white; padding: 15px 30px; border: none; border-radius: var(--border-radius); cursor: pointer;">
+                                    🎯 سوال بعدی
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                
+                'تعاریف ریاضی': `
+                    <div id="definitions-container${index}">
+                        <!-- تعاریف با JavaScript ساخته خواهند شد -->
+                    </div>
+                `,
+                
+                'هوش مصنوعی ریاضی': `
+                    <div class="ai-chat-container">
+                        <div class="chat-messages" id="chat-messages${index}">
+                            <div class="message ai-message">
+                                <strong>🤖 دستیار ریاضی هوشمند:</strong><br>
+                                سلام! من دستیار هوش مصنوعی ریاضی شما هستم. می‌تونم:
+                                <br>• مسائل ریاضی رو حل کنم
+                                <br>• مفاهیم رو توضیح بدم
+                                <br>• راهنمایی قدم به قدم ارائه بدم
+                                <br>• فرمول‌ها رو تفسیر کنم
+                                <br><br>چه سوال ریاضی دارید؟
+                            </div>
+                        </div>
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" id="ai-input${index}" placeholder="سوال ریاضی خود را اینجا بپرسید..." onkeypress="if(event.key === 'Enter') sendAIMessage(${index})">
+                            <button onclick="sendAIMessage(${index})">
+                                <i class="fas fa-paper-plane"></i> ارسال
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h4>سوالات نمونه:</h4>
+                        <div class="button-group">
+                            <button onclick="askSampleQuestion(${index}, 'مشتق x^3 + 2x چیست؟')" class="btn-secondary">
+                                <i class="fas fa-calculator"></i> مشتق‌گیری
+                            </button>
+                            <button onclick="askSampleQuestion(${index}, 'انتگرال 2x dx را محاسبه کن')" class="btn-secondary">
+                                <i class="fas fa-integral"></i> انتگرال
+                            </button>
+                            <button onclick="askSampleQuestion(${index}, 'معادله 2x + 5 = 15 را حل کن')" class="btn-secondary">
+                                <i class="fas fa-equals"></i> حل معادله
+                            </button>
+                            <button onclick="askSampleQuestion(${index}, 'قضیه فیثاغورث را توضیح بده')" class="btn-secondary">
+                                <i class="fas fa-graduation-cap"></i> توضیح مفهوم
+                            </button>
+                        </div>
+                    </div>
+                `,
+                
+                'تاریخچه ریاضیات': `
+                    <div class="search-container">
+                        <input type="text" id="math-history-search${index}" placeholder="جستجو در بین دانشمندان ریاضی..." 
+                               onkeyup="searchMathematicians(${index}, this.value)">
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h4>فلش کارت مفاهیم ریاضی:</h4>
+                        <div class="math-game-3d">
+                            <div class="math-card-3d" onclick="flipCard(this)">
+                                <div class="card-front">
+                                    <div class="card-icon">📚</div>
+                                    <div class="card-title">کارت فلش ریاضی</div>
+                                    <div class="card-description">برای مشاهده تعریف کلیک کنید</div>
+                                    <div style="margin-top: 20px; font-size: 0.8em; color: rgba(255,255,255,0.7);">
+                                        کلیک کنید یا روی کارت بچرخانید
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <div class="card-icon">🧠</div>
+                                    <div class="card-title" id="flashcard-term${index}">مفهوم ریاضی</div>
+                                    <div class="card-description" id="flashcard-def${index}">تعریف اینجا نمایش داده می‌شود</div>
+                                    <button onclick="nextFlashCard(${index}); event.stopPropagation();" 
+                                            style="margin-top: 20px; padding: 8px 16px; font-size: 0.8em;">
+                                        کارت بعدی
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mathematicians-container${index}">
+                        <!-- مقالات دانشمندان با JavaScript ساخته خواهند شد -->
+                    </div>
+                `
+            };
+
+            return contents[toolName] || '<div class="result">این ابزار به زودی اضافه می‌شود</div>';
+        }
+
+        // توابع کمکی
+        function clearInput(inputId, resultId) {
+            document.getElementById(inputId).value = '';
+            document.getElementById(resultId).textContent = 'نتیجه اینجا نمایش داده می‌شود';
+        }
+
+        function clearInputs(inputIds, resultId) {
+            inputIds.forEach(id => {
+                if (document.getElementById(id)) {
+                    document.getElementById(id).value = '';
+                }
+            });
+            document.getElementById(resultId).textContent = 'نتیجه اینجا نمایش داده می‌شود';
+        }
+
+        // توابع محاسباتی واقعی
+        function checkPrime(index) {
+            const num = parseInt(document.getElementById(`primeInput${index}`).value);
+            if (isNaN(num) || num < 2) {
+                document.getElementById(`primeResult${index}`).textContent = 'لطفا عددی بزرگتر از 1 وارد کنید';
+                return;
+            }
+
+            let isPrime = true;
+            if (num === 2) {
+                isPrime = true;
+            } else if (num % 2 === 0) {
+                isPrime = false;
+            } else {
+                for (let i = 3; i <= Math.sqrt(num); i += 2) {
+                    if (num % i === 0) {
+                        isPrime = false;
+                        break;
+                    }
+                }
+            }
+
+            document.getElementById(`primeResult${index}`).textContent = 
+                `${num} ${isPrime ? 'عدد اول است ✓' : 'عدد اول نیست ✗'}`;
+        }
+
+        function factorize(index) {
+            const num = parseInt(document.getElementById(`factorInput${index}`).value);
+            if (isNaN(num) || num < 2) {
+                document.getElementById(`factorResult${index}`).textContent = 'لطفا عددی بزرگتر از 1 وارد کنید';
+                return;
+            }
+
+            let factors = [];
+            let temp = num;
+            let divisor = 2;
+
+            while (temp > 1) {
+                if (temp % divisor === 0) {
+                    factors.push(divisor);
+                    temp /= divisor;
+                } else {
+                    divisor++;
+                }
+            }
+
+            document.getElementById(`factorResult${index}`).textContent = 
+                `${num} = ${factors.join(' × ')}`;
+        }
+
+        function countDivisors(index) {
+            const num = parseInt(document.getElementById(`divisorInput${index}`).value);
+            if (isNaN(num) || num < 1) {
+                document.getElementById(`divisorResult${index}`).textContent = 'لطفا عدد صحیح مثبت وارد کنید';
+                return;
+            }
+
+            let count = 0;
+            let divisors = [];
+            for (let i = 1; i <= num; i++) {
+                if (num % i === 0) {
+                    count++;
+                    divisors.push(i);
+                }
+            }
+
+            document.getElementById(`divisorResult${index}`).textContent = 
+                `تعداد مقسوم‌علیه‌ها: ${count}\nمقسوم‌علیه‌ها: ${divisors.join(', ')}`;
+        }
+
+        function calculateGCDLCM(index) {
+            const a = parseInt(document.getElementById(`num1${index}`).value);
+            const b = parseInt(document.getElementById(`num2${index}`).value);
+            
+            if (isNaN(a) || isNaN(b)) {
+                document.getElementById(`gcdlcmResult${index}`).textContent = 'لطفا دو عدد وارد کنید';
+                return;
+            }
+
+            function gcd(x, y) {
+                return y === 0 ? x : gcd(y, x % y);
+            }
+
+            const gcdValue = gcd(Math.abs(a), Math.abs(b));
+            const lcmValue = Math.abs(a * b) / gcdValue;
+
+            document.getElementById(`gcdlcmResult${index}`).textContent = 
+                `ب م م (${a}, ${b}) = ${gcdValue}\nک م م (${a}, ${b}) = ${lcmValue}`;
+        }
+
+        function calculatePower(index) {
+            const base = parseFloat(document.getElementById(`baseInput${index}`).value);
+            const exponent = parseFloat(document.getElementById(`exponentInput${index}`).value);
+            
+            if (isNaN(base) || isNaN(exponent)) {
+                document.getElementById(`powerResult${index}`).textContent = 'لطفا مقادیر معتبر وارد کنید';
+                return;
+            }
+
+            const result = Math.pow(base, exponent);
+            document.getElementById(`powerResult${index}`).textContent = 
+                `${base}^${exponent} = ${result}`;
+        }
+
+        function calculateFactorial(index) {
+            const num = parseInt(document.getElementById(`factorialInput${index}`).value);
+            if (isNaN(num) || num < 0) {
+                document.getElementById(`factorialResult${index}`).textContent = 'لطفا عدد صحیح غیرمنفی وارد کنید';
+                return;
+            }
+
+            let result = 1n;
+            for (let i = 2; i <= num; i++) {
+                result *= BigInt(i);
+            }
+
+            document.getElementById(`factorialResult${index}`).textContent = 
+                `${num}! = ${result}`;
+        }
+
+        function calculateRoot(index) {
+            const radicand = parseFloat(document.getElementById(`radicandInput${index}`).value);
+            const degree = parseFloat(document.getElementById(`degreeInput${index}`).value);
+            
+            if (isNaN(radicand) || isNaN(degree) || radicand < 0) {
+                document.getElementById(`rootResult${index}`).textContent = 'لطفا مقادیر معتبر وارد کنید';
+                return;
+            }
+
+            const result = Math.pow(radicand, 1/degree);
+            document.getElementById(`rootResult${index}`).textContent = 
+                `⁰√${radicand} = ${result.toFixed(6)}`;
+        }
+
+        function calculateCircle(index, type) {
+            const radius = parseFloat(document.getElementById(`radiusInput${index}`).value);
+            
+            if (isNaN(radius) || radius < 0) {
+                document.getElementById(`circleResult${index}`).textContent = 'لطفا شعاع معتبر وارد کنید';
+                return;
+            }
+
+            const circumference = (2 * Math.PI * radius).toFixed(4);
+            const area = (Math.PI * radius * radius).toFixed(4);
+
+            let result = '';
+            if (type === 'circumference') result = `محیط دایره: ${circumference}`;
+            else if (type === 'area') result = `مساحت دایره: ${area}`;
+            else result = `محیط: ${circumference}\nمساحت: ${area}`;
+
+            document.getElementById(`circleResult${index}`).textContent = result;
+        }
+
+        function calculatePythagoras(index) {
+            const a = parseFloat(document.getElementById(`sideA${index}`).value);
+            const b = parseFloat(document.getElementById(`sideB${index}`).value);
+            
+            if (isNaN(a) || isNaN(b) || a < 0 || b < 0) {
+                document.getElementById(`pythagorasResult${index}`).textContent = 'لطفا اعداد معتبر وارد کنید';
+                return;
+            }
+
+            const c = Math.sqrt(a*a + b*b).toFixed(4);
+            document.getElementById(`pythagorasResult${index}`).textContent = 
+                `c = √(${a}² + ${b}²) = ${c}`;
+        }
+
+        function findMissingSide(index) {
+            const hypotenuse = parseFloat(document.getElementById(`hypotenuse${index}`).value);
+            const knownSide = parseFloat(document.getElementById(`knownSide${index}`).value);
+            
+            if (isNaN(hypotenuse) || isNaN(knownSide) || hypotenuse <= knownSide) {
+                document.getElementById(`missingSideResult${index}`).textContent = 'لطفا مقادیر معتبر وارد کنید (وتر باید بزرگتر از ضلع معلوم باشد)';
+                return;
+            }
+
+            const missingSide = Math.sqrt(hypotenuse*hypotenuse - knownSide*knownSide).toFixed(4);
+            document.getElementById(`missingSideResult${index}`).textContent = 
+                `ضلع مجهول = √(${hypotenuse}² - ${knownSide}²) = ${missingSide}`;
+        }
+
+        function calculatePolygonAngles(index) {
+            const n = parseInt(document.getElementById(`sidesCount${index}`).value);
+            
+            if (isNaN(n) || n < 3) {
+                document.getElementById(`polygonResult${index}`).textContent = 'لطفا عددی بزرگتر یا مساوی 3 وارد کنید';
+                return;
+            }
+
+            const interiorAngle = ((n - 2) * 180 / n).toFixed(2);
+            const exteriorAngle = (360 / n).toFixed(2);
+
+            document.getElementById(`polygonResult${index}`).textContent = 
+                `چندضلعی ${n} ضلعی:\nزاویه داخلی: ${interiorAngle}°\nزاویه خارجی: ${exteriorAngle}°`;
+        }
+
+        // تاریخچه محاسبات برای ماشین حساب
+        const calculationHistories = {};
+
+        function calculateExpression(index) {
+            const expression = document.getElementById(`calcInput${index}`).value;
+            try {
+                // تبدیل توابع مثلثاتی به رادیان
+                let processedExpr = expression
+                    .replace(/sin\(/g, 'Math.sin(Math.PI/180*')
+                    .replace(/cos\(/g, 'Math.cos(Math.PI/180*')
+                    .replace(/tan\(/g, 'Math.tan(Math.PI/180*')
+                    .replace(/log\(/g, 'Math.log10(')
+                    .replace(/ln\(/g, 'Math.log(');
+
+                const result = eval(processedExpr);
+                document.getElementById(`calcResult${index}`).textContent = 
+                    `${expression} = ${result}`;
+                
+                // افزودن به تاریخچه
+                if (!calculationHistories[index]) {
+                    calculationHistories[index] = [];
+                }
+                calculationHistories[index].push(`${expression} = ${result}`);
+                if (calculationHistories[index].length > 5) {
+                    calculationHistories[index].shift();
+                }
+                
+                // به‌روزرسانی نمایش تاریخچه
+                updateCalculationHistory(index);
+            } catch (e) {
+                document.getElementById(`calcResult${index}`).textContent = 
+                    'عبارت نامعتبر است';
+            }
+        }
+
+        function updateCalculationHistory(index) {
+            const historyElement = document.getElementById(`calcHistory${index}`);
+            if (!historyElement) return;
+            
+            historyElement.innerHTML = '';
+            if (!calculationHistories[index] || calculationHistories[index].length === 0) {
+                const emptyItem = document.createElement('div');
+                emptyItem.className = 'history-item';
+                emptyItem.textContent = 'تاریخچه خالی است';
+                emptyItem.style.color = 'var(--gray)';
+                emptyItem.style.fontStyle = 'italic';
+                historyElement.appendChild(emptyItem);
+                return;
+            }
+            
+            calculationHistories[index].forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.textContent = item;
+                historyElement.appendChild(historyItem);
+            });
+        }
+
+        function egyptianFraction(index) {
+            let numerator = parseInt(document.getElementById(`numerator${index}`).value);
+            let denominator = parseInt(document.getElementById(`denominator${index}`).value);
+            
+            if (isNaN(numerator) || isNaN(denominator) || numerator >= denominator) {
+                document.getElementById(`egyptianResult${index}`).textContent = 'صورت باید کوچکتر از مخرج باشد';
+                return;
+            }
+
+            let result = [];
+            while (numerator > 0) {
+                let x = Math.ceil(denominator / numerator);
+                result.push(`1/${x}`);
+                numerator = numerator * x - denominator;
+                denominator = denominator * x;
+            }
+
+            document.getElementById(`egyptianResult${index}`).textContent = 
+                `کسر مصری: ${result.join(' + ')}`;
+        }
+
+        function calculateCombination(index) {
+            const n = parseInt(document.getElementById(`nComb${index}`).value);
+            const r = parseInt(document.getElementById(`rComb${index}`).value);
+            
+            if (isNaN(n) || isNaN(r) || r > n || n < 0 || r < 0) {
+                document.getElementById(`combinationResult${index}`).textContent = 'لطفا مقادیر معتبر وارد کنید';
+                return;
+            }
+
+            function factorial(x) {
+                let result = 1n;
+                for (let i = 2; i <= x; i++) result *= BigInt(i);
+                return result;
+            }
+
+            const comb = factorial(n) / (factorial(r) * factorial(n - r));
+            document.getElementById(`combinationResult${index}`).textContent = 
+                `C(${n}, ${r}) = ${comb}`;
+        }
+
+        function generatePascal(index) {
+            const row = parseInt(document.getElementById(`pascalRow${index}`).value);
+            
+            if (isNaN(row) || row < 0 || row > 15) {
+                document.getElementById(`pascalResult${index}`).textContent = 'لطفا عددی بین 0 تا 15 وارد کنید';
+                return;
+            }
+
+            function pascalRow(n) {
+                let row = [1];
+                for (let i = 1; i <= n; i++) {
+                    row.push(row[i-1] * (n - i + 1) / i);
+                }
+                return row;
+            }
+
+            const resultRow = pascalRow(row);
+            document.getElementById(`pascalResult${index}`).textContent = 
+                `سطر ${row}: ${resultRow.join(' ')}`;
+        }
+
+        function generatePascalTriangle(index) {
+            const rows = parseInt(document.getElementById(`pascalRow${index}`).value);
+            
+            if (isNaN(rows) || rows < 0 || rows > 10) {
+                document.getElementById(`pascalResult${index}`).textContent = 'لطفا عددی بین 0 تا 10 وارد کنید';
+                return;
+            }
+
+            let triangle = [];
+            for (let i = 0; i <= rows; i++) {
+                let row = [1];
+                for (let j = 1; j <= i; j++) {
+                    row.push(row[j-1] * (i - j + 1) / j);
+                }
+                triangle.push(row.join(' '));
+            }
+
+            document.getElementById(`pascalResult${index}`).textContent = 
+                `مثلث خیام-پاسکال:\n${triangle.join('\n')}`;
+        }
+
+        function calculateMean(index) {
+            const numbers = document.getElementById(`numbersInput${index}`).value
+                .split(',')
+                .map(num => parseFloat(num.trim()))
+                .filter(num => !isNaN(num));
+
+            if (numbers.length === 0) {
+                document.getElementById(`averageResult${index}`).textContent = 'لطفا اعداد معتبر وارد کنید';
+                return;
+            }
+
+            const mean = numbers.reduce((a, b) => a + b) / numbers.length;
+            document.getElementById(`averageResult${index}`).textContent = 
+                `میانگین حسابی: ${mean.toFixed(4)}`;
+        }
+
+        function calculateMedian(index) {
+            const numbers = document.getElementById(`numbersInput${index}`).value
+                .split(',')
+                .map(num => parseFloat(num.trim()))
+                .filter(num => !isNaN(num))
+                .sort((a, b) => a - b);
+
+            if (numbers.length === 0) {
+                document.getElementById(`averageResult${index}`).textContent = 'لطفا اعداد معتبر وارد کنید';
+                return;
+            }
+
+            let median;
+            const mid = Math.floor(numbers.length / 2);
+            
+            if (numbers.length % 2 === 0) {
+                median = (numbers[mid-1] + numbers[mid]) / 2;
+            } else {
+                median = numbers[mid];
+            }
+
+            document.getElementById(`averageResult${index}`).textContent = 
+                `میانه: ${median.toFixed(4)}`;
+        }
+
+        function calculateAllAverages(index) {
+            const numbers = document.getElementById(`numbersInput${index}`).value
+                .split(',')
+                .map(num => parseFloat(num.trim()))
+                .filter(num => !isNaN(num))
+                .sort((a, b) => a - b);
+
+            if (numbers.length === 0) {
+                document.getElementById(`averageResult${index}`).textContent = 'لطفا اعداد معتبر وارد کنید';
+                return;
+            }
+
+            const mean = numbers.reduce((a, b) => a + b) / numbers.length;
+            
+            let median;
+            const mid = Math.floor(numbers.length / 2);
+            if (numbers.length % 2 === 0) {
+                median = (numbers[mid-1] + numbers[mid]) / 2;
+            } else {
+                median = numbers[mid];
+            }
+
+            // مد
+            let frequency = {};
+            let maxFreq = 0;
+            let modes = [];
+            
+            numbers.forEach(num => {
+                frequency[num] = (frequency[num] || 0) + 1;
+                if (frequency[num] > maxFreq) {
+                    maxFreq = frequency[num];
+                    modes = [num];
+                } else if (frequency[num] === maxFreq) {
+                    modes.push(num);
+                }
+            });
+
+            const modeText = maxFreq > 1 ? modes.join(', ') : 'بدون مد';
+
+            document.getElementById(`averageResult${index}`).textContent = 
+                `میانگین حسابی: ${mean.toFixed(4)}\nمیانه: ${median.toFixed(4)}\nمد: ${modeText}`;
+        }
+
+        // سیستم مسابقه ریاضی با سوالات سطح هشتم
+        let gameState = {};
+        let flashcardState = {};
+
+        function startGame(index) {
+            gameState[index] = {
+                currentQuestion: 1,
+                score: 0,
+                lives: 3,
+                timeLeft: 20,
+                timer: null,
+                correctAnswers: 0
+            };
+            
+            document.getElementById(`start-screen${index}`).classList.remove('active');
+            document.getElementById(`game-screen${index}`).classList.add('active');
+            
+            document.getElementById(`total-score${index}`).textContent = '0';
+            document.getElementById(`correct-ratio${index}`).textContent = '0/0';
+            document.getElementById(`lives${index}`).textContent = '❤️❤️❤️';
+            document.getElementById(`high-score${index}`).textContent = localStorage.getItem('mathHighScore') || '0';
+            
+            showQuestion(index);
+        }
+
+        function showQuestion(index) {
+            const state = gameState[index];
+            if (!state) return;
+            
+            document.getElementById(`current-question${index}`).textContent = state.currentQuestion;
+            
+            // تولید سوالات ریاضی سطح هشتم
+            const questionTypes = [
+                'جمع_تفریق_ساده',
+                'ضرب_تقسیم',
+                'کسر',
+                'درصد',
+                'هندسه',
+                'معادله_ساده',
+                'توان',
+                'اعداد_منفی'
+            ];
+            
+            const type = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+            let question = '';
+            let correctAnswer = 0;
+            
+            switch(type) {
+                case 'جمع_تفریق_ساده':
+                    const num1 = Math.floor(Math.random() * 100) + 1;
+                    const num2 = Math.floor(Math.random() * 100) + 1;
+                    const op = Math.random() > 0.5 ? '+' : '-';
+                    question = `${num1} ${op} ${num2} = ?`;
+                    correctAnswer = op === '+' ? num1 + num2 : num1 - num2;
+                    break;
+                    
+                case 'ضرب_تقسیم':
+                    const a = Math.floor(Math.random() * 12) + 1;
+                    const b = Math.floor(Math.random() * 12) + 1;
+                    const op2 = Math.random() > 0.5 ? '×' : '÷';
+                    if (op2 === '×') {
+                        question = `${a} × ${b} = ?`;
+                        correctAnswer = a * b;
+                    } else {
+                        question = `${a * b} ÷ ${a} = ?`;
+                        correctAnswer = b;
+                    }
+                    break;
+                    
+                case 'کسر':
+                    const numerator = Math.floor(Math.random() * 5) + 1;
+                    const denominator = numerator + Math.floor(Math.random() * 5) + 1;
+                    question = `کسر ${numerator}/${denominator} را ساده کنید:`;
+                    // ساده کردن کسر
+                    function gcd(x, y) {
+                        return y === 0 ? x : gcd(y, x % y);
+                    }
+                    const divisor = gcd(numerator, denominator);
+                    correctAnswer = `${numerator/divisor}/${denominator/divisor}`;
+                    break;
+                    
+                case 'درصد':
+                    const percent = Math.floor(Math.random() * 50) + 10;
+                    const number = Math.floor(Math.random() * 100) + 10;
+                    question = `${percent}٪ از ${number} چیست؟`;
+                    correctAnswer = Math.round((percent / 100) * number);
+                    break;
+                    
+                case 'هندسه':
+                    const shapes = ['مربع', 'مستطیل', 'مثلث', 'دایره'];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    switch(shape) {
+                        case 'مربع':
+                            const side = Math.floor(Math.random() * 10) + 1;
+                            question = `محیط مربع با ضلع ${side} چقدر است؟`;
+                            correctAnswer = 4 * side;
+                            break;
+                        case 'مستطیل':
+                            const l = Math.floor(Math.random() * 10) + 1;
+                            const w = Math.floor(Math.random() * 10) + 1;
+                            question = `مساحت مستطیل با طول ${l} و عرض ${w} چقدر است؟`;
+                            correctAnswer = l * w;
+                            break;
+                        case 'مثلث':
+                            const base = Math.floor(Math.random() * 10) + 1;
+                            const height = Math.floor(Math.random() * 10) + 1;
+                            question = `مساحت مثلث با قاعده ${base} و ارتفاع ${height} چقدر است؟`;
+                            correctAnswer = 0.5 * base * height;
+                            break;
+                        case 'دایره':
+                            const radius = Math.floor(Math.random() * 10) + 1;
+                            question = `محیط دایره با شعاع ${radius} چقدر است؟ (π=3.14)`;
+                            correctAnswer = Math.round(2 * 3.14 * radius);
+                            break;
+                    }
+                    break;
+                    
+                case 'معادله_ساده':
+                    const coeff = Math.floor(Math.random() * 5) + 1;
+                    const constant = Math.floor(Math.random() * 10) + 1;
+                    const result = Math.floor(Math.random() * 20) + 1;
+                    question = `معادله ${coeff}x + ${constant} = ${result} را حل کنید.`;
+                    correctAnswer = Math.round((result - constant) / coeff);
+                    break;
+                    
+                case 'توان':
+                    const baseNum = Math.floor(Math.random() * 5) + 2;
+                    const exponentNum = Math.floor(Math.random() * 3) + 2;
+                    question = `${baseNum} به توان ${exponentNum} چیست؟`;
+                    correctAnswer = Math.pow(baseNum, exponentNum);
+                    break;
+                    
+                case 'اعداد_منفی':
+                    const neg1 = Math.floor(Math.random() * 20) - 10;
+                    const neg2 = Math.floor(Math.random() * 20) - 10;
+                    const op3 = Math.random() > 0.5 ? '+' : '-';
+                    question = `${neg1} ${op3} (${neg2}) = ?`;
+                    correctAnswer = op3 === '+' ? neg1 + neg2 : neg1 - neg2;
+                    break;
+            }
+            
+            // تولید گزینه‌ها
+            let options = [correctAnswer];
+            while (options.length < 4) {
+                let randomOption;
+                if (typeof correctAnswer === 'number') {
+                    randomOption = correctAnswer + Math.floor(Math.random() * 10) - 5;
+                    if (randomOption === correctAnswer) continue;
+                } else {
+                    // برای کسرها
+                    randomOption = `${Math.floor(Math.random() * 5)+1}/${Math.floor(Math.random() * 5)+6}`;
+                }
+                
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+            
+            // مخلوط کردن گزینه‌ها
+            options = options.sort(() => Math.random() - 0.5);
+            
+            // نمایش سوال
+            document.getElementById(`question-container${index}`).innerHTML = `
+                <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: var(--border-radius); margin: 30px 0;">
+                    <div style="font-size: 1.8em; margin-bottom: 30px; text-align: center; font-weight: 600;">
+                        ${question}
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        ${options.map((option, i) => `
+                            <button onclick="checkGameAnswer(${index}, ${JSON.stringify(option)}, ${JSON.stringify(correctAnswer)})" 
+                                    style="background: var(--gradient-primary); border: none; color: white; padding: 20px; border-radius: var(--border-radius); cursor: pointer; font-size: 1.2em;">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // شروع تایمر
+            state.timeLeft = 20;
+            startTimer(index);
+        }
+
+        function startTimer(index) {
+            const state = gameState[index];
+            if (!state) return;
+            
+            if (state.timer) clearInterval(state.timer);
+            
+            state.timer = setInterval(() => {
+                state.timeLeft--;
+                document.getElementById(`timer${index}`).textContent = `⏰ ${state.timeLeft} ثانیه`;
+                
+                if (state.timeLeft <= 0) {
+                    clearInterval(state.timer);
+                    state.lives--;
+                    document.getElementById(`lives${index}`).textContent = '❤️'.repeat(state.lives);
+                    
+                    if (state.lives <= 0) {
+                        endGame(index);
+                    } else {
+                        nextQuestion(index);
+                    }
+                }
+            }, 1000);
+        }
+
+        function checkGameAnswer(index, selectedAnswer, correctAnswer) {
+            const state = gameState[index];
+            if (!state) return;
+            
+            clearInterval(state.timer);
+            
+            const questionContainer = document.getElementById(`question-container${index}`);
+            const buttons = questionContainer.querySelectorAll('button');
+            
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent == correctAnswer) {
+                    btn.style.background = 'var(--gradient-success)';
+                } else if (btn.textContent == selectedAnswer) {
+                    btn.style.background = 'var(--gradient-danger)';
+                }
+            });
+            
+            if (selectedAnswer == correctAnswer) {
+                state.score += 100;
+                state.correctAnswers++;
+            } else {
+                state.lives--;
+                document.getElementById(`lives${index}`).textContent = '❤️'.repeat(state.lives);
+            }
+            
+            document.getElementById(`total-score${index}`).textContent = state.score;
+            document.getElementById(`correct-ratio${index}`).textContent = `${state.correctAnswers}/${state.currentQuestion}`;
+            
+            document.getElementById(`next-btn${index}`).style.display = 'inline-block';
+            
+            if (state.lives <= 0) {
+                setTimeout(() => endGame(index), 1000);
+            }
+        }
+
+        function nextQuestion(index) {
+            const state = gameState[index];
+            if (!state) return;
+            
+            state.currentQuestion++;
+            
+            if (state.currentQuestion > 20) {
+                endGame(index);
+            } else {
+                document.getElementById(`next-btn${index}`).style.display = 'none';
+                showQuestion(index);
+            }
+        }
+
+        function endGame(index) {
+            const state = gameState[index];
+            if (!state) return;
+            
+            clearInterval(state.timer);
+            
+            // ذخیره رکورد
+            const highScore = parseInt(localStorage.getItem('mathHighScore') || '0');
+            if (state.score > highScore) {
+                localStorage.setItem('mathHighScore', state.score.toString());
+                document.getElementById(`high-score${index}`).textContent = state.score;
+            }
+            
+            // نمایش صفحه پایان
+            document.getElementById(`game-screen${index}`).classList.remove('active');
+            
+            const endHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h3 style="color: var(--accent); margin-bottom: 30px; font-size: 2em;">🎉 بازی تمام شد!</h3>
+                    <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: var(--border-radius); margin-bottom: 30px;">
+                        <div style="font-size: 3em; font-weight: bold; color: var(--warning); margin: 20px 0;">
+                            ${state.score} امتیاز
+                        </div>
+                        <div style="color: var(--light); font-size: 1.2em; margin-bottom: 20px;">
+                            ${state.correctAnswers} از 20 سوال صحیح پاسخ داده شد
+                        </div>
+                        <div style="color: var(--light);">
+                            رکورد قبلی: ${highScore}
+                        </div>
+                    </div>
+                    <button onclick="startGame(${index})" style="background: var(--gradient-success); color: white; padding: 20px 40px; font-size: 1.2em; border: none; border-radius: var(--border-radius); cursor: pointer;">
+                        🔄 بازی مجدد
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById(`game-screen${index}`).innerHTML = endHTML;
+            document.getElementById(`game-screen${index}`).classList.add('active');
+        }
+
+        // سیستم هوش مصنوعی
+        function sendAIMessage(index) {
+            const input = document.getElementById(`ai-input${index}`);
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // نمایش پیام کاربر
+            addMessage(index, message, 'user');
+            input.value = '';
+            
+            // تولید پاسخ هوش مصنوعی
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addMessage(index, response, 'ai');
+            }, 1000);
+        }
+
+        function addMessage(index, text, sender) {
+            const messagesContainer = document.getElementById(`chat-messages${index}`);
+            if (!messagesContainer) return;
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${sender}-message`;
+            messageElement.textContent = text;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function askSampleQuestion(index, question) {
+            document.getElementById(`ai-input${index}`).value = question;
+            sendAIMessage(index);
+        }
+
+        function generateAIResponse(question) {
+            const lowerQ = question.toLowerCase();
+            
+            if (lowerQ.includes('مشتق')) {
+                return 'مشتق x^n برابر است با n*x^(n-1). برای مثال:\n- مشتق x^2 = 2x\n- مشتق x^3 = 3x^2\n- مشتق x = 1';
+            } else if (lowerQ.includes('انتگرال')) {
+                return 'انتگرال x^n dx برابر است با x^(n+1)/(n+1) + C. برای مثال:\n- ∫x dx = x^2/2 + C\n- ∫x^2 dx = x^3/3 + C\n- ∫2x dx = x^2 + C';
+            } else if (lowerQ.includes('حل کن') || lowerQ.includes('معادله')) {
+                return 'برای حل معادله 2x+5=15:\n1) 2x = 15-5\n2) 2x = 10\n3) x = 5\n\nپاسخ: x = 5';
+            } else if (lowerQ.includes('اول')) {
+                return 'اعداد اول بین ۱ تا ۲۰:\n۲, ۳, ۵, ۷, ۱۱, ۱۳, ۱۷, ۱۹\n\nویژگی اعداد اول: فقط بر ۱ و خودشان بخش‌پذیرند.';
+            } else if (lowerQ.includes('فیثاغورث')) {
+                return 'قضیه فیثاغورث: در مثلث قائم‌الزاویه، مربع وتر برابر است با مجموع مربعات دو ضلع دیگر.\n\nفرمول: a² + b² = c²\n\nمثال: اگر a=3 و b=4 باشد:\nc = √(3² + 4²) = √(9 + 16) = √25 = 5';
+            } else {
+                return 'سوال خوبی پرسیدی! من یک دستیار ریاضی هوشمند هستم و می‌توانم در زمینه‌های زیر کمک کنم:\n\n• حل مسائل جبری\n• محاسبات مشتق و انتگرال\n• توضیح قضایای ریاضی\n• حل معادلات\n• مفاهیم هندسی\n\nلطفا سوال خود را دقیق‌تر بیان کنید.';
+            }
+        }
+
+        // سیستم تاریخچه ریاضیات
+        function displayMathematicians(index) {
+            const container = document.getElementById(`mathematicians-container${index}`);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            mathematicians.forEach(math => {
+                const article = document.createElement('div');
+                article.className = 'article-card';
+                article.innerHTML = `
+                    <h3 class="article-title">${math.name}</h3>
+                    <div class="article-meta">
+                        <span>📅 دوره: ${math.era}</span>
+                        <span>🏛️ تخصص: ریاضیات، نجوم، فلسفه</span>
+                    </div>
+                    <div class="article-content">
+                        ${math.article}
+                    </div>
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <strong>خلاصه دستاوردها:</strong> ${math.contributions}
+                    </div>
+                `;
+                container.appendChild(article);
+            });
+            
+            // نمایش اولین فلش کارت
+            nextFlashCard(index);
+        }
+
+        function displayDefinitions(index) {
+            const container = document.getElementById(`definitions-container${index}`);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            mathDefinitions.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'definition-category';
+                categoryDiv.innerHTML = `
+                    <h3 style="color: var(--accent); margin-bottom: 20px; font-size: 1.5em; border-bottom: 2px solid var(--accent); padding-bottom: 10px;">
+                        ${category.category}
+                    </h3>
+                `;
+                
+                category.definitions.forEach(def => {
+                    const card = document.createElement('div');
+                    card.className = 'definition-card';
+                    card.innerHTML = `
+                        <div class="definition-term">${def.term}</div>
+                        <div class="definition-content">${def.definition}</div>
+                        ${def.example ? `<div class="definition-example">مثال: ${def.example}</div>` : ''}
+                    `;
+                    categoryDiv.appendChild(card);
+                });
+                
+                container.appendChild(categoryDiv);
+            });
+        }
+
+        function searchMathematicians(index, query) {
+            const container = document.getElementById(`mathematicians-container${index}`);
+            if (!container) return;
+            
+            const filtered = mathematicians.filter(math => 
+                math.name.includes(query) || 
+                math.contributions.includes(query) ||
+                math.era.includes(query) ||
+                math.article.includes(query)
+            );
+            
+            container.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                const noResult = document.createElement('div');
+                noResult.className = 'result';
+                noResult.textContent = 'نتیجه‌ای یافت نشد';
+                container.appendChild(noResult);
+                return;
+            }
+            
+            filtered.forEach(math => {
+                const article = document.createElement('div');
+                article.className = 'article-card';
+                article.innerHTML = `
+                    <h3 class="article-title">${math.name}</h3>
+                    <div class="article-meta">
+                        <span>📅 دوره: ${math.era}</span>
+                        <span>🏛️ تخصص: ریاضیات، نجوم، فلسفه</span>
+                    </div>
+                    <div class="article-content">
+                        ${math.article}
+                    </div>
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <strong>خلاصه دستاوردها:</strong> ${math.contributions}
+                    </div>
+                `;
+                container.appendChild(article);
+            });
+        }
+
+        // تابع کارت 3D
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function nextFlashCard(index) {
+            const randomCard = flashCards[Math.floor(Math.random() * flashCards.length)];
+            document.getElementById(`flashcard-term${index}`).textContent = randomCard.term;
+            document.getElementById(`flashcard-def${index}`).textContent = randomCard.definition;
+            
+            // برگرداندن کارت به حالت اول اگر برگشته بود
+            const cardElement = document.querySelector(`#tab${index} .math-card-3d`);
+            if (cardElement && cardElement.classList.contains('flipped')) {
+                cardElement.classList.remove('flipped');
+            }
+        }
+
+        // بارگذاری اولیه
+        window.onload = function() {
+            // تنظیم رکورد بالا در مسابقه
+            document.querySelectorAll('[id^="start-high-score"]').forEach(el => {
+                el.textContent = localStorage.getItem('mathHighScore') || '0';
+            });
+        };
+    </script>
+</body>
+</html>
